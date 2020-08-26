@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前使用的MySQL是关系型数据库，mongoDB是非关系型数据库（NoSQL）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Python 连接 mongoDB">
+<meta property="og:url" content="https://lijianxun.top/58.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="之前使用的MySQL是关系型数据库，mongoDB是非关系型数据库（NoSQL）。">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png">
+<meta property="article:published_time" content="2017-02-28T02:47:56.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.203Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="mongoDB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png">
+
+<link rel="canonical" href="https://lijianxun.top/58.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用 Python 连接 mongoDB | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/58.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Python 连接 mongoDB
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-28 10:47:56" itemprop="dateCreated datePublished" datetime="2017-02-28T10:47:56+08:00">2017-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png"> 之前使用的MySQL是关系型数据库，mongoDB是非关系型数据库（NoSQL）。</p>
+<a id="more"></a>
+<h2 id="介绍mongoDB"><a href="#介绍mongoDB" class="headerlink" title="介绍mongoDB"></a>介绍mongoDB</h2><blockquote>
+<p>MongoDB是一个基于分布式文件存储的数据库。由C++语言编写。旨在为WEB应用提供可扩展的高性能数据存储解决方案。介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。Mongo最大的特点是他支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。</p>
+</blockquote>
+<p>以上介绍来自<a target="_blank" rel="noopener" href="http://baike.baidu.com/link?url=z8OHE7KbfYKiSxtk82Pj9Uvu22vcLHvnMmM5sgoEUPDCckS-tSku2oeknp3hOqgkQbx2UFvFs8sUXaVdaSt52q">百度百科mongoDB</a>。:-)</p>
+<h2 id="安装pymongo"><a href="#安装pymongo" class="headerlink" title="安装pymongo"></a>安装pymongo</h2><p>在终端输入： <code>pip install pymongo -i https://pypi.tuna.tsinghua.edu.cn/simple</code> 等待安装完成。这里我使用了清华源国内镜像加速下载，安装其他第三方库也可以使用。</p>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>使用mongoDB，还需要了解一些基本命令。</p>
+<h4 id="创建或使用数据库"><a href="#创建或使用数据库" class="headerlink" title="创建或使用数据库"></a>创建或使用数据库</h4><p><code>use dbname;</code></p>
+<h4 id="查看数据库信息"><a href="#查看数据库信息" class="headerlink" title="查看数据库信息:"></a>查看数据库信息:</h4><p><code>show dbs;</code></p>
+<h4 id="查看数据库中的集合（也就是关系型数据库的表）"><a href="#查看数据库中的集合（也就是关系型数据库的表）" class="headerlink" title="查看数据库中的集合（也就是关系型数据库的表）:"></a>查看数据库中的集合（也就是关系型数据库的表）:</h4><p><code>show collections;</code></p>
+<h4 id="创建数据库中的集合（表）"><a href="#创建数据库中的集合（表）" class="headerlink" title="创建数据库中的集合（表）:"></a>创建数据库中的集合（表）:</h4><p><code>db.createCollection(name);</code></p>
+<h4 id="删除数据库中的集合（collectionname是要删除的集合）"><a href="#删除数据库中的集合（collectionname是要删除的集合）" class="headerlink" title="删除数据库中的集合（collectionname是要删除的集合）:"></a>删除数据库中的集合（collectionname是要删除的集合）:</h4><p><code>db.collectionname.drop();</code></p>
+<h4 id="删除数据库，先use需要删除的数据库，然后输入："><a href="#删除数据库，先use需要删除的数据库，然后输入：" class="headerlink" title="删除数据库，先use需要删除的数据库，然后输入："></a>删除数据库，先use需要删除的数据库，然后输入：</h4><p><code>db.dropDatabase();</code></p>
+<h4 id="查询所有记录，默认每页显示20条数据"><a href="#查询所有记录，默认每页显示20条数据" class="headerlink" title="查询所有记录，默认每页显示20条数据:"></a>查询所有记录，默认每页显示20条数据:</h4><p><code>db.collectionname.find();</code></p>
+<h4 id="设置每页显示数据的数量，显示100条记录。查看下一页键入it命令，不用输入"><a href="#设置每页显示数据的数量，显示100条记录。查看下一页键入it命令，不用输入" class="headerlink" title="设置每页显示数据的数量，显示100条记录。查看下一页键入it命令，不用输入;"></a>设置每页显示数据的数量，显示100条记录。查看下一页键入it命令，不用输入;</h4><p><code>DBQuery.shellBatchSize=100;</code></p>
+<h4 id="去重，过滤collectionname中name的相同数据"><a href="#去重，过滤collectionname中name的相同数据" class="headerlink" title="去重，过滤collectionname中name的相同数据:"></a>去重，过滤collectionname中name的相同数据:</h4><p><code>db.collectionname.distinct(&#39;name&#39;);</code></p>
+<h2 id="使用Python"><a href="#使用Python" class="headerlink" title="使用Python"></a>使用Python</h2><p>连接mongoDB和插入数据的代码比较简单:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">connection = pymongo.MongoClient(<span class="string">&#x27;127.0.0.1&#x27;</span>, <span class="number">27017</span>)</span><br><span class="line">tdb = connection.alpha87</span><br><span class="line">post = tdb.test</span><br><span class="line">post.insert(&#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&quot;李白&quot;</span>, <span class="string">&quot;age&quot;</span>:<span class="string">&quot;30&quot;</span>, <span class="string">&quot;skill&quot;</span>:<span class="string">&quot;Python&quot;</span>&#125;)</span><br><span class="line">print(<span class="string">&quot;操作完成&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们来一行一行分析。 导入pymongo库： <code>import pymongo</code> 连接mongoDB，因为是在本机操作，所以圆括号中的 ‘127.0.0.1’, 27017可写可不写。 ·connection = pymongo.MongoClient(‘127.0.0.1’, 27017)· 命名数据库为 alpha87: <code>tdb = connection.alpha87</code> 创建 test 集合，也就是表: <code>post = tdb.test</code> 插入数据: <code>post.insert(&#123;&#39;name&#39;:&quot;李白&quot;, &quot;age&quot;:&quot;30&quot;, &quot;skill&quot;:&quot;Python&quot;&#125;)</code> 运行以后，就能在数据库中查看到保存好的数据了。 <strong>因为是字典格式，所以数据保存后的顺序可能和插入时不同。</strong></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/58.html" title="使用 Python 连接 mongoDB">https://lijianxun.top/58.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/63.html" rel="prev" title="使用 selenium+PhantomJS 进行网络爬虫">
+      <i class="fa fa-chevron-left"></i> 使用 selenium+PhantomJS 进行网络爬虫
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/77.html" rel="next" title="学习mongoDB（一）">
+      学习mongoDB（一） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8DmongoDB"><span class="nav-number">1.</span> <span class="nav-text">介绍mongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85pymongo"><span class="nav-number">2.</span> <span class="nav-text">安装pymongo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%88%96%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.0.1.</span> <span class="nav-text">创建或使用数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%A1%E6%81%AF"><span class="nav-number">3.0.2.</span> <span class="nav-text">查看数据库信息:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E9%9B%86%E5%90%88%EF%BC%88%E4%B9%9F%E5%B0%B1%E6%98%AF%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%A1%A8%EF%BC%89"><span class="nav-number">3.0.3.</span> <span class="nav-text">查看数据库中的集合（也就是关系型数据库的表）:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E9%9B%86%E5%90%88%EF%BC%88%E8%A1%A8%EF%BC%89"><span class="nav-number">3.0.4.</span> <span class="nav-text">创建数据库中的集合（表）:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E9%9B%86%E5%90%88%EF%BC%88collectionname%E6%98%AF%E8%A6%81%E5%88%A0%E9%99%A4%E7%9A%84%E9%9B%86%E5%90%88%EF%BC%89"><span class="nav-number">3.0.5.</span> <span class="nav-text">删除数据库中的集合（collectionname是要删除的集合）:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%85%88use%E9%9C%80%E8%A6%81%E5%88%A0%E9%99%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BE%93%E5%85%A5%EF%BC%9A"><span class="nav-number">3.0.6.</span> <span class="nav-text">删除数据库，先use需要删除的数据库，然后输入：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E8%AE%B0%E5%BD%95%EF%BC%8C%E9%BB%98%E8%AE%A4%E6%AF%8F%E9%A1%B5%E6%98%BE%E7%A4%BA20%E6%9D%A1%E6%95%B0%E6%8D%AE"><span class="nav-number">3.0.7.</span> <span class="nav-text">查询所有记录，默认每页显示20条数据:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%AF%8F%E9%A1%B5%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E7%9A%84%E6%95%B0%E9%87%8F%EF%BC%8C%E6%98%BE%E7%A4%BA100%E6%9D%A1%E8%AE%B0%E5%BD%95%E3%80%82%E6%9F%A5%E7%9C%8B%E4%B8%8B%E4%B8%80%E9%A1%B5%E9%94%AE%E5%85%A5it%E5%91%BD%E4%BB%A4%EF%BC%8C%E4%B8%8D%E7%94%A8%E8%BE%93%E5%85%A5"><span class="nav-number">3.0.8.</span> <span class="nav-text">设置每页显示数据的数量，显示100条记录。查看下一页键入it命令，不用输入;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%BB%E9%87%8D%EF%BC%8C%E8%BF%87%E6%BB%A4collectionname%E4%B8%ADname%E7%9A%84%E7%9B%B8%E5%90%8C%E6%95%B0%E6%8D%AE"><span class="nav-number">3.0.9.</span> <span class="nav-text">去重，过滤collectionname中name的相同数据:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Python"><span class="nav-number">4.</span> <span class="nav-text">使用Python</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

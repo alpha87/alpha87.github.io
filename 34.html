@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原谅我最终还是把博客从 hexo 移到了 wordpress。之前搭建 wordpress 使用 Apache，但是已经习惯了 nginx，所以记录一波这次搭建网站的过程。 安装 LNMP服务器版本是 Ubuntu 16.04.6 LTS。 首先我们需要运行命令 apt-get update 更新软件源列表。 然后一口气安装完 nginx，mysql，PHP。 apt-get install -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 LNMP 搭建 Wordpress 博客">
+<meta property="og:url" content="https://lijianxun.top/34.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="原谅我最终还是把博客从 hexo 移到了 wordpress。之前搭建 wordpress 使用 Apache，但是已经习惯了 nginx，所以记录一波这次搭建网站的过程。 安装 LNMP服务器版本是 Ubuntu 16.04.6 LTS。 首先我们需要运行命令 apt-get update 更新软件源列表。 然后一口气安装完 nginx，mysql，PHP。 apt-get install -">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/WordPress.svg/698px-WordPress.svg.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/18/V9o5Sh32ZPuMFG4.png">
+<meta property="article:published_time" content="2019-09-17T02:02:34.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.299Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="wordpress">
+<meta property="article:tag" content="博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/WordPress.svg/698px-WordPress.svg.png">
+
+<link rel="canonical" href="https://lijianxun.top/34.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于 LNMP 搭建 Wordpress 博客 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/34.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于 LNMP 搭建 Wordpress 博客
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-09-17 10:02:34" itemprop="dateCreated datePublished" datetime="2019-09-17T10:02:34+08:00">2019-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B4%B5%E5%9C%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">贵在折腾</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/WordPress.svg/698px-WordPress.svg.png"> 原谅我最终还是把博客从 hexo 移到了 wordpress。之前搭建 wordpress 使用 Apache，但是已经习惯了 nginx，所以记录一波这次搭建网站的过程。</p>
+<h1 id="安装-LNMP"><a href="#安装-LNMP" class="headerlink" title="安装 LNMP"></a>安装 LNMP</h1><p>服务器版本是 Ubuntu 16.04.6 LTS。 首先我们需要运行命令 <code>apt-get update</code> 更新软件源列表。 然后一口气安装完 nginx，mysql，PHP。 <code>apt-get install -y nginx mysql-server php-fpm php-mysql</code> 安装过程中会提示输入数据库的密码，之后等待安装完成。 查看 nginx 版本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ nginx -v</span><br><span class="line">nginx version: nginx/1.10.3 (Ubuntu)</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置-nginx-并实现-https-访问"><a href="#配置-nginx-并实现-https-访问" class="headerlink" title="配置 nginx 并实现 https 访问"></a>配置 nginx 并实现 https 访问</h1><p>先在域名提供商购买免费证书，然后下载 nginx 服务器类型的证书。 <img src="https://i.loli.net/2019/09/18/V9o5Sh32ZPuMFG4.png" alt="屏幕快照 2019-09-18 上午8.37.13.png"> 下载好的是一个压缩包，解压并新建文件夹，用来存放 <code>pem</code> 和 <code>key</code> 为后缀的证书文件。 <code>mkdir /etc/nginx/cert</code> 更改 nginx 配置，编辑文件： <code>vim /etc/nginx/sites-available/default</code> 使用 vim 命令 <code>ggdG</code> 删除所有文本，复制以下内容： <strong>最好提前购买域名并备案，server_name 记得改成自己的域名！</strong> 这个配置自动将 http 重定向到 https。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">    rewrite ^(.*)$ https://<span class="variable">$host</span><span class="variable">$1</span> permanent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl default_server;</span><br><span class="line">    listen [::]:443 ssl default_server;</span><br><span class="line"></span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate /etc/nginx/cert/yourcertfile.pem;</span><br><span class="line">    ssl_certificate_key /etc/nginx/cert/yourcertfile.key;</span><br><span class="line"></span><br><span class="line">    root /var/www/html;</span><br><span class="line"></span><br><span class="line">    index index.php index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name _;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets/fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:/run/php/php7.0-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~ /\.ht &#123;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>nginx -t</code> 测试配置文件是否正确。</p>
+<h1 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h1><h2 id="修改mysql配置文件"><a href="#修改mysql配置文件" class="headerlink" title="修改mysql配置文件"></a>修改mysql配置文件</h2><p><code>vim /etc/mysql/mysql.conf.d/mysqld.cnf</code> 使用 <code>#</code> 注释掉 <code>bind-address = 127.0.0.1</code>。 进入数据库。 <code>mysql -u root -p</code> 会提示输入密码，直接输入即可，回车完成输入。</p>
+<h2 id="创建-wordpress-数据库，并提供访问权限"><a href="#创建-wordpress-数据库，并提供访问权限" class="headerlink" title="创建 wordpress 数据库，并提供访问权限"></a>创建 wordpress 数据库，并提供访问权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE wordpress;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* to root@&#39;%&#39; identified by &#39;root&#39; with grant option;</span><br><span class="line">FLUSH PRIVILEGES;</span><br><span class="line">exit;</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启-nginx-和-mysql-服务"><a href="#重启-nginx-和-mysql-服务" class="headerlink" title="重启 nginx 和 mysql 服务"></a>重启 nginx 和 mysql 服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/nginx restart</span><br><span class="line">/etc/init.d/mysql restart</span><br></pre></td></tr></table></figure>
+
+<h1 id="下载-wordpress"><a href="#下载-wordpress" class="headerlink" title="下载 wordpress"></a>下载 wordpress</h1><p>为了之后不必要的麻烦，还是推荐安装简体中文包。 官网地址：<a target="_blank" rel="noopener" href="https://cn.wordpress.org/download/">https://cn.wordpress.org/download/</a> 复制好 <code>tar.gz</code> 后缀的下载链接，此时的链接为 5.0.3 版本。 <code>https://cn.wordpress.org/wordpress-5.0.3-zh_CN.tar.gz</code> 移步到机器上输入： <code>wget https://cn.wordpress.org/wordpress-5.0.3-zh_CN.tar.gz</code> 下载完成后解压 <code>tar zxvf wordpress-5.0.3-zh_CN.tar.gz -C /var/www/html/</code> 如果没有什么特殊情况，wordpress 应该已经安装完成。 解压完成后先删除 html 路径下的 index.html 文件，然后进入 wordpress 目录： <strong>删除 index.html</strong> <code>rm /var/www/html/index.html</code> <strong>进入 Wordpress 目录</strong> <code>cd /var/www/html/wordpress</code> <strong>复制所有文件到上一路径</strong> <code>cp -r * ..</code> 然后授权该路径，避免在之后 wordpress 配置或是安装插件等有不必要麻烦： <code>chmod -R 777 /var/www/html/</code> 这条命令保证在之后的wordpress配置和操作不受权限影响。</p>
+<h1 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h1><p>好了，接下来配置wordpress。 在浏览器输入你的公网 ip，如果已经绑定域名直接输入域名即可，然后一步一步配置自己的博客吧！</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/34.html" title="基于 LNMP 搭建 Wordpress 博客">https://lijianxun.top/34.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress/" rel="tag"># wordpress</a>
+              <a href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag"># 博客</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/54.html" rel="prev" title="使用 pytest 来测试你的代码">
+      <i class="fa fa-chevron-left"></i> 使用 pytest 来测试你的代码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/177.html" rel="next" title="Wordpress 博客系统搭建好必做的几件事">
+      Wordpress 博客系统搭建好必做的几件事 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-LNMP"><span class="nav-number">1.</span> <span class="nav-text">安装 LNMP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-nginx-%E5%B9%B6%E5%AE%9E%E7%8E%B0-https-%E8%AE%BF%E9%97%AE"><span class="nav-number">2.</span> <span class="nav-text">配置 nginx 并实现 https 访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">配置数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9mysql%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">修改mysql配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-wordpress-%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E5%B9%B6%E6%8F%90%E4%BE%9B%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">3.2.</span> <span class="nav-text">创建 wordpress 数据库，并提供访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF-nginx-%E5%92%8C-mysql-%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.3.</span> <span class="nav-text">重启 nginx 和 mysql 服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD-wordpress"><span class="nav-number">4.</span> <span class="nav-text">下载 wordpress</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90%EF%BC%81"><span class="nav-number">5.</span> <span class="nav-text">大功告成！</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

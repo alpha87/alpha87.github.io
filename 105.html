@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Pythonista Pythonista is a complete development environment for writing Python™ scripts on your iPad or iPhone. Lots of examples are included — from games and animations to plotting, image manipulati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pythonista 使用小记">
+<meta property="og:url" content="https://lijianxun.top/105.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="Pythonista Pythonista is a complete development environment for writing Python™ scripts on your iPad or iPhone. Lots of examples are included — from games and animations to plotting, image manipulati">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/miu2vzNfGRqxodM.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/7d5uO3CKgDxQyFb.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/tqdm/tqdm/master/images/tqdm.gif">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/YLnsbOPdNcFZr9u.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/kt9GuLWpEKbFhi4.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/XKszIi5PoOCQ1hD.png">
+<meta property="article:published_time" content="2019-12-28T04:07:55.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.323Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="脚本">
+<meta property="article:tag" content="应用推荐">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/28/miu2vzNfGRqxodM.png">
+
+<link rel="canonical" href="https://lijianxun.top/105.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Pythonista 使用小记 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/105.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Pythonista 使用小记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-28 12:07:55" itemprop="dateCreated datePublished" datetime="2019-12-28T12:07:55+08:00">2019-12-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A5%BD%E7%89%A9%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">好物推荐</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://i.loli.net/2019/12/28/miu2vzNfGRqxodM.png" alt="pythonista3 Logo"></p>
+<h1 id="Pythonista"><a href="#Pythonista" class="headerlink" title="Pythonista"></a><a target="_blank" rel="noopener" href="http://omz-software.com/pythonista/index.html">Pythonista</a></h1><blockquote>
+<p>Pythonista is a complete development environment for writing Python™ scripts on your iPad or iPhone. Lots of examples are included — from games and animations to plotting, image manipulation, custom user interfaces, and automation scripts.</p>
+<p>In addition to the powerful standard library, Pythonista provides extensive support for interacting with native iOS features, like contacts, reminders, photos, location data, and more.</p>
+</blockquote>
+<a id="more"></a>
+<hr>
+<h1 id="Pythonista-使用"><a href="#Pythonista-使用" class="headerlink" title="Pythonista 使用"></a>Pythonista 使用</h1><h2 id="使用之前"><a href="#使用之前" class="headerlink" title="使用之前"></a>使用之前</h2><p>我们首先会考虑 Pythonista 是否支持第三方库。如果不支持，那可玩性实在是太低了。还好，Pythonista 支持一些纯 Python 写成的第三方库，例如 requests，BeautifulSoup 等库还是支持的。所以有玩家首先会想到利用 you-get 来下载各种资源。</p>
+<p>但是如何安装第三方库呢？需要我们在终端使用 pip 命令来安装。所以 <a target="_blank" rel="noopener" href="https://github.com/ywangd/stash">StaSh-Shell</a> 应运而生。</p>
+<p>我们需要新建一个 py 文件，可以命名为 <code>install_stash.py</code>，内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> r; exec(r.get(<span class="string">&#x27;https://raw.githubusercontent.com/ywangd/stash/master/getstash.py&#x27;</span>).text)</span><br></pre></td></tr></table></figure>
+
+<p>执行完成后，退出重新进入应用，会发现多了一个名为 <code>launch_stash.py</code> 的文件。运行此文件就可以调出 shell 界面，使用 pip 安装 Python 的第三方库了。</p>
+<p><img src="https://i.loli.net/2019/12/28/7d5uO3CKgDxQyFb.png" alt="安装 StaSh"></p>
+<h2 id="安装第三方库"><a href="#安装第三方库" class="headerlink" title="安装第三方库"></a>安装第三方库</h2><p>我们可以安装 tqdm 来测试是否可以安装第三方库。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tqdm/tqdm">tqdm</a> 是一个快速，可扩展的Python进度条。操作简单，功能全面。</p>
+<p><img src="https://raw.githubusercontent.com/tqdm/tqdm/master/images/tqdm.gif"></p>
+<p>因为在之后的脚本中会使用到 tqdm 来显示下载进度，所以用此库测试。</p>
+<p>运行 <code>launch_stash.py</code>，在终端输入 <code>pip install tqdm</code> 来安装。</p>
+<p>执行结果如下表示安装成功：</p>
+<p><img src="https://i.loli.net/2019/12/28/YLnsbOPdNcFZr9u.png" alt="安装 tqdm"></p>
+<h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="官方脚本"><a href="#官方脚本" class="headerlink" title="官方脚本"></a>官方脚本</h2><p>Pythonista 自带了一些例子。如果你觉得还不够用，可以安装 Pythonista Tools。</p>
+<p>同样是新建一个文件，命名为 <code>ptinstaller.py</code>，将如下内容写入该文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> r; o=open(<span class="string">&#x27;ptinstaller.py&#x27;</span>,<span class="string">&#x27;w&#x27;</span>); o.write(r.get(<span class="string">&#x27;http://j.mp/pt-i&#x27;</span>).text); o.close()</span><br></pre></td></tr></table></figure>
+
+<p>提示执行完成后，重启软件，你会发现 <code>ptinstaller.py</code> 文件内容已经被替换，运行后会出现一个 UI 界面，有许多脚本供你选择。</p>
+<p><img src="https://i.loli.net/2019/12/28/kt9GuLWpEKbFhi4.jpg" alt="ptinstaller"></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>github 地址：<a target="_blank" rel="noopener" href="https://github.com/alpha87/PythonistaScript">https://github.com/alpha87/PythonistaScript</a></p>
+<p><strong>仓库内脚本会不断更新，但仅限学习交流使用。如果不听我的我也拿你没什么办法～</strong></p>
+<h1 id="购买"><a href="#购买" class="headerlink" title="购买"></a>购买</h1><p>Pythonista 苹果商店国区售价 68 元，美区售价 9.99 美元。</p>
+<p>现在扫码购买只需 19 元，但需要使用美区账号，详情请联系客服。</p>
+<p><img src="https://i.loli.net/2019/12/28/XKszIi5PoOCQ1hD.png" alt="感谢使用"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/105.html" title="Pythonista 使用小记">https://lijianxun.top/105.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+              <a href="/tags/%E5%BA%94%E7%94%A8%E6%8E%A8%E8%8D%90/" rel="tag"># 应用推荐</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/71.html" rel="prev" title="为什么要调试代码">
+      <i class="fa fa-chevron-left"></i> 为什么要调试代码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/29.html" rel="next" title="管理Mac启动台（Launchpad）图标，删除或移动">
+      管理Mac启动台（Launchpad）图标，删除或移动 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pythonista"><span class="nav-number">1.</span> <span class="nav-text">Pythonista</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pythonista-%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">Pythonista 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%B9%8B%E5%89%8D"><span class="nav-number">2.1.</span> <span class="nav-text">使用之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">安装第三方库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E8%84%9A%E6%9C%AC"><span class="nav-number">3.1.</span> <span class="nav-text">官方脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">3.2.</span> <span class="nav-text">注意</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%AD%E4%B9%B0"><span class="nav-number">4.</span> <span class="nav-text">购买</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

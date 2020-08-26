@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="宅宅生活收藏夹是一款用来直接浏览知乎钓鱼贴图片的微信小程序，而且用户可以提供自己收藏的钓鱼贴，在每次例行数据更新后就会展示到首页。 这款小程序已经上线一个月了，感觉是时候复盘了（要不然就该想不起来了）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宅宅生活收藏夹——项目心得">
+<meta property="og:url" content="https://lijianxun.top/12.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="宅宅生活收藏夹是一款用来直接浏览知乎钓鱼贴图片的微信小程序，而且用户可以提供自己收藏的钓鱼贴，在每次例行数据更新后就会展示到首页。 这款小程序已经上线一个月了，感觉是时候复盘了（要不然就该想不起来了）。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/PcQst46mwUaMEgV.png">
+<meta property="article:published_time" content="2019-07-13T03:49:26.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.295Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="宅宅生活收藏夹">
+<meta property="article:tag" content="微信小程序">
+<meta property="article:tag" content="心得">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/19/PcQst46mwUaMEgV.png">
+
+<link rel="canonical" href="https://lijianxun.top/12.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>宅宅生活收藏夹——项目心得 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/12.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          宅宅生活收藏夹——项目心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-07-13 11:49:26" itemprop="dateCreated datePublished" datetime="2019-07-13T11:49:26+08:00">2019-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://i.loli.net/2019/09/19/PcQst46mwUaMEgV.png" alt="宅宅生活收藏夹"></p>
+<p>宅宅生活收藏夹是一款用来直接浏览知乎钓鱼贴图片的微信小程序，而且用户可以提供自己收藏的钓鱼贴，在每次例行数据更新后就会展示到首页。</p>
+<p>这款小程序已经上线一个月了，感觉是时候复盘了（要不然就该想不起来了）。</p>
+<a id="more"></a>
+<h1 id="前言部分"><a href="#前言部分" class="headerlink" title="前言部分"></a>前言部分</h1><p>大概总结了以下几个方面：</p>
+<ul>
+<li>想法诞生</li>
+<li>学习制作微信小程序，查看文档</li>
+<li>小程序性能优化</li>
+<li>小程序审核</li>
+<li>如何宣传小程序</li>
+<li>考虑小程序在用户心中的地位，是否触及用户痛点</li>
+<li>遇到的困难</li>
+</ul>
+<p>这几方面基本就是一个月来的实践和思考。</p>
+<h1 id="想法诞生（为什么做这个小程序）"><a href="#想法诞生（为什么做这个小程序）" class="headerlink" title="想法诞生（为什么做这个小程序）"></a>想法诞生（为什么做这个小程序）</h1><p>实话实说，这个想法在一年前就有了。但是当时并不打算做一个小程序，而是做一个 Web 页面。</p>
+<p>为什么会有这个想法呢？在浏览知乎的时候，无意间看到了所谓的知乎钓鱼贴，因为知乎并没有提供直接看图的功能，只能不断点击查看下一回答，很烦。当然这肯定不是做这个项目的直接原因，因为当时首先想到的是 Google 呗，这种看图工具肯定已经有人做好了，拿来看就行了，实在不行抓一下对方的接口，自己写个工具，只要看图方便就行了。但是找来找去，发现大部分人都是收集标题而已，还是需要链接到知乎查看。还有一些虽然抓好数据了，也以图片的形式展示出来了，但是用了一段时间发现，作者早在去年就不维护了。总不能反复看一些不更新的图片吧。没办法，不满意的就自己做一个吧。</p>
+<p>当时考虑是以网站还是小程序的形式呈现的时候，最终选择了小程序。</p>
+<p>因为我大部分编码还是用 python 写这个项目，如果以网站的形式，那肯定就是 Flask 和 Django 二选一。而且查看后台数据是个问题，比如多少用户使用等等。但是使用小程序不同，我可以借这个项目学习学习如何制作小程序，而且在后台数据方面微信已经帮忙做好了。只要关联好小程序，就可以查看小程序的累计用户，每小时的访问量，每天新增用户等等数据。而且当时我单纯的认为小程序传播速度肯定比网站快得多，用户裂变嘛，一传十，十传百（后来发现用户裂变在我这里根本行不通，稍后解释）。</p>
+<p>所以最终选择了使用微信小程序来实现这个项目。</p>
+<h1 id="实现小程序的整体思路"><a href="#实现小程序的整体思路" class="headerlink" title="实现小程序的整体思路"></a>实现小程序的整体思路</h1><p>因为项目从无到有，从没有数据到有数据展示到前端。这里用到了分而治之的思想，我们把小程序拆成每一小部分，只要实现了所有的小部分，也就实现了整个项目的大部分。</p>
+<p>简单概括只有4步。</p>
+<p><strong>爬虫 -&gt; 入库 -&gt; 提供接口 -&gt; 微信小程序展示</strong></p>
+<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><p><a href="https://lijianxun.top/?p=59">使用 Python 抓取知乎美图</a>这篇介绍了爬虫部分。</p>
+<h2 id="入库"><a href="#入库" class="headerlink" title="入库"></a>入库</h2><p>数据库选择的是 mongo 数据库，以集合的形式保存数据，简单够用。不像 mysql 各种关联。我们只要创建一个答案集合，往里填数据就可以。</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>使用 Flask 提供接口，查库返回 JSON 格式的数据。</p>
+<h2 id="展示"><a href="#展示" class="headerlink" title="展示"></a>展示</h2><p>微信小程序请求接口，展示数据。</p>
+<p>其实整个过程是很简单的，后端主要是数据库的增删改查，只要数据库方便好用，一切都很简单。</p>
+<h1 id="学习制作微信小程序"><a href="#学习制作微信小程序" class="headerlink" title="学习制作微信小程序"></a>学习制作微信小程序</h1><p>学习微信小程序主要是看文档，因为之前看过一些前端方面的知识，所以理解起来还是比较简单的。本人感觉写微信小程序就三个比较重要的内容，理解了以后就能实现小程序，但是想要写好还需要不断实践。</p>
+<p>哪三个重要的内容呢（我认为的）：</p>
+<ul>
+<li>JavaScript</li>
+<li>Page 里的 <code>data</code> 和 <code>this.setData</code></li>
+<li>CSS</li>
+</ul>
+<p>写小程序基本和写 Web 差不多，但是大部分都是用 JS 实现小程序逻辑，数据的交互等，所以 JS 必须掌握，感觉大概会写就行。</p>
+<p>由于看过 Vue 和 React 的文档，大概了解以下这种形式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line">Page(&#123;</span><br><span class="line"></span><br><span class="line">    data: &#123;</span><br><span class="line">        msg: <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    clickMe: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.setData(&#123;</span><br><span class="line">            msg: <span class="string">&quot;Hello World&quot;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.wxml --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">bindtap</span>=<span class="string">&quot;clickMe&quot;</span>&gt;</span>点击我<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>JS 传数据，wxml 渲染。熟练使用就行了，感觉没啥好说的。</p>
+<p>CSS 才是写小程序的痛啊，虽然之前写过 Web，但是用的最多的还是模板和 bootstrap，只写过一些简单的 CSS。在写小程序的时候，比如涉及到按钮或者搜索框的位置，浮动，置顶之类的，学习了好久，网上很多资料实际都没用，可能还是哪里有问题。所以感觉写小程序最难的还是 CSS 这块，虽然有框架可以用，但是在自定义样式很难做到随心所欲，基本就是框架有这个组件或者样式，拿来用，没有的自己也不会写。所以小程序的很多 UI 还在不断优化。在之前的版本有很多因为 CSS 不严谨产生的问题，多一根虚线，图片靠左，或者错位等等。还好基本已经修复了。</p>
+<h2 id="小程序用到的组件库"><a href="#小程序用到的组件库" class="headerlink" title="小程序用到的组件库"></a>小程序用到的组件库</h2><p>推荐使用（排序分先后）：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.color-ui.com/">Color UI</a></li>
+<li><a target="_blank" rel="noopener" href="http://doc.mini.7yue.pro/">Lin UI</a></li>
+<li><a target="_blank" rel="noopener" href="https://youzan.github.io/vant-weapp/#/intro">Vant Weapp</a></li>
+</ul>
+<h2 id="推荐网站"><a href="#推荐网站" class="headerlink" title="推荐网站"></a>推荐网站</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://loading.io/">loading.io</a> 各式各样的加载动画，有收费的有免费的。</li>
+</ul>
+<h1 id="小程序性能优化"><a href="#小程序性能优化" class="headerlink" title="小程序性能优化"></a>小程序性能优化</h1><p>看似高端的标题，其实就是代码的不规范。改规范了以后，就叫做性能优化了，虽然我在使用过程中没感觉提升了多少。</p>
+<p>为什么说是代码不规范呢，当时图方便把好多变量都放到了 <code>data</code> 里，这么写是不对的。<code>data</code> 里应该存放会渲染到页面的变量，其他都不应该被放进去。</p>
+<p>具体见<a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/framework/performance/tips.html">小程序官方文档——优化建议</a>。</p>
+<h1 id="小程序审核"><a href="#小程序审核" class="headerlink" title="小程序审核"></a>小程序审核</h1><p>小程序审核我认为是一种玄学。</p>
+<p>有人认为是机器审核，有人认为是人工审核。</p>
+<p>但是从我多次审核失败的经验来看，应该是人工审核无疑了。</p>
+<p>不知不觉已更新迭代十多个版本，有的只是修复小 bug，有的是更新功能。多次审核后总结出审核规律，仅供参考：</p>
+<ol>
+<li>小程序在周末仍会被审核。因为一周七天我都提交过审核，都有回复。</li>
+<li>一般超过下午三点的提交，都会在次日上午十点以后回复。当然也有特殊情况，有一次我晚上七点半提交审核，半小时后收到了回复。</li>
+<li>尽量一天只提交一次，提交第二次不论时间，可能都会拖到第二天审核。当然也有特殊情况，有一次在同一天回复了两次。</li>
+</ol>
+<p>所以说审核是门玄学，运气好了一天可以审核多次，运气不好只能拖到第二天，越心急越等不到结果。</p>
+<h1 id="宣传小程序"><a href="#宣传小程序" class="headerlink" title="宣传小程序"></a>宣传小程序</h1><p>这个完全没有什么心得啊。在各大社区里，只要宣传小程序，删帖是必须的。以至于后来发个正常的贴子也会被删。</p>
+<p>即刻有个热门钓鱼贴专栏，已经凉了。</p>
+<p>我想着可以在这里宣传一波，但是发帖以后都没人点赞，很奇怪啊，然后就把这个贴子分享给朋友，打开之后是404，找不到页面。</p>
+<p>即刻真会玩啊。单机版即刻，用户想发什么无所谓，其他用户根本看不到，不分享到浏览器打开还以为是自己的贴子没人看呢。学到了学到了。</p>
+<p>放弃即刻。</p>
+<p>虎扑步行街有个晒晒图片，感觉和知乎钓鱼贴差不多。</p>
+<p>想着宣传一波。刚发出去就被删帖，后来想着不做宣传，只是放一些和小程序没有任何关系的图片，也被删帖。</p>
+<p>放弃虎扑步行街。</p>
+<p>现在唯一能宣传的也只有知乎了，在热门的钓鱼贴下回答，让更多想看钓鱼贴的人看见。</p>
+<p>做这个小程序就是为了看钓鱼贴方便一点，希望帮助更多需要的朋友，能方便一点是一点。</p>
+<h1 id="小程序是否触及了用户的痛点"><a href="#小程序是否触及了用户的痛点" class="headerlink" title="小程序是否触及了用户的痛点"></a>小程序是否触及了用户的痛点</h1><p>这个问题是我最近一直思考的问题。</p>
+<p>因为一个月了，小程序的用户不是很多。虽然知乎里有点赞的，有评论的。但是没有我开始想象的那么简单。上边提到了用户裂变，一传十，十传百。我单纯的认为这个小程序会引起知乎看图用户的共鸣，然后转发给朋友，用户量蹭蹭就上来了。</p>
+<p>但是真正静下来思考一下，这个小程序的定位到底是什么，解决了什么问题？</p>
+<p>我对小程序的定位是一个方便浏览知乎钓鱼贴的工具，同时可以添加钓鱼贴，支持搜索和收藏。</p>
+<p>用户爱好的钓鱼贴不一样，搜索功能可以直达用户的喜好。</p>
+<p>用户看到喜欢的贴子不一定需要把所有的图片都保存到本地，使用收藏功能可以随时随地查看。</p>
+<p>为什么我要提供一个用户添加钓鱼贴的接口呢？之前说到，很多人已经写过类似的看图工具，但是都不更新了，为什么，因为作者没有精力。我担心这个小程序和他们的作品有同样的命运，所以我增加了用户可以提供钓鱼贴的接口，这样就算之后我不维护，不更新钓鱼贴了，依靠大家的力量，只要服务器还在，代码没问题，数据还是可以更新的。但是事实上不是这样的，这一个月来几乎没有人主动提供钓鱼贴。</p>
+<p>最后和女朋友讨论后想通了，可能大家就把这个小程序当成一个看图娱乐工具，看完就完事了，没有想过可以丰富这个小程序。得出这个结论的原因是也没有用户和我反馈哪里有 bug，或者可以加什么功能，什么需要改善。其实我也是这样的用户，之前在用一款天气小程序，因为加载慢就删除了。</p>
+<p>完全取决于用户的心情。</p>
+<p>为了能增加用户量，在小程序的体验版增加了分享功能，如果不分享给朋友只能查看前10个贴子。但是考虑再三还是删除了，觉得对用户不公平，但是这一个月下来我也没有什么精力和动力维护它了，小程序的功能基本固定，剩下的就是更新数据，基本都是手动更新钓鱼贴 ID，因为爬虫大范围抓取不能很好把控贴子的质量。有可能抓到真正的钓鱼的贴子。</p>
+<p>这个问题还在思考中，想不通。</p>
+<h1 id="遇到的困难"><a href="#遇到的困难" class="headerlink" title="遇到的困难"></a>遇到的困难</h1><p>编码过程中遇到的困难基本 Google 或者查文档就能解决，真正难解决的还是后期宣传的问题。</p>
+<p>整体来说，困难最大的还是无法准确将宅宅生活收藏夹这个小程序传递给真正的用户群体。</p>
+<p>即刻知乎热门钓鱼贴专栏三十多万的关注量，知乎随便一个新冒出头的钓鱼贴两天就有近十万的浏览量。</p>
+<p>可见用户还是非常多非常多的，但为什么宅宅生活收藏夹的用户却那么少？</p>
+<p>是小程序不够优质？功能不完善？还是很多人不知道有这个工具的存在？我想后者居多吧。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>作为一个搞爬虫和 Web 的码农，思想局限在使用爬虫抓取数据然后展示到页面上。觉得这一块必须突破，要不然做的项目都会受制于接口。接口可以用就有数据，接口调用失败数据就空白。如何让用户成为数据的来源才是现在需要思考的问题。</p>
+<p>最后想想还是佛系一点吧。这个小程序能帮助到一部分人就帮助到一部分人吧。</p>
+<p>不想看钓鱼贴的朋友就算打开了小程序也不会持续关注。</p>
+<p>真正想看钓鱼贴的朋友不知道这个小程序只能说是遗憾吧。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/12.html" title="宅宅生活收藏夹——项目心得">https://lijianxun.top/12.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%85%E5%AE%85%E7%94%9F%E6%B4%BB%E6%94%B6%E8%97%8F%E5%A4%B9/" rel="tag"># 宅宅生活收藏夹</a>
+              <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"># 微信小程序</a>
+              <a href="/tags/%E5%BF%83%E5%BE%97/" rel="tag"># 心得</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/94.html" rel="prev" title="Docker 镜像下载慢怎么办">
+      <i class="fa fa-chevron-left"></i> Docker 镜像下载慢怎么办
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/88.html" rel="next" title="Celery 使用小记">
+      Celery 使用小记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">前言部分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%83%B3%E6%B3%95%E8%AF%9E%E7%94%9F%EF%BC%88%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%9A%E8%BF%99%E4%B8%AA%E5%B0%8F%E7%A8%8B%E5%BA%8F%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">想法诞生（为什么做这个小程序）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">实现小程序的整体思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%88%AC%E8%99%AB"><span class="nav-number">3.1.</span> <span class="nav-text">爬虫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text">入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.3.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%95%E7%A4%BA"><span class="nav-number">3.4.</span> <span class="nav-text">展示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E5%88%B6%E4%BD%9C%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">学习制作微信小程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%A8%E5%88%B0%E7%9A%84%E7%BB%84%E4%BB%B6%E5%BA%93"><span class="nav-number">4.1.</span> <span class="nav-text">小程序用到的组件库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E7%BD%91%E7%AB%99"><span class="nav-number">4.2.</span> <span class="nav-text">推荐网站</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">小程序性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%A1%E6%A0%B8"><span class="nav-number">6.</span> <span class="nav-text">小程序审核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A3%E4%BC%A0%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">7.</span> <span class="nav-text">宣传小程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%98%AF%E5%90%A6%E8%A7%A6%E5%8F%8A%E4%BA%86%E7%94%A8%E6%88%B7%E7%9A%84%E7%97%9B%E7%82%B9"><span class="nav-number">8.</span> <span class="nav-text">小程序是否触及了用户的痛点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E5%9B%B0%E9%9A%BE"><span class="nav-number">9.</span> <span class="nav-text">遇到的困难</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-number">10.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

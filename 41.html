@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前就想过模块化vim配置, 但是没有合适的教程, 一直拖着, 直到看到此文章Vimrc Init.vim太长了？不存在的, 根据Pendragon大佬的vim配置, 模仿并修改了一波.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模块化配置 Vim">
+<meta property="og:url" content="https://lijianxun.top/41.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="之前就想过模块化vim配置, 但是没有合适的教程, 一直拖着, 直到看到此文章Vimrc Init.vim太长了？不存在的, 根据Pendragon大佬的vim配置, 模仿并修改了一波.">
+<meta property="og:locale">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406__480.jpg">
+<meta property="article:published_time" content="2019-01-10T02:20:25.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.243Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Neovim">
+<meta property="article:tag" content="Vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406__480.jpg">
+
+<link rel="canonical" href="https://lijianxun.top/41.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>模块化配置 Vim | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/41.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          模块化配置 Vim
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-10 10:20:25" itemprop="dateCreated datePublished" datetime="2019-01-10T10:20:25+08:00">2019-01-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A5%BD%E7%89%A9%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">好物推荐</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406__480.jpg"> 之前就想过模块化vim配置, 但是没有合适的教程, 一直拖着, 直到看到此文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54864654">Vimrc Init.vim太长了？不存在的</a>, 根据Pendragon大佬的vim配置, 模仿并修改了一波.</p>
+<a id="more"></a>
+<h2 id="dein-vim"><a href="#dein-vim" class="headerlink" title="dein.vim"></a><a target="_blank" rel="noopener" href="https://github.com/Shougo/dein.vim">dein.vim</a></h2><blockquote>
+<p>Dein.vim is a dark powered Vim/Neovim plugin manager.</p>
+</blockquote>
+<p>我们先安装dein. 执行 <code>curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh &gt; installer.sh</code> 然后 <code>sh ./installer.sh ~/.cache/dein</code> 好像有些同学喜欢把dein安装到<code>.config</code>下, 本人不是很喜欢, 所以还是按照文档示例中的路径安装. 安装成功后会提示如下信息, 之后我们会用到, 先保存起来:</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&quot;dein Scripts-----------------------------</span></span><br><span class="line"><span class="keyword">if</span> &amp;compatible</span><br><span class="line">  <span class="keyword">set</span> nocompatible               <span class="comment">&quot; Be iMproved</span></span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; Required:</span></span><br><span class="line"><span class="keyword">set</span> runtimepath+=/root/.cache/dein/repos/github.<span class="keyword">com</span>/Shougo/dein.<span class="keyword">vim</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; Required:</span></span><br><span class="line"><span class="keyword">if</span> dein#load_state(<span class="string">&#x27;/root/.cache/dein&#x27;</span>)</span><br><span class="line">  <span class="keyword">call</span> dein#begin(<span class="string">&#x27;/root/.cache/dein&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">&quot; Let dein manage dein</span></span><br><span class="line">  <span class="comment">&quot; Required:</span></span><br><span class="line">  <span class="keyword">call</span> dein#add(<span class="string">&#x27;/root/.cache/dein/repos/github.com/Shougo/dein.vim&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">&quot; Add or remove your plugins here like this:</span></span><br><span class="line">  <span class="comment">&quot;call dein#add(&#x27;Shougo/neosnippet.vim&#x27;)</span></span><br><span class="line">  <span class="comment">&quot;call dein#add(&#x27;Shougo/neosnippet-snippets&#x27;)</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">&quot; Required:</span></span><br><span class="line">  <span class="keyword">call</span> dein#end()</span><br><span class="line">  <span class="keyword">call</span> dein#save_state()</span><br><span class="line"><span class="keyword">endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; Required:</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">syntax</span> enable</span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; If you want to install not installed plugins on startup.</span></span><br><span class="line"><span class="comment">&quot;if dein#check_install()</span></span><br><span class="line"><span class="comment">&quot;  call dein#install()</span></span><br><span class="line"><span class="comment">&quot;endif</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot;End dein Scripts-------------------------</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>具体结构类似这样: . ├── README.md ├── container │   ├── colors │   ├── config │   ├── deincfg.vim │   ├── ftplugin │   ├── mapping.vim │   ├── normal.vim │   └── plugin └── init.vim 接下来分别介绍每个文件和文件夹的作用, 举例一些简单的使用.</p>
+<h2 id="init-vim"><a href="#init-vim" class="headerlink" title="init.vim"></a>init.vim</h2><p>完全使用Pendragon的脚本, 只是根据自己的文件夹进行了路径修改.</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">file</span> in <span class="keyword">split</span>(<span class="built_in">glob</span>(<span class="string">&quot;/root/.config/nvim/container/*.vim&quot;</span>), <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="keyword">exe</span> <span class="string">&#x27;source&#x27;</span> <span class="keyword">file</span></span><br><span class="line"><span class="keyword">endfor</span></span><br></pre></td></tr></table></figure>
+
+<p>应该很好理解, 遍历执行container路径下所有后缀为vim的文件.</p>
+<h2 id="container"><a href="#container" class="headerlink" title="container"></a>container</h2><p>用来存放所有配置.</p>
+<h3 id="deincfg-vim"><a href="#deincfg-vim" class="headerlink" title="deincfg.vim"></a>deincfg.vim</h3><p>加载dein插件, 需要注意以下几点:</p>
+<ul>
+<li><p>添加插件的时候不使用<code>add</code>方法, 而是使用<code>load_toml</code>.</p>
+</li>
+<li><p>dein的路径一定要根据自身安装情况修改.</p>
+</li>
+<li><p>如果想在启动vim的时候, 检测有未安装插件并安装的话, 记得解注:</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> dein#check_install()</span><br><span class="line">  <span class="keyword">call</span> dein#install()</span><br><span class="line"><span class="keyword">endif</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="mapping-vim"><a href="#mapping-vim" class="headerlink" title="mapping.vim"></a>mapping.vim</h3><p>用于存放快捷键. 例如 <code>map &lt;F2&gt; :NERDTreeToggle&lt;CR&gt;</code> 来开/关目录树.</p>
+<h3 id="normal-vim"><a href="#normal-vim" class="headerlink" title="normal.vim"></a>normal.vim</h3><p>根据情况放一些常用配置. 例如 <code>syntax on</code> 开启语法高亮.</p>
+<h2 id="colors"><a href="#colors" class="headerlink" title="colors"></a>colors</h2><p>用来存放自定义主题配色.</p>
+<h2 id="ftplugin"><a href="#ftplugin" class="headerlink" title="ftplugin"></a>ftplugin</h2><p>用来放一些按需加载的配置, 例如我们可以根据文件类型, 使用不同的配置.</p>
+<h2 id="plugin"><a href="#plugin" class="headerlink" title="plugin"></a>plugin</h2><p>安装插件以后需要一些自定义配置, 可以将这些自定义配置以插件名称命名, 写到对应的vim文件下</p>
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>保存<code>toml</code>文件, 配合deincfg.vim, 在dein插件加载的时候导入toml里的插件. 例如</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[[plugins]]</span></span><br><span class="line"><span class="attr">repo</span> = <span class="string">&#x27;davidhalter/jedi-vim&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你解注了上述的三行配置, 在启动vim的时候会自动检测插件的安装情况, 进行操作. 当然你要绑定<code>plugin</code>下的自定义配置, 可以在插件下紧跟着添加: <code>hook_add = &#39;/root/.config/nvim/container/plugin/jedi-vim.vim&#39;</code> 来使自定义配置生效. <em>私信了Pendragon, hook_add添加map映射, hook_source添加call的插件方法</em> 具体可以参考 &gt; <a target="_blank" rel="noopener" href="https://qiita.com/delphinus/items/cd221a450fd23506e81a">[dein.vim] hook の便利な使い方</a> 主要是:</p>
+<p>钩子的名字</p>
+<p>当它被执行时</p>
+<p>hook_add</p>
+<p>当dein.vim添加插件时</p>
+<p>hook_source</p>
+<p>就在加载插件之前</p>
+<p>hook_post_source</p>
+<p>插件加载后立即</p>
+<p>hook_post_update</p>
+<p>插件更新后立即生效</p>
+<p>hook_done_update</p>
+<p>更新所有插件后立即</p>
+<h2 id="完事"><a href="#完事" class="headerlink" title="完事"></a>完事</h2><p>模块化配置便于日后的维护和管理, 不同插件的自定义配置不会混淆或显得不整齐. 基本这些就是我个人模块化的配置, 有很多不完善的地方. github地址: <a target="_blank" rel="noopener" href="https://github.com/alpha87/nvim">https://github.com/alpha87/nvim</a> 可以参考一下我的配置. 目前我还没有用到延迟加载, 如果想延迟加载插件或一些配置, 可参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/55455386">模块化你的vim配置文件</a>.</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/41.html" title="模块化配置 Vim">https://lijianxun.top/41.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Neovim/" rel="tag"># Neovim</a>
+              <a href="/tags/Vim/" rel="tag"># Vim</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/40.html" rel="prev" title="冒泡排序">
+      <i class="fa fa-chevron-left"></i> 冒泡排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/117.html" rel="next" title="Ubuntu16.04 基于 LAMP 搭建 Wordpress">
+      Ubuntu16.04 基于 LAMP 搭建 Wordpress <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dein-vim"><span class="nav-number">1.</span> <span class="nav-text">dein.vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#init-vim"><span class="nav-number">3.</span> <span class="nav-text">init.vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#container"><span class="nav-number">4.</span> <span class="nav-text">container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#deincfg-vim"><span class="nav-number">4.1.</span> <span class="nav-text">deincfg.vim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapping-vim"><span class="nav-number">4.2.</span> <span class="nav-text">mapping.vim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#normal-vim"><span class="nav-number">4.3.</span> <span class="nav-text">normal.vim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#colors"><span class="nav-number">5.</span> <span class="nav-text">colors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ftplugin"><span class="nav-number">6.</span> <span class="nav-text">ftplugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#plugin"><span class="nav-number">7.</span> <span class="nav-text">plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config"><span class="nav-number">8.</span> <span class="nav-text">config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E4%BA%8B"><span class="nav-number">9.</span> <span class="nav-text">完事</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

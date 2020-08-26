@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前那台服务器过期了，所以网页版的宅宅生活收藏夹暂时不能用。 本来想就此放弃，但是有很多朋友私信问我，所以考虑还是继续开通这个知乎看图平台吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Uniapp 开发 H5 简单记录">
+<meta property="og:url" content="https://lijianxun.top/118.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="之前那台服务器过期了，所以网页版的宅宅生活收藏夹暂时不能用。 本来想就此放弃，但是有很多朋友私信问我，所以考虑还是继续开通这个知乎看图平台吧。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/02/06/VigbIOD84WrmTAp.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/02/XAhTUiVMbu1LEPf.jpg">
+<meta property="article:published_time" content="2020-02-02T14:20:40.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.337Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="uniapp">
+<meta property="article:tag" content="宅宅生活收藏夹">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/06/VigbIOD84WrmTAp.png">
+
+<link rel="canonical" href="https://lijianxun.top/118.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Uniapp 开发 H5 简单记录 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/118.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Uniapp 开发 H5 简单记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-02 22:20:40" itemprop="dateCreated datePublished" datetime="2020-02-02T22:20:40+08:00">2020-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://i.loli.net/2020/02/06/VigbIOD84WrmTAp.png"> 之前那台服务器过期了，所以网页版的宅宅生活收藏夹暂时不能用。 本来想就此放弃，但是有很多朋友私信问我，所以考虑还是继续开通这个知乎看图平台吧。</p>
+<a id="more"></a>
+<p><strong>毕竟这里收录了全网知乎钓鱼贴最全的问题。</strong></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>但是之前那个前端页面，说实话我自己也接受不了。因为当时还没有看过 Vue 相关的教程，只能用 Jinja2 配合 Bulma 构建前端页面。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://docs.jinkan.org/docs/jinja2/">Jinja2</a> 是一个现代的，设计者友好的，仿照 Django 模板的 Python 模板语言。 <a target="_blank" rel="noopener" href="https://bulma.io/">Bulma</a> 是一个基于 Flexbox 的免费开放源代码 CSS 框架。</p>
+</blockquote>
+<p>看了几天的 Vue 教程，所以打算用 Vue 重写一下前端页面，再配合 Vue 的 UI 框架，网页就做好啦！ <img src="https://i.loli.net/2020/02/02/XAhTUiVMbu1LEPf.jpg" alt="效果展示" title=" "> 不过只能说这个页面是基于 Vue 做的，因为我是用 uni-app 开发完成的。 纯 Vue 来说，一些用 JavaScript 简单操作的页面还能写写，像这样交互太多的（比如说上拉加载，下拉刷新），有工具还是安心用工具写吧。自己折腾太浪费时间。</p>
+<h1 id="uni-app"><a href="#uni-app" class="headerlink" title="uni-app"></a>uni-app</h1><p>说起 uni-app，前端朋友应该不陌生，但是对于后端来说，可能是第一次听说，我也是在之前开发微信小程序的时候考虑到，有没有一套代码能支持微信小程序，支付宝小程序等等一些类似的平台，没想到还真的有，还不止 uni-app 一款，但是因为 uni-app 支持 Vue，我认为上手应该会更快一些，所以就没考虑其他的。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://uniapp.dcloud.io/">uni-app</a> 是一个使用 Vue.js 开发所有前端应用的框架，开发者编写一套代码，可发布到iOS、Android、H5、以及各种小程序（微信/支付宝/百度/头条/QQ/钉钉）等多个平台。</p>
+</blockquote>
+<p>可以说有了 uni-app，开发 H5 是真的方便了，就类似写微信小程序一样，很多常用的接口已经写好，不用自己动手写了，大大提升开发效率。</p>
+<h1 id="使用记录"><a href="#使用记录" class="headerlink" title="使用记录"></a>使用记录</h1><p>说这么多废话，为什么还要写文章记录呢？ 因为这个 uni-app 用起来，没有微信小程序用起来顺手，可能是开始就是用微信小程序的缘故，也可能是对 Vue 语法非常不熟悉的缘故（肯定是第二种），导致开发起来有些操作不是很熟练。所以写一篇文章记录下来，日后再次开发的时候还有迹可循。</p>
+<h2 id="引入-ColorUI"><a href="#引入-ColorUI" class="headerlink" title="引入 ColorUI"></a>引入 ColorUI</h2><p>下载下来 ColorUI 的文件，放入项目根目录（和 pages 同级），然后在 App.vue 引入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">@import &#39;colorui&#x2F;main.css&#39;;</span><br><span class="line">@import &#39;colorui&#x2F;icon.css&#39;;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用全局变量"><a href="#使用全局变量" class="headerlink" title="使用全局变量"></a>使用全局变量</h2><p>在 App.vue 中，参考下列代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    globalData: &#123;</span><br><span class="line">        DB_URL: &#39;http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;&#39;</span><br><span class="line">    &#125;,</span><br><span class="line">    onLaunch: function() &#123;&#125;,</span><br><span class="line">    onShow: function() &#123;&#125;,</span><br><span class="line">    onHide: function() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>globalData</code> 就是保存全局变量的位置，我们可以存入一些公共变量。 使用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _url = getApp().globalData.DB_URL</span><br></pre></td></tr></table></figure>
+
+<h2 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h2><p>这个文件管理了本次开发的大部分配置，首先需要改动的就是<strong>路由模式</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;h5&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;template&quot;</span>: <span class="string">&quot;template.h5.html&quot;</span>,</span><br><span class="line">        <span class="string">&quot;router&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;mode&quot;</span>: <span class="string">&quot;history&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 hash 模式，url 会有一个 <code>#</code>，看起来十分别扭。</p>
+<h2 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h2><p>首次开发，一定会看到顶部 uni-app 的标题栏，如何去除呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;path&quot;</span>: <span class="string">&quot;pages/tabbar/index/index&quot;</span>,</span><br><span class="line">    <span class="string">&quot;style&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;navigationBarTitleText&quot;</span>: <span class="string">&quot;uni-app&quot;</span></span><br><span class="line">        <span class="string">&quot;navigationStyle&quot;</span>: <span class="string">&quot;custom&quot;</span>,</span><br><span class="line">        <span class="string">&quot;app-plus&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;titleNView&quot;</span>: <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就去掉了。</p>
+<h2 id="template-部分"><a href="#template-部分" class="headerlink" title="template 部分"></a>template 部分</h2><h3 id="通过首页标题进入详情页"><a href="#通过首页标题进入详情页" class="headerlink" title="通过首页标题进入详情页"></a>通过首页标题进入详情页</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class&#x3D;&quot;card&quot; @tap&#x3D;&quot;getDetail(item.question_id)&quot;&gt;&#123;&#123; item.title &#125;&#125;&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里本来想用类似小程序的 <code>data-*</code> 传值，但是不清楚是代码的问题，还是 uni-app 有 bug，一直没生效。 网上虽然有提到 uni-app 在 <code>data-*</code> 这部分有过 bug 的记录，不过应该是已经修复了，不清楚为什么不能使用，只好曲线救国，在运行函数的时候，作为函数的参数传入吧。</p>
+<h3 id="动态传入-style"><a href="#动态传入-style" class="headerlink" title="动态传入 style"></a>动态传入 style</h3><p>使用 ColorUI 框架，在处理用户头像这块使用的是 <code>background-image:url()</code>。如果直接 <code>:style</code> 一定会报错，所以正确的使用方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class&#x3D;&quot;cu-avatar round lg&quot; :style&#x3D;&quot;&#123; &#39;background-image&#39;: &#39;url(&#39; + item.avatar_url + &#39;)&#39; &#125;&quot;&gt;&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用单花括号，以字典的形式传参。这里前端的朋友肯定一眼就明白了。css 真的是我的知识盲区啊</p>
+<h3 id="循环展示图片"><a href="#循环展示图片" class="headerlink" title="循环展示图片"></a>循环展示图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;view v-for&#x3D;&quot;pic in item.photo_list&quot; v-bind:key&#x3D;&quot;pic.index&quot;&gt;</span><br><span class="line">    &lt;image mode&#x3D;&quot;widthFix&quot; :src&#x3D;&quot;pic&quot;&gt;&lt;&#x2F;image&gt;</span><br><span class="line">&lt;&#x2F;view&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>src</code> 也与小程序不同，直接使用 <code>Lsrc=&quot;pic&quot;</code> 即可。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/118.html" title="Uniapp 开发 H5 简单记录">https://lijianxun.top/118.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/uniapp/" rel="tag"># uniapp</a>
+              <a href="/tags/%E5%AE%85%E5%AE%85%E7%94%9F%E6%B4%BB%E6%94%B6%E8%97%8F%E5%A4%B9/" rel="tag"># 宅宅生活收藏夹</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/55.html" rel="prev" title="使用 Python 操作 Telegram 发送消息">
+      <i class="fa fa-chevron-left"></i> 使用 Python 操作 Telegram 发送消息
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/61.html" rel="next" title="使用 QuantumultX 实现卡车极速自动签到">
+      使用 QuantumultX 实现卡车极速自动签到 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uni-app"><span class="nav-number">2.</span> <span class="nav-text">uni-app</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95"><span class="nav-number">3.</span> <span class="nav-text">使用记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5-ColorUI"><span class="nav-number">3.1.</span> <span class="nav-text">引入 ColorUI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">3.2.</span> <span class="nav-text">使用全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#manifest-json"><span class="nav-number">3.3.</span> <span class="nav-text">manifest.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pages-json"><span class="nav-number">3.4.</span> <span class="nav-text">pages.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#template-%E9%83%A8%E5%88%86"><span class="nav-number">3.5.</span> <span class="nav-text">template 部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E9%A6%96%E9%A1%B5%E6%A0%87%E9%A2%98%E8%BF%9B%E5%85%A5%E8%AF%A6%E6%83%85%E9%A1%B5"><span class="nav-number">3.5.1.</span> <span class="nav-text">通过首页标题进入详情页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BC%A0%E5%85%A5-style"><span class="nav-number">3.5.2.</span> <span class="nav-text">动态传入 style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%B1%95%E7%A4%BA%E5%9B%BE%E7%89%87"><span class="nav-number">3.5.3.</span> <span class="nav-text">循环展示图片</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

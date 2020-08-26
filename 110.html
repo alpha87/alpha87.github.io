@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="通过这篇文章，我们会了解到 scrapy 的命令行工具。 文章介绍命令行工具的顺序基本符合官方文档的顺序。 命令scrapy的命令分为全局命令和项目内命令。全局命令也就是不需要在项目所在目录下运行，项目内命令必须在生成项目后，在此目录下运行的命令。举个栗子，startproject就是全局命令，因为在运行这个命令的时候还没有项目，check就是项目内命令，因为必须有项目才能检查代码正确与否。 Gl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy学习笔记（二）">
+<meta property="og:url" content="https://lijianxun.top/110.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="通过这篇文章，我们会了解到 scrapy 的命令行工具。 文章介绍命令行工具的顺序基本符合官方文档的顺序。 命令scrapy的命令分为全局命令和项目内命令。全局命令也就是不需要在项目所在目录下运行，项目内命令必须在生成项目后，在此目录下运行的命令。举个栗子，startproject就是全局命令，因为在运行这个命令的时候还没有项目，check就是项目内命令，因为必须有项目才能检查代码正确与否。 Gl">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-06-22T04:13:01.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.226Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="Scrapy">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lijianxun.top/110.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Scrapy学习笔记（二） | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/110.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Scrapy学习笔记（二）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-22 12:13:01" itemprop="dateCreated datePublished" datetime="2017-06-22T12:13:01+08:00">2017-06-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>通过这篇文章，我们会了解到 scrapy 的命令行工具。</p>
+<p>文章介绍命令行工具的顺序基本符合官方文档的顺序。</p>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>scrapy的命令分为全局命令和项目内命令。全局命令也就是不需要在项目所在目录下运行，项目内命令必须在生成项目后，在此目录下运行的命令。举个栗子，<code>startproject</code>就是全局命令，因为在运行这个命令的时候还没有项目，<code>check</code>就是项目内命令，因为必须有项目才能检查代码正确与否。</p>
+<h2 id="Global-commands"><a href="#Global-commands" class="headerlink" title="Global commands:"></a>Global commands:</h2><ul>
+<li>startproject</li>
+<li>genspider</li>
+<li>settings</li>
+<li>runspider</li>
+<li>shell</li>
+<li>fetch</li>
+<li>view</li>
+<li>version</li>
+</ul>
+<h2 id="Project-only-commands"><a href="#Project-only-commands" class="headerlink" title="Project-only commands:"></a>Project-only commands:</h2><ul>
+<li>crawl</li>
+<li>check</li>
+<li>list</li>
+<li>edit</li>
+<li>parse</li>
+<li>bench</li>
+</ul>
+<h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject testproject</span><br></pre></td></tr></table></figure>
+
+<p>这个命令用于生成我们所需要的爬虫项目。进入到该目录中，会发现生成了许多文件。这些文件的用法在以后都会一一详解。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">└── testproject</span><br><span class="line">    ├── scrapy.cfg</span><br><span class="line">    └── testproject</span><br><span class="line">        ├── __init__.py</span><br><span class="line">        ├── items.py</span><br><span class="line">        ├── middlewares.py</span><br><span class="line">        ├── pipelines.py</span><br><span class="line">        ├── settings.py</span><br><span class="line">        └── spiders</span><br><span class="line">            └── __init__.py</span><br></pre></td></tr></table></figure>
+
+<h1 id="生成-spider"><a href="#生成-spider" class="headerlink" title="生成 spider"></a>生成 spider</h1><p>命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider baidu www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<p>进入到 spider 文件夹下，输入该命令会生成一个名为 baidu.py 的文件，cat 这个文件，我们会发现其实就是最基本的 spider 模板。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaiduSpider</span>(<span class="params">scrapy.Spider</span>):</span></span><br><span class="line">    name = <span class="string">&#x27;baidu&#x27;</span></span><br><span class="line">    allowed_domains = [<span class="string">&#x27;www.baidu.com&#x27;</span>]</span><br><span class="line">    start_urls = [<span class="string">&#x27;http://www.baidu.com/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">self, response</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="模板选择"><a href="#模板选择" class="headerlink" title="模板选择"></a>模板选择</h2><p>在终端输入命令可以查看生成模板的类型：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -l</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Available templates:</span><br><span class="line">  basic</span><br><span class="line">  crawl</span><br><span class="line">  csvfeed</span><br><span class="line">  xmlfeed</span><br></pre></td></tr></table></figure>
+
+<p>也就是系统自带这四种模板，如果没有指定模板，会选择<code>basic</code>基本模板。如果你问我可以自定义模板吗，当然可以了，不过本文暂时不涉及这个问题，如果有需要可以先自行google。</p>
+<p>使用模板命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t xmlfeed zhihu www.zhihu.com</span><br></pre></td></tr></table></figure>
+
+<p><code>-t</code>就是TEMPLATE，也就是模板。</p>
+<p>例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy genspider -l</span><br><span class="line">Available templates:</span><br><span class="line">  basic</span><br><span class="line">  crawl</span><br><span class="line">  csvfeed</span><br><span class="line">  xmlfeed</span><br><span class="line"></span><br><span class="line">$ scrapy genspider example example.com</span><br><span class="line">Created spider <span class="string">&#x27;example&#x27;</span> using template <span class="string">&#x27;basic&#x27;</span></span><br><span class="line"></span><br><span class="line">$ scrapy genspider -t crawl scrapyorg scrapy.org</span><br><span class="line">Created spider <span class="string">&#x27;scrapyorg&#x27;</span> using template <span class="string">&#x27;crawl&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="crawl"><a href="#crawl" class="headerlink" title="crawl"></a>crawl</h1><p>用于运行指定spider</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl baidu</span><br></pre></td></tr></table></figure>
+
+<h1 id="check"><a href="#check" class="headerlink" title="check"></a>check</h1><p><code>check</code>用来检查项目中的代码是否有错误。如果没错会返回ok，如果有错会定位错误代码的位置。</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy check</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy check</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 0 contracts <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h1 id="list"><a href="#list" class="headerlink" title="list"></a>list</h1><p>运行命令会列出项目中所有的spider。</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy list</span><br></pre></td></tr></table></figure>
+
+<p>示例，在我们创建的项目目录下运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy list</span><br><span class="line">baidu</span><br><span class="line">zhihu</span><br></pre></td></tr></table></figure>
+
+<h1 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h1><p>运行这个命令会进入命令行交互模式，以给定的 URL(如果给出)或者空(没有给出 URL)启动 Scrapy shell。查看 Scrapy 终端(Scrapy shell)可以做一些简单的操作，可以使用选择器快速获取信息，方便调试。</p>
+<h1 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h1><p>使用这个命令会执行一次请求，并调用scrapy的下载器，返回网页的源码。</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy fetch http://www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<p>还可以加三个参数：</p>
+<p><code>--nolog</code> <code>--headers</code> <code>--no-redirect</code></p>
+<p>分别是不输出日志信息，返回网页的请求头和禁止重定向。如果网页没有重定向的话返回的还是原网页。</p>
+<h1 id="view"><a href="#view" class="headerlink" title="view"></a>view</h1><p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy view http://www.taobao.com</span><br></pre></td></tr></table></figure>
+
+<p>这个命令比较有用，它的作用是请求网址，输出网址的源码，并将该网页保存成一个文件，使用浏览器打开。如果打开的网址和你正常加载的网页有所不同，一般情况下没显示的部分使用了异步加载。因此该命令可以用来检查 spider 所获取到的页面,并确认这是您所期望的。</p>
+<p>这样在你以后的抓取过程中就可以使用这个命令分析网页是否使用了异步加载。</p>
+<h1 id="runspider"><a href="#runspider" class="headerlink" title="runspider"></a>runspider</h1><p>这个命令和crawl命令的区别在于crawl命令后是spider的<code>name</code>，而runspider命令后加的是爬虫的文件名，在本文的项目中，使用crawl命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl baidu</span><br></pre></td></tr></table></figure>
+
+<p>使用runspider就是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy runspider baidu.py</span><br></pre></td></tr></table></figure>
+
+<h1 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h1><p>用来获取项目的配置信息。</p>
+<p>例如获取项目名称：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy settings --get BOT_NAME</span><br><span class="line">testproject</span><br></pre></td></tr></table></figure>
+
+<h1 id="edit"><a href="#edit" class="headerlink" title="edit"></a>edit</h1><p>如果你不使用vim作为编辑器的话，这个命令不常用，因为这个命令会调用vim来编辑文件。</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy edit baidu</span><br></pre></td></tr></table></figure>
+
+<h1 id="parse"><a href="#parse" class="headerlink" title="parse"></a>parse</h1><p>获取给定的 URL 并使用相应的 spider 分析处理。如果您提供 –callback 选项,则使用 spider 的该方法处理,否则使用 parse</p>
+<p>使用上一篇的例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy parse http://quotes.toscrape.com -c parse</span><br></pre></td></tr></table></figure>
+
+<p>支持的操作：</p>
+<p>--spider = SPIDER: bypass spider autodetection and force use of specific spider 跳过自动检测 spider 并强制使用特定的 spider</p>
+<p>--a NAME = VALUE: set spider argument (may be repeated) 设置 spider 的参数(可能被重复)</p>
+<p>--callback or -c: spider method to use as callback for parsing the response spider 中用于解析返回(response)的回调函数</p>
+<p>--pipelines: process items through pipelines 在 pipeline 中处理 item</p>
+<p>--rules or -r: use CrawlSpider rules to discover the callback (i.e. spider method) to use for parsing the response 使用 CrawlSpider 规则来发现用来解析返回(response)的回调函数</p>
+<p>--noitems: don’t show scraped items 不显示爬取到的 item</p>
+<p>--nolinks: don’t show extracted links 不显示提取到的链接</p>
+<p>--nocolour: avoid using pygments to colorize the output 避免使用 pygments 对输出着色</p>
+<p>--depth or -d: depth level for which the requests should be followed recursively (default: 1) 指定跟进链接请求的层次数(默认:1)</p>
+<p>--verbose or -v: display information for each depth level 显示每个请求的详细信息</p>
+<h1 id="bench"><a href="#bench" class="headerlink" title="bench"></a>bench</h1><p>这个命令会运行 benchmark 测试，模拟测试scrapy的爬取速度。</p>
+<h1 id="version"><a href="#version" class="headerlink" title="version"></a>version</h1><p>这个命令可以查询当前scrapy的版本，和一些依赖库版本信息。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ scrapy version</span><br><span class="line">Scrapy 1.8.0</span><br><span class="line"></span><br><span class="line">➜  ~ scrapy version -v</span><br><span class="line">Scrapy       : 1.8.0</span><br><span class="line">lxml         : 4.5.0.0</span><br><span class="line">libxml2      : 2.9.10</span><br><span class="line">cssselect    : 1.1.0</span><br><span class="line">parsel       : 1.5.2</span><br><span class="line">w3lib        : 1.21.0</span><br><span class="line">Twisted      : 19.10.0</span><br><span class="line">Python       : 3.8.0 (v3.8.0:fa919fdf25, Oct 14 2019, 10:23:27) - [Clang 6.0 (clang-600.0.57)]</span><br><span class="line">pyOpenSSL    : 19.1.0 (OpenSSL 1.1.1d  10 Sep 2019)</span><br><span class="line">cryptography : 2.8</span><br><span class="line">Platform     : macOS-10.14.6-x86_64-i386-64bit</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/110.html" title="Scrapy学习笔记（二）">https://lijianxun.top/110.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/Scrapy/" rel="tag"># Scrapy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/116.html" rel="prev" title="Scrapy学习笔记（一）">
+      <i class="fa fa-chevron-left"></i> Scrapy学习笔记（一）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/113.html" rel="next" title="Scrapy学习笔记（三）">
+      Scrapy学习笔记（三） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Global-commands"><span class="nav-number">1.1.</span> <span class="nav-text">Global commands:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Project-only-commands"><span class="nav-number">1.2.</span> <span class="nav-text">Project-only commands:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90-spider"><span class="nav-number">3.</span> <span class="nav-text">生成 spider</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E9%80%89%E6%8B%A9"><span class="nav-number">3.1.</span> <span class="nav-text">模板选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#crawl"><span class="nav-number">4.</span> <span class="nav-text">crawl</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#check"><span class="nav-number">5.</span> <span class="nav-text">check</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#list"><span class="nav-number">6.</span> <span class="nav-text">list</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shell"><span class="nav-number">7.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fetch"><span class="nav-number">8.</span> <span class="nav-text">fetch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#view"><span class="nav-number">9.</span> <span class="nav-text">view</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#runspider"><span class="nav-number">10.</span> <span class="nav-text">runspider</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#settings"><span class="nav-number">11.</span> <span class="nav-text">settings</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#edit"><span class="nav-number">12.</span> <span class="nav-text">edit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#parse"><span class="nav-number">13.</span> <span class="nav-text">parse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#bench"><span class="nav-number">14.</span> <span class="nav-text">bench</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#version"><span class="nav-number">15.</span> <span class="nav-text">version</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

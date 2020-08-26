@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="什么是内容分发网络？内容分发网络（Content Delivery Network，CDN），是在现有 Internet 中增加的一层新的网络架构，由遍布全国的高性能加速节点构成。这些高性能的服务节点都会按照一定的缓存策略存储您的业务内容，当您的用户向您的某一业务内容发起请求时，请求会被调度至最接近用户的服务节点，直接由服务节点快速响应，有效降低用户访问延迟，提升可用性。 CDN 有效地解决了目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用腾讯 CDN 加速你的站点">
+<meta property="og:url" content="https://lijianxun.top/151.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="什么是内容分发网络？内容分发网络（Content Delivery Network，CDN），是在现有 Internet 中增加的一层新的网络架构，由遍布全国的高性能加速节点构成。这些高性能的服务节点都会按照一定的缓存策略存储您的业务内容，当您的用户向您的某一业务内容发起请求时，请求会被调度至最接近用户的服务节点，直接由服务节点快速响应，有效降低用户访问延迟，提升可用性。 CDN 有效地解决了目">
+<meta property="og:locale">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2018/12/10/10/21/earth-3866609__480.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/DzBYNet8gvZsUdp.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/jLNcGfyDqk4egMI.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/MZioxHyWtaSdCpY.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/xSCt1lbqPEVfgeZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/WuJiRoefkZGbCXs.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/TtHJzoCIil1jZGc.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/07/3qemSYPgvyAhH4K.png">
+<meta property="article:published_time" content="2020-02-07T05:37:15.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.338Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="CDN">
+<meta property="article:tag" content="腾讯云">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2018/12/10/10/21/earth-3866609__480.jpg">
+
+<link rel="canonical" href="https://lijianxun.top/151.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用腾讯 CDN 加速你的站点 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/151.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用腾讯 CDN 加速你的站点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-07 13:37:15" itemprop="dateCreated datePublished" datetime="2020-02-07T13:37:15+08:00">2020-02-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B4%B5%E5%9C%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">贵在折腾</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.pixabay.com/photo/2018/12/10/10/21/earth-3866609__480.jpg"></p>
+<h2 id="什么是内容分发网络？"><a href="#什么是内容分发网络？" class="headerlink" title="什么是内容分发网络？"></a>什么是内容分发网络？</h2><p>内容分发网络（Content Delivery Network，CDN），是在现有 Internet 中增加的一层新的网络架构，由遍布全国的高性能加速节点构成。这些高性能的服务节点都会按照一定的缓存策略存储您的业务内容，当您的用户向您的某一业务内容发起请求时，请求会被调度至最接近用户的服务节点，直接由服务节点快速响应，有效降低用户访问延迟，提升可用性。</p>
+<p>CDN 有效地解决了目前互联网业务中网络层面的以下问题：</p>
+<ol>
+<li>用户与业务服务器地域间物理距离较远，需要进行多次网络转发，传输延时较高且不稳定。</li>
+<li>用户使用运营商与业务服务器所在运营商不同，请求需要运营商之间进行互联转发。</li>
+<li>业务服务器网络带宽、处理能力有限，当接收到海量用户请求时，会导致响应速度降低、可用性降低。</li>
+</ol>
+<p>CDN 接入简单，您无需调整自身业务结构，或是进行复杂的操作配置，即可享受全球 CDN 加速服务。您可以通过 快速入门，轻松启动您的 CDN 加速服务。</p>
+<p>以上部分来自<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/228/2939">内容分发网络（腾讯云文档中心）</a>。</p>
+<a id="more"></a>
+<p>话不多说，直接开始教程。</p>
+<h2 id="使用前提"><a href="#使用前提" class="headerlink" title="使用前提"></a>使用前提</h2><ol>
+<li>开通腾讯 CDN 服务（需要腾讯云账户实名认证）。</li>
+<li>域名备案。</li>
+</ol>
+<p>初次使用腾讯 CDN 服务，会赠送 6 个月的每月 50G 流量，对于我这样的小站是绰绰有余了。（之后怎么计费我忘记了，好像是每月有 10G 流量？）</p>
+<h2 id="开始配置"><a href="#开始配置" class="headerlink" title="开始配置"></a>开始配置</h2><h3 id="接入域名"><a href="#接入域名" class="headerlink" title="接入域名"></a>接入域名</h3><p><img src="https://i.loli.net/2020/02/07/DzBYNet8gvZsUdp.png" alt="域名管理界面"></p>
+<p>如果你是初次进入，肯定是没有配置的。点击左侧的域名管理，点击添加域名。</p>
+<p>域名配置和源站配置：</p>
+<p><img src="https://i.loli.net/2020/02/07/jLNcGfyDqk4egMI.png" alt="域名配置和源站配置"></p>
+<p>域名填入你需要加速的域名，这里我定义为 <code>cdn.lijianxun.top</code>，如果只是加速网站，选择静态加速即可。下载加速和流媒体点播加速分别对应下载服务和视频服务。</p>
+<p>源站配置中源站地址填入域名对应 IP 地址，也就是网站没加速之前，域名绑定的主机 IP 地址。回源协议根据自身情况确定，可以选择协议跟随。回源域名和加速域名一致。</p>
+<p><img src="https://i.loli.net/2020/02/07/MZioxHyWtaSdCpY.png" alt="加速服务"></p>
+<p>这里主要是静态文件缓存配置。基本上都是参考网上配置的，比较好理解。</p>
+<p>缓存 <code>/wp-admin</code> 可能导致仪表盘打不开，所以这里刷新时间改为 0 秒，0 秒表示不缓存。</p>
+<p><em>不过完整一套配置下来感觉并没有用到 <code>/wp-admin</code> 这一条，下文解释。但是实在懒得尝试了，先这么用着。</em></p>
+<p>简单设置完成后，就可以配置详情了。</p>
+<p>缓存过期配置：</p>
+<p><img src="https://i.loli.net/2020/02/07/xSCt1lbqPEVfgeZ.png" alt="缓存过期配置"></p>
+<p>打开高级缓存过期设置。</p>
+<p>高级配置中，我配置了以下几项：</p>
+<p><img src="https://i.loli.net/2020/02/07/WuJiRoefkZGbCXs.png" alt="高级配置1"></p>
+<p><img src="https://i.loli.net/2020/02/07/TtHJzoCIil1jZGc.png" alt="高级配置0"></p>
+<p>HTTPS 证书可以使用腾讯云提供的免费证书，大概不到五分钟就申请成功。其他选项可以点开详情查看，都比较好理解，可以根据自己站点配置。</p>
+<p>这样就算域名接入完成。</p>
+<h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p>是这样，对于网站，我们加速 <code>wp-content</code> 和 <code>wp-includes</code> 两个文件夹，所以在访问源站（<a href="https://lijianxun.top/%EF%BC%89%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E8%AE%A9">https://lijianxun.top/）的时候，让</a> <code>wp-content</code> 和 <code>wp-includes</code> 这两个文件夹的内容走 CDN 加速。所以需要修改 Nginx 配置。</p>
+<p>首先需要在源站 server 配置中加入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sub_filter &#39;https:&#x2F;&#x2F;resource.lijianxun.top&#x2F;wp-content&#x2F;&#39; &#39;https:&#x2F;&#x2F;cdn.lijianxun.top&#x2F;wp-content&#x2F;&#39;;</span><br><span class="line">sub_filter &#39;https:&#x2F;&#x2F;resource.lijianxun.top&#x2F;wp-includes&#x2F;&#39; &#39;https:&#x2F;&#x2F;cdn.lijianxun.top&#x2F;wp-includes&#x2F;&#39;;</span><br><span class="line">sub_filter_types *;</span><br><span class="line">sub_filter_once off;</span><br></pre></td></tr></table></figure>
+
+<p>这样保证在访问 lijianxun.top 的时候，<code>wp-content</code> 和 <code>wp-includes</code> 会走加速域名。</p>
+<p>配置 cdn.lijianxun.top</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    listen [::]:443 ssl;</span><br><span class="line">    </span><br><span class="line">    ssl on;</span><br><span class="line">    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;cert&#x2F;xxxx.pem;</span><br><span class="line">    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;cert&#x2F;xxxx.key;</span><br><span class="line">    </span><br><span class="line">    server_name cdn.lijianxun.top;</span><br><span class="line">    root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">    </span><br><span class="line">    location &#x2F;wp-includes &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location &#x2F;wp-content &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;html;</span><br><span class="line">        expires 30d;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好之后记得重启 Nginx 服务：</p>
+<p><code>/etc/init.d/nginx restart</code></p>
+<p>这部分参考：<a target="_blank" rel="noopener" href="https://nodeedge.com/wordpress-nginx-cdn-static.html">WordPress使用Nginx配合CDN加速静态资源</a></p>
+<p>这部分解释了上文为什么用不到 <code>/wp-admin</code> 缓存配置。因为我们只加速了 <code>wp-content</code> 和 <code>wp-includes</code>。</p>
+<h3 id="配置-CNAME"><a href="#配置-CNAME" class="headerlink" title="配置 CNAME"></a>配置 CNAME</h3><p>在接入域名后，我们会得到一个 CNAME，格式类似：<code>加速域名.cdn.dnsv1.com</code>，如果按照教程来就是 <code>cdn.lijianxun.top.cdn.dnsv1.com</code>。</p>
+<p>因为我的域名是在阿里云下购买的，不过配置域名解析大同小异。如图：</p>
+<p><img src="https://i.loli.net/2020/02/07/3qemSYPgvyAhH4K.png" alt="配置 CNAME"></p>
+<p>这样就配置好了。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>当我们全部都配置完成后，使用 Chrome 浏览器，打开开发者工具，会发现配置的 <code>wp-content</code> 和 <code>wp-includes</code> 全部都走的是加速域名，网站访问也一切正常。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>之前从来没折腾过 CDN 加速，以上内容都是翻前人记录，自己摸索的，如果有读者发现明显错误还请劳烦在下方留言，共同学习，感谢！🙏</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/151.html" title="使用腾讯 CDN 加速你的站点">https://lijianxun.top/151.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CDN/" rel="tag"># CDN</a>
+              <a href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" rel="tag"># 腾讯云</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/139.html" rel="prev" title="Kratos-2.8.0">
+      <i class="fa fa-chevron-left"></i> Kratos-2.8.0
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/157.html" rel="next" title="Git SSH keys 从生成到使用">
+      Git SSH keys 从生成到使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是内容分发网络？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%89%8D%E6%8F%90"><span class="nav-number">2.</span> <span class="nav-text">使用前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">开始配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5%E5%9F%9F%E5%90%8D"><span class="nav-number">3.1.</span> <span class="nav-text">接入域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="nav-number">3.2.</span> <span class="nav-text">配置 Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-CNAME"><span class="nav-number">3.3.</span> <span class="nav-text">配置 CNAME</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">5.</span> <span class="nav-text">后记</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

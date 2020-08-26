@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyAutoGUI 使用介绍">
+<meta property="og:url" content="https://lijianxun.top/370.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/iGEFep3hoJU6KuX.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/E7TuvUa3tACw9Mz.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/AbIr68B2MDxP9pa.png">
+<meta property="article:published_time" content="2020-06-27T10:51:49.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.375Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="脚本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png">
+
+<link rel="canonical" href="https://lijianxun.top/370.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>PyAutoGUI 使用介绍 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/370.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PyAutoGUI 使用介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-27 18:51:49" itemprop="dateCreated datePublished" datetime="2020-06-27T18:51:49+08:00">2020-06-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。</p>
+<a id="more"></a>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install pyautogui -i https://mirrors.aliyun.com/pypi/simple</span><br></pre></td></tr></table></figure>
+
+<p>以下操作都是已经引入了 pyautogui。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyautogui</span><br></pre></td></tr></table></figure>
+
+<h1 id="鼠标操作"><a href="#鼠标操作" class="headerlink" title="鼠标操作"></a>鼠标操作</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取屏幕分辨率</span></span><br><span class="line">pyautogui.size()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前鼠标所在位置</span></span><br><span class="line">pyautogui.position()</span><br></pre></td></tr></table></figure>
+
+<p>这两个方法分别是确定鼠标的移动范围，确定当前鼠标的移动位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 移动到 100, 200 的位置</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 基于以上位置 Y 轴移动 50</span></span><br><span class="line">pyautogui.move(<span class="number">0</span>, <span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 2 秒内按住鼠标左键拖动到 300, 400 的位置</span></span><br><span class="line">pyautogui.dragTo(<span class="number">300</span>, <span class="number">400</span>, <span class="number">2</span>, button=<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 2 秒内按住鼠标右键，基于以上位置 X 轴拖动 30</span></span><br><span class="line">pyautogui.drag(<span class="number">30</span>, <span class="number">0</span>, <span class="number">2</span>, button=<span class="string">&#x27;right&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上述操作比较好理解，移动或者拖动鼠标。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开始慢，结束快</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">100</span>, <span class="number">2</span>, pyautogui.easeInQuad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始快，结束慢</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">100</span>, <span class="number">2</span>, pyautogui.easeOutQuad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始和结束慢，中间快</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">100</span>, <span class="number">2</span>, pyautogui.easeInOutQuad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 弹跳移动到 100, 100 （移动范围较小）</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">100</span>, <span class="number">2</span>, pyautogui.easeInBounce)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 弹跳移动到 100, 100 （范围较大）</span></span><br><span class="line">pyautogui.moveTo(<span class="number">100</span>, <span class="number">100</span>, <span class="number">2</span>, pyautogui.easeInElastic)</span><br></pre></td></tr></table></figure>
+
+<p>这部分操作在一些有人机检测的系统中一定会用到。比如说我们经常遇到网页的验证码拖动图片补全完整图片，如果匀速拖动肯定是不行的，因为正常人的操作是不会匀速拖动鼠标；还有一种情况是在模拟操作游戏，如果鼠标移动过于死板，每次的动作幅度，路径，点击的坐标都相同，也会被检测出使用了辅助软件。所以在使用鼠标操作游戏的时候，一定要加入随机量，比如鼠标移动的路径要随机，我们可以把上述参数放在列表中，每次随机挑选移动方式，点击的坐标随机加或减几个像素，每次点击的停顿时间也随机等等。一般这么操作就不会被查出来了。当然还需要根据玩家的平时在线时间来使用，不能说平时都是下午在线，然后突然每天黑夜刷很多小时。这样的操作一般也会被警告（以我多年阴阳师玩家经验）。扯远了，回正题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 点击</span></span><br><span class="line">pyautogui.click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 移动到 100, 200 点击</span></span><br><span class="line">pyautogui.click(x=<span class="number">100</span>, y=<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用右键点击，可选 left, middle, right</span></span><br><span class="line">pyautogui.click(button=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 双击</span></span><br><span class="line">pyautogui.click(clicks=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 双击，单击间隔时间 0.25 秒</span></span><br><span class="line">pyautogui.click(clicks=<span class="number">2</span>, interval=<span class="number">0.25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 鼠标按下</span></span><br><span class="line">pyautogui.mouseDown()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 鼠标抬起</span></span><br><span class="line">pyautogui.mouseUp()</span><br></pre></td></tr></table></figure>
+
+<h1 id="键盘操作"><a href="#键盘操作" class="headerlink" title="键盘操作"></a>键盘操作</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 输入，每个字符间隔 0.25 秒</span></span><br><span class="line">pyautogui.write(<span class="string">&#x27;Hello world!&#x27;</span>, interval=<span class="number">0.25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按住 shift</span></span><br><span class="line">pyautogui.keyDown(<span class="string">&#x27;shift&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按下 left 键</span></span><br><span class="line">pyautogui.press(<span class="string">&#x27;left&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 弹起 shift</span></span><br><span class="line">pyautogui.keyUp(<span class="string">&#x27;shift&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上述操作实现按住 shift 同时按下 left 键。 如果需要按下多个键，可以使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyautogui.press([<span class="string">&#x27;left&#x27;</span>, <span class="string">&#x27;left&#x27;</span>, <span class="string">&#x27;left&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>如果键相同可以：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyautogui.press(<span class="string">&#x27;left&#x27;</span>, presses=<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+
+<p>pyautogui 支持的按键：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&#x27;\t&#x27;</span>,<span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;\r&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;!&#x27;</span>,<span class="string">&#x27;&quot;&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;$&#x27;</span>,<span class="string">&#x27;%&#x27;</span>,<span class="string">&#x27;&amp;&#x27;</span>,<span class="string">&quot;&#x27;&quot;</span>,<span class="string">&#x27;(&#x27;</span>,<span class="string">&#x27;)&#x27;</span>,<span class="string">&#x27;*&#x27;</span>,<span class="string">&#x27;+&#x27;</span>,<span class="string">&#x27;,&#x27;</span>,<span class="string">&#x27;-&#x27;</span>,<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;/&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>,<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>,<span class="string">&#x27;7&#x27;</span>,<span class="string">&#x27;8&#x27;</span>,<span class="string">&#x27;9&#x27;</span>,<span class="string">&#x27;:&#x27;</span>,<span class="string">&#x27;;&#x27;</span>,<span class="string">&#x27;&lt;&#x27;</span>,<span class="string">&#x27;=&#x27;</span>,<span class="string">&#x27;&gt;&#x27;</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;@&#x27;</span>,<span class="string">&#x27;[&#x27;</span>,<span class="string">&#x27;\\&#x27;</span>, <span class="string">&#x27;]&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;^&#x27;</span>, <span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;`&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;t&#x27;</span>, <span class="string">&#x27;u&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="string">&#x27;|&#x27;</span>, <span class="string">&#x27;&#125;&#x27;</span>, <span class="string">&#x27;~&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;accept&#x27;</span>, <span class="string">&#x27;add&#x27;</span>, <span class="string">&#x27;alt&#x27;</span>, <span class="string">&#x27;altleft&#x27;</span>, <span class="string">&#x27;altright&#x27;</span>, <span class="string">&#x27;apps&#x27;</span>, <span class="string">&#x27;backspace&#x27;</span>, <span class="string">&#x27;browserback&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;browserfavorites&#x27;</span>, <span class="string">&#x27;browserforward&#x27;</span>, <span class="string">&#x27;browserhome&#x27;</span>, <span class="string">&#x27;browserrefresh&#x27;</span>, <span class="string">&#x27;browsersearch&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;browserstop&#x27;</span>, <span class="string">&#x27;capslock&#x27;</span>, <span class="string">&#x27;clear&#x27;</span>, <span class="string">&#x27;convert&#x27;</span>, <span class="string">&#x27;ctrl&#x27;</span>, <span class="string">&#x27;ctrlleft&#x27;</span>, <span class="string">&#x27;ctrlright&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;decimal&#x27;</span>, <span class="string">&#x27;del&#x27;</span>, <span class="string">&#x27;delete&#x27;</span>, <span class="string">&#x27;divide&#x27;</span>, <span class="string">&#x27;down&#x27;</span>, <span class="string">&#x27;end&#x27;</span>, <span class="string">&#x27;enter&#x27;</span>, <span class="string">&#x27;esc&#x27;</span>, <span class="string">&#x27;escape&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;execute&#x27;</span>, <span class="string">&#x27;f1&#x27;</span>, <span class="string">&#x27;f10&#x27;</span>, <span class="string">&#x27;f11&#x27;</span>, <span class="string">&#x27;f12&#x27;</span>, <span class="string">&#x27;f13&#x27;</span>, <span class="string">&#x27;f14&#x27;</span>, <span class="string">&#x27;f15&#x27;</span>, <span class="string">&#x27;f16&#x27;</span>, <span class="string">&#x27;f17&#x27;</span>, <span class="string">&#x27;f18&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;f19&#x27;</span>, <span class="string">&#x27;f2&#x27;</span>, <span class="string">&#x27;f20&#x27;</span>, <span class="string">&#x27;f21&#x27;</span>, <span class="string">&#x27;f22&#x27;</span>, <span class="string">&#x27;f23&#x27;</span>, <span class="string">&#x27;f24&#x27;</span>, <span class="string">&#x27;f3&#x27;</span>, <span class="string">&#x27;f4&#x27;</span>, <span class="string">&#x27;f5&#x27;</span>, <span class="string">&#x27;f6&#x27;</span>, <span class="string">&#x27;f7&#x27;</span>, </span><br><span class="line"><span class="string">&#x27;f8&#x27;</span>, <span class="string">&#x27;f9&#x27;</span>, <span class="string">&#x27;final&#x27;</span>, <span class="string">&#x27;fn&#x27;</span>, <span class="string">&#x27;hanguel&#x27;</span>, <span class="string">&#x27;hangul&#x27;</span>, <span class="string">&#x27;hanja&#x27;</span>, <span class="string">&#x27;help&#x27;</span>, <span class="string">&#x27;home&#x27;</span>, <span class="string">&#x27;insert&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;junja&#x27;</span>, <span class="string">&#x27;kana&#x27;</span>, <span class="string">&#x27;kanji&#x27;</span>, <span class="string">&#x27;launchapp1&#x27;</span>, <span class="string">&#x27;launchapp2&#x27;</span>, <span class="string">&#x27;launchmail&#x27;</span>, <span class="string">&#x27;launchmediaselect&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;left&#x27;</span>, <span class="string">&#x27;modechange&#x27;</span>, <span class="string">&#x27;multiply&#x27;</span>, <span class="string">&#x27;nexttrack&#x27;</span>, <span class="string">&#x27;nonconvert&#x27;</span>, <span class="string">&#x27;num0&#x27;</span>, <span class="string">&#x27;num1&#x27;</span>, <span class="string">&#x27;num2&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;num3&#x27;</span>, <span class="string">&#x27;num4&#x27;</span>, <span class="string">&#x27;num5&#x27;</span>, <span class="string">&#x27;num6&#x27;</span>, <span class="string">&#x27;num7&#x27;</span>, <span class="string">&#x27;num8&#x27;</span>, <span class="string">&#x27;num9&#x27;</span>, <span class="string">&#x27;numlock&#x27;</span>, <span class="string">&#x27;pagedown&#x27;</span>, <span class="string">&#x27;pageup&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;pause&#x27;</span>, <span class="string">&#x27;pgdn&#x27;</span>, <span class="string">&#x27;pgup&#x27;</span>, <span class="string">&#x27;playpause&#x27;</span>, <span class="string">&#x27;prevtrack&#x27;</span>, <span class="string">&#x27;print&#x27;</span>, <span class="string">&#x27;printscreen&#x27;</span>, <span class="string">&#x27;prntscrn&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;prtsc&#x27;</span>, <span class="string">&#x27;prtscr&#x27;</span>, <span class="string">&#x27;return&#x27;</span>, <span class="string">&#x27;right&#x27;</span>, <span class="string">&#x27;scrolllock&#x27;</span>, <span class="string">&#x27;select&#x27;</span>, <span class="string">&#x27;separator&#x27;</span>, <span class="string">&#x27;shift&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;shiftleft&#x27;</span>, <span class="string">&#x27;shiftright&#x27;</span>, <span class="string">&#x27;sleep&#x27;</span>, <span class="string">&#x27;space&#x27;</span>, <span class="string">&#x27;stop&#x27;</span>, <span class="string">&#x27;subtract&#x27;</span>, <span class="string">&#x27;tab&#x27;</span>,<span class="string">&#x27;up&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;volumedown&#x27;</span>, <span class="string">&#x27;volumemute&#x27;</span>, <span class="string">&#x27;volumeup&#x27;</span>, <span class="string">&#x27;win&#x27;</span>, <span class="string">&#x27;winleft&#x27;</span>, <span class="string">&#x27;winright&#x27;</span>, </span><br><span class="line"> <span class="string">&#x27;yen&#x27;</span>, <span class="string">&#x27;command&#x27;</span>, <span class="string">&#x27;option&#x27;</span>, <span class="string">&#x27;optionleft&#x27;</span>, <span class="string">&#x27;optionright&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="消息弹窗"><a href="#消息弹窗" class="headerlink" title="消息弹窗"></a>消息弹窗</h1><h2 id="alert"><a href="#alert" class="headerlink" title="alert()"></a>alert()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyautogui.alert(text=<span class="string">&#x27;⚠️这是一段警告&#x27;</span>, title=<span class="string">&#x27;alert 测试&#x27;</span>, button=<span class="string">&#x27;OK&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>会弹出如下提示框： <img src="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png" alt="alert"></p>
+<h2 id="confirm"><a href="#confirm" class="headerlink" title="confirm()"></a>confirm()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = pyautogui.confirm(text=<span class="string">&#x27;对话框测试&#x27;</span>, title=<span class="string">&#x27;标题&#x27;</span>, buttons=[<span class="string">&#x27;OK&#x27;</span>, <span class="string">&#x27;Cancel&#x27;</span>])</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+
+<p>我这么写你也应该明白了，<code>confirm()</code> 方法会传递参数。这样我们在操作过程中可以实现简单选择。 <img src="https://i.loli.net/2020/06/27/iGEFep3hoJU6KuX.png" alt="confirm"></p>
+<h2 id="prompt"><a href="#prompt" class="headerlink" title="prompt()"></a>prompt()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = pyautogui.prompt(text=<span class="string">&#x27;请输入学号&#x27;</span>, title=<span class="string">&#x27;标题&#x27;</span> , default=<span class="string">&#x27;学号&#x27;</span>)</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+
+<p>选择 OK 获取用户输入，选择 Cancel 返回 None。 <img src="https://i.loli.net/2020/06/27/E7TuvUa3tACw9Mz.png"></p>
+<h2 id="password"><a href="#password" class="headerlink" title="password()"></a>password()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = pyautogui.password(text=<span class="string">&#x27;输入密码&#x27;</span>, title=<span class="string">&#x27;标题&#x27;</span>, default=<span class="string">&#x27;&#x27;</span>, mask=<span class="string">&#x27;*&#x27;</span>)</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+
+<p>选择 OK 获取用户输入，选择 Cancel 返回 None。只是输入的字符串都会被 <code>mask</code> 代替。 <img src="https://i.loli.net/2020/06/27/AbIr68B2MDxP9pa.png" alt="password"></p>
+<h1 id="屏幕截图"><a href="#屏幕截图" class="headerlink" title="屏幕截图"></a>屏幕截图</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyautogui.screenshot(<span class="string">&#x27;my_screenshot.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>屏幕截图比较有用，根据截图找图感觉精度不高，所以就不推荐了。 以上就是 pyautogui 的使用介绍了，基本包含了所有常用操作。 如果还觉得不够可以看<a target="_blank" rel="noopener" href="https://pyautogui.readthedocs.io/en/latest/index.html">官方文档</a>和<a target="_blank" rel="noopener" href="https://github.com/asweigart/pyautogui">源码</a>。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/370.html" title="PyAutoGUI 使用介绍">https://lijianxun.top/370.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/367.html" rel="prev" title="58 同城字体反爬虫实战">
+      <i class="fa fa-chevron-left"></i> 58 同城字体反爬虫实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/379.html" rel="next" title="如何自动整理导入包的顺序">
+      如何自动整理导入包的顺序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">鼠标操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">键盘操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BC%B9%E7%AA%97"><span class="nav-number">4.</span> <span class="nav-text">消息弹窗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#alert"><span class="nav-number">4.1.</span> <span class="nav-text">alert()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#confirm"><span class="nav-number">4.2.</span> <span class="nav-text">confirm()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prompt"><span class="nav-number">4.3.</span> <span class="nav-text">prompt()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#password"><span class="nav-number">4.4.</span> <span class="nav-text">password()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="nav-number">5.</span> <span class="nav-text">屏幕截图</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

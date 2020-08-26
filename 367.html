@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前两天看了 58 同城的租房页面，先打开 Chrome 的开发者工具查看有哪些请求，发现并没有类似请求接口取数据，而是直接将数据渲染到页面，但是会发现，数字部分被做了手脚。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="58 同城字体反爬虫实战">
+<meta property="og:url" content="https://lijianxun.top/367.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="前两天看了 58 同城的租房页面，先打开 Chrome 的开发者工具查看有哪些请求，发现并没有类似请求接口取数据，而是直接将数据渲染到页面，但是会发现，数字部分被做了手脚。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/06/17/ZJmFj8SEavklM9O.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/17/n8VwoXAcZ3UkIWT.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/17/nMjDg9NuOFqPZQh.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/17/g4PLbxMzGCs65Br.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/17/L46PoHMp8RZXmuD.png">
+<meta property="article:published_time" content="2020-06-17T09:58:37.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.373Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/17/ZJmFj8SEavklM9O.png">
+
+<link rel="canonical" href="https://lijianxun.top/367.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>58 同城字体反爬虫实战 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/367.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          58 同城字体反爬虫实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-17 17:58:37" itemprop="dateCreated datePublished" datetime="2020-06-17T17:58:37+08:00">2020-06-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前两天看了 58 同城的租房页面，先打开 Chrome 的开发者工具查看有哪些请求，发现并没有类似请求接口取数据，而是直接将数据渲染到页面，但是会发现，数字部分被做了手脚。</p>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2020/06/17/ZJmFj8SEavklM9O.png"> 查看网页源码，发现数字都被转换成了类似 <code>&amp;#x9a4b;</code> 的格式。 <img src="https://i.loli.net/2020/06/17/n8VwoXAcZ3UkIWT.png"> 既然是和网页渲染字体有关的操作，下意识想到先看一眼 css，看看字体是如何使用的。 <img src="https://i.loli.net/2020/06/17/nMjDg9NuOFqPZQh.png"> 看到有一个 <code>fangchan-secret</code> 字段，搜索一下，发现只有两个地方出现：一个是 css 文件，另一个是我们当前页面的源码文件。 <img src="https://i.loli.net/2020/06/17/g4PLbxMzGCs65Br.png"> 搜索后找到一段 base64 编码，应该就是加密数字的字体文件了。解码后保存到二进制文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用正则将 base64 编码匹配到，保存到 font_data.ttf 文件中</span></span><br><span class="line"></span><br><span class="line">_base64_code = re.findall(</span><br><span class="line">    <span class="string">&quot;data:application/font-ttf;charset=utf-8;base64,(.*?)&#x27;\) format&quot;</span>,</span><br><span class="line">    response)[<span class="number">0</span>]</span><br><span class="line">_data = base64.decodebytes(_base64_code.encode())</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;font_data.ttf&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(_data)</span><br></pre></td></tr></table></figure>
+
+<p>然后用<a target="_blank" rel="noopener" href="http://fontstore.baidu.com/static/editor/index.html">百度字体编辑器</a>打开，我们发现了字符串与数字的对应关系。 <img src="https://i.loli.net/2020/06/17/L46PoHMp8RZXmuD.png"> 数字 0 对应字符串 9FA4，数字 1 对应字符串 9F92，以此类推… 但是当我们进入一个详情页面后，多次刷新会发现每次展示数字不会变化，但是对应的字符串却发生了变化。说明对应关系应该是在网页渲染的时候随机生成的。 一定在某个地方还有对应关系没有找到。 这个时候需要用到字体相关的工具库 fontTools，这个库可以把字体文件转换为 xml 文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> fontTools.ttLib <span class="keyword">import</span> TTFont</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">font = TTFont(<span class="string">&#x27;font_data.ttf&#x27;</span>)</span><br><span class="line">font.saveXML(<span class="string">&#x27;font_data.xml&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>将刚才保存的文件转换成 xml 文件。发现的确还有一层对应关系：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;cmap_format_4 platformID&#x3D;&quot;0&quot; platEncID&#x3D;&quot;3&quot; language&#x3D;&quot;0&quot;&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9476&quot; name&#x3D;&quot;glyph00010&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9476 --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x958f&quot; name&#x3D;&quot;glyph00005&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-958F --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x993c&quot; name&#x3D;&quot;glyph00004&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-993C --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9a4b&quot; name&#x3D;&quot;glyph00003&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9A4B --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9e3a&quot; name&#x3D;&quot;glyph00009&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9E3A --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9ea3&quot; name&#x3D;&quot;glyph00007&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9EA3 --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9f64&quot; name&#x3D;&quot;glyph00006&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9F64 --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9f92&quot; name&#x3D;&quot;glyph00002&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9F92 --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9fa4&quot; name&#x3D;&quot;glyph00001&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9FA4 --&gt;</span><br><span class="line">  &lt;map code&#x3D;&quot;0x9fa5&quot; name&#x3D;&quot;glyph00008&quot;&#x2F;&gt;&lt;!-- CJK UNIFIED IDEOGRAPH-9FA5 --&gt;</span><br><span class="line">&lt;&#x2F;cmap_format_4&gt;</span><br></pre></td></tr></table></figure>
+
+<p>和上图在百度字体编辑器对应，发现 <code>0x9476</code> 对应 <code>glyph00010</code> 对应数字 9，<code>0x958f</code> 对应 <code>glyph00005</code> 对应数字 4… 多次测试后发现 code 和 name 的对应关系会变化，但是 name 和数字的关系永远保持一致。这样就好解决了。 我们需要做的有：</p>
+<ol>
+<li>请求网页，获取 base64 编码和网页源码</li>
+<li>将当前页面的加密字符串和数字对应关系找到</li>
+<li>把当前网页的加密字符串全部替换成数字</li>
+</ol>
+<p>这样就完成了 58 同城的网页解析工作。代码就很好写了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> fontTools.ttLib <span class="keyword">import</span> TTFont</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TongChengSpider</span>(<span class="params">object</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    58同城 | 北京市朝阳区租房信息爬虫</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    ~~~~~~</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    - 网址：https://bj.58.com/chaoyang/chuzu/</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    - 网站反爬较严重，不仅有字体反爬，对 IP 限制也较严格，所以把网页源码保存到了本地，</span></span><br><span class="line"><span class="string">      在无代理的情况使用本地文件，有代理的情况实时抓取。</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.url = <span class="string">&quot;https://bj.58.com/chaoyang/chuzu/&quot;</span></span><br><span class="line">        self.headers = &#123;</span><br><span class="line">            <span class="string">&quot;referer&quot;</span>: <span class="string">&quot;https://bj.58.com/&quot;</span>,</span><br><span class="line">            <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment"># 存放解密后的字符串与数字对应关系</span></span><br><span class="line">        self.keys = dict()</span><br><span class="line">        self.proxies = dict()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">crawler</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;获取网页内容&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.proxies:</span><br><span class="line">            <span class="comment"># 有代理就请求网页</span></span><br><span class="line">            _response = requests.get(self.url, headers=self.headers).text</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 无代理使用本地文件</span></span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">&quot;./_58.html&quot;</span>, <span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                _response = f.read()</span><br><span class="line">        <span class="keyword">return</span> _response</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_init_data</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;处理网页加密字符串，将 tff 格式转化为 xml 格式，并找出对应关系&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        self.get_font_data()</span><br><span class="line">        self.parse_font_data()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_font_data</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;获取网站加密字体数据&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        response = self.crawler()</span><br><span class="line">        _base64_code = re.findall(</span><br><span class="line">            <span class="string">&quot;data:application/font-ttf;charset=utf-8;base64,(.*?)&#x27;\) format&quot;</span>,</span><br><span class="line">            response)[<span class="number">0</span>]</span><br><span class="line">        _data = base64.decodebytes(_base64_code.encode())</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">&#x27;font_data.ttf&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(_data)</span><br><span class="line">        font = TTFont(<span class="string">&#x27;font_data.ttf&#x27;</span>)</span><br><span class="line">        font.saveXML(<span class="string">&#x27;font_data.xml&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_font_data</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;解析 XML 格式的字体文件</span></span><br><span class="line"><span class="string">           找出 unicode 和加密字符的对应关系&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        unicode_list = [<span class="string">&#x27;0x9476&#x27;</span>, <span class="string">&#x27;0x958f&#x27;</span>, <span class="string">&#x27;0x993c&#x27;</span>, <span class="string">&#x27;0x9a4b&#x27;</span>, <span class="string">&#x27;0x9e3a&#x27;</span>,</span><br><span class="line">                        <span class="string">&#x27;0x9ea3&#x27;</span>, <span class="string">&#x27;0x9f64&#x27;</span>, <span class="string">&#x27;0x9f92&#x27;</span>, <span class="string">&#x27;0x9fa4&#x27;</span>, <span class="string">&#x27;0x9fa5&#x27;</span>]</span><br><span class="line">        glyph_list = &#123;<span class="string">&#x27;glyph00001&#x27;</span>: <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;glyph00002&#x27;</span>: <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;glyph00003&#x27;</span>: <span class="string">&#x27;2&#x27;</span>,</span><br><span class="line">                      <span class="string">&#x27;glyph00004&#x27;</span>: <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;glyph00005&#x27;</span>: <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;glyph00006&#x27;</span>: <span class="string">&#x27;5&#x27;</span>,</span><br><span class="line">                      <span class="string">&#x27;glyph00007&#x27;</span>: <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;glyph00008&#x27;</span>: <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;glyph00009&#x27;</span>: <span class="string">&#x27;8&#x27;</span>,</span><br><span class="line">                      <span class="string">&#x27;glyph00010&#x27;</span>: <span class="string">&#x27;9&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line">        data = etree.parse(<span class="string">&quot;./font_data.xml&quot;</span>)</span><br><span class="line">        self.keys = &#123;item: glyph_list[data.xpath(<span class="string">&quot;//cmap//map[@code=&#x27;&#123;&#125;&#x27;]/@name&quot;</span>.format(item))[<span class="number">0</span>]]</span><br><span class="line">                     <span class="keyword">for</span> item <span class="keyword">in</span> unicode_list&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">replace_secret_code</span>(<span class="params">self, raw_string, rep_string, rep_dict</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;替换加密字体&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> raw_string.replace(rep_string, rep_dict[rep_string])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_real_resp</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;替换掉原始网页中的加密字体&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        _response = self.crawler()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将获取到的字符串替换为网页中的字符串样式</span></span><br><span class="line">        _keys = json.loads(json.dumps(self.keys).replace(<span class="string">&quot;0x&quot;</span>, <span class="string">&quot;&amp;#x&quot;</span>).replace(<span class="string">&#x27;&quot;:&#x27;</span>, <span class="string">&#x27;;&quot;:&#x27;</span>))</span><br><span class="line"></span><br><span class="line">        response = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> _keys.keys():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> response:</span><br><span class="line">                response = self.replace_secret_code(_response, item, _keys)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                response = self.replace_secret_code(response, item, _keys)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">&quot;demo.html&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(response)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">del_</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;删除无用文件&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        os.remove(<span class="string">&quot;font_data.xml&quot;</span>)</span><br><span class="line">        os.remove(<span class="string">&quot;font_data.ttf&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._init_data()</span><br><span class="line">        self.get_real_resp()</span><br><span class="line">        self.del_()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    tc = TongChengSpider()</span><br><span class="line">    tc.run()</span><br></pre></td></tr></table></figure>
+
+<p>更详细代码可见：<a target="_blank" rel="noopener" href="https://github.com/alpha87/58tc_zufang">https://github.com/alpha87/58tc_zufang</a>。 包含 Pipenv 和 requirements.txt 文件，如果觉得此代码帮助到你，请帮忙点个 star，非常感谢。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/367.html" title="58 同城字体反爬虫实战">https://lijianxun.top/367.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/362.html" rel="prev" title="记一次短书视频下载">
+      <i class="fa fa-chevron-left"></i> 记一次短书视频下载
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/370.html" rel="next" title="PyAutoGUI 使用介绍">
+      PyAutoGUI 使用介绍 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

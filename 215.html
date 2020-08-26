@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="说起 HTML 表单，相信大家都不陌生，只要浏览网页，多多少少一定会使用到表单功能。比如说登录，留言，撰写文章等，有输入和提交的地方就有表单。这么常用的功能，已经有强大的 WTForms 来帮助我们完成这项工作，和之前一样，Flask 同样有插件已经集成了 WTForms，并且在此基础上，增加了跨站请求伪造保护（CSRF），预防 SQL 注入攻击，文件上传和 reCAPTCHA 等，这款插件就是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask 表单">
+<meta property="og:url" content="https://lijianxun.top/215.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="说起 HTML 表单，相信大家都不陌生，只要浏览网页，多多少少一定会使用到表单功能。比如说登录，留言，撰写文章等，有输入和提交的地方就有表单。这么常用的功能，已经有强大的 WTForms 来帮助我们完成这项工作，和之前一样，Flask 同样有插件已经集成了 WTForms，并且在此基础上，增加了跨站请求伪造保护（CSRF），预防 SQL 注入攻击，文件上传和 reCAPTCHA 等，这款插件就是">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/6TMFPdAhrLcQnlE.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/19/AFyxQKNMaEGgeU2.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/19/Jq8Y2tnL3VCEADI.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/19/EeocPBAUjQDKRfZ.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/19/OsSRxoGWk49XKMq.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/19/e3RC7xFTM24qY1y.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/20/SyVsuYm1z4HoRtv.png">
+<meta property="article:published_time" content="2020-02-20T06:07:40.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.346Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Flask">
+<meta property="article:tag" content="表单">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/17/6TMFPdAhrLcQnlE.png">
+
+<link rel="canonical" href="https://lijianxun.top/215.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>Flask 表单 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/215.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Flask 表单
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-02-20 14:07:40" itemprop="dateCreated datePublished" datetime="2020-02-20T14:07:40+08:00">2020-02-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flask-%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">Flask 教程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>说起 HTML 表单，相信大家都不陌生，只要浏览网页，多多少少一定会使用到表单功能。比如说登录，留言，撰写文章等，有输入和提交的地方就有表单。这么常用的功能，已经有强大的 <a target="_blank" rel="noopener" href="https://wtforms.readthedocs.io/en/stable/index.html">WTForms</a> 来帮助我们完成这项工作，和之前一样，Flask 同样有插件已经集成了 WTForms，并且在此基础上，增加了跨站请求伪造保护（CSRF），预防 SQL 注入攻击，文件上传和 reCAPTCHA 等，这款插件就是 <a target="_blank" rel="noopener" href="https://flask-wtf.readthedocs.io/en/stable/">Flask-WTF</a>，让我们在表单处理方面更愉悦。</p>
+<a id="more"></a>
+<h1 id="Flask-WTF"><a href="#Flask-WTF" class="headerlink" title="Flask-WTF"></a>Flask-WTF</h1><p><img src="https://i.loli.net/2020/02/17/6TMFPdAhrLcQnlE.png" alt="登录页面"></p>
+<p>如图，这就是一个简单的表单，可以实现登录和记住用户的功能。</p>
+<p>我们需要做的事是使用 Flask-WTF 把这部分 HTML 表示出来，并传递到模板中。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipenv install flask-wtf</span><br></pre></td></tr></table></figure>
+
+<h1 id="跨站请求伪造保护"><a href="#跨站请求伪造保护" class="headerlink" title="跨站请求伪造保护"></a>跨站请求伪造保护</h1><p>跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并运行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去运行。这利用了 web 中用户身份验证的一个漏洞：简单的身份验证只能保证请求发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。（<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0">维基百科</a>）</p>
+<p>我们需要配置一个密钥来实现 CSRF。这个密钥就是一个复杂的字符串，如果你的电脑里有密码管理软件，那么非常方便，随机生成一个就可以，例如这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k&#123;/p9qw9vk4[x79XeZ7c8(q,y,g[Vs</span><br></pre></td></tr></table></figure>
+
+<p>设置密钥：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.secret_key = <span class="string">&quot;k&#123;/p9qw9vk4[x79XeZ7c8(q,y,g[Vs&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果把密钥写入环境变量，然后读取使用会更加安全。</p>
+<h1 id="创建表单"><a href="#创建表单" class="headerlink" title="创建表单"></a>创建表单</h1><p>app.py 代码，创建表单实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template</span><br><span class="line"><span class="keyword">from</span> flask_bootstrap <span class="keyword">import</span> Bootstrap</span><br><span class="line"><span class="keyword">from</span> flask_wtf <span class="keyword">import</span> FlaskForm</span><br><span class="line"><span class="keyword">from</span> wtforms <span class="keyword">import</span> (StringField, PasswordField, </span><br><span class="line">                     BooleanField, SubmitField)</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">bootstrap = Bootstrap(app)</span><br><span class="line">app.secret_key = <span class="string">&quot;k&#123;/p9qw9vk4[x79XeZ7c8(q,y,g[Vs&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span>(<span class="params">FlaskForm</span>):</span></span><br><span class="line">    username = StringField(<span class="string">&quot;用户名&quot;</span>)</span><br><span class="line">    password = PasswordField(<span class="string">&quot;密码&quot;</span>)</span><br><span class="line">    remember_me = BooleanField(<span class="string">&quot;记住我&quot;</span>)</span><br><span class="line">    submit = SubmitField(<span class="string">&quot;登录&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&quot;/&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    login_form = LoginForm()</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, login_form=login_form)</span><br></pre></td></tr></table></figure>
+
+<p>这里我们用到了 StringField，PasswordField，BooleanField，SubmitField 四种字段类型，分别是文本字段，密码字段，复选框和提交按钮。<a target="_blank" rel="noopener" href="https://wtforms.readthedocs.io/en/stable/fields.html">更多字段类型可以参考此文档</a>。</p>
+<p>index.html 代码，渲染 login_form 表单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &quot;base.html&quot; %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;</span><br><span class="line">首页</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block body %&#125;</span><br><span class="line">&#123;&#123; login_form.csrf_token &#125;&#125;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; login_form.username.label &#125;&#125;</span><br><span class="line">    &#123;&#123; login_form.username &#125;&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; login_form.password.label &#125;&#125;</span><br><span class="line">    &#123;&#123; login_form.password &#125;&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; login_form.remember_me.label &#125;&#125;</span><br><span class="line">    &#123;&#123; login_form.remember_me &#125;&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; login_form.submit &#125;&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>记得写入隐藏字段：<code>&#123;&#123; login_form.csrf_token &#125;&#125;</code></strong></p>
+<p>这个不会在页面上显示，但是正是因为这行代码让 CSRF 生效。</p>
+<p>运行效果如下：</p>
+<p><img src="https://i.loli.net/2020/02/19/AFyxQKNMaEGgeU2.png" alt="表单渲染"></p>
+<p>但是看起来很不美观，我们已经集成了 Bootstrap，该如何使用呢？</p>
+<p>使用表单字段的 <code>render_kw</code> 属性来生成 HTML 属性。修改 app.py 中表单部分的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span>(<span class="params">FlaskForm</span>):</span></span><br><span class="line">    username = StringField(<span class="string">&quot;用户名&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;form-control&quot;</span>, <span class="string">&quot;placeholder&quot;</span>: <span class="string">&quot;请输入用户名&quot;</span>&#125;)</span><br><span class="line">    password = PasswordField(<span class="string">&quot;密码&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;form-control&quot;</span>, <span class="string">&quot;placeholder&quot;</span>: <span class="string">&quot;请输入密码&quot;</span>&#125;)</span><br><span class="line">    remember_me = BooleanField(<span class="string">&quot;记住我&quot;</span>)</span><br><span class="line">    submit = SubmitField(<span class="string">&quot;登录&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;btn btn-primary&quot;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>效果如下：</p>
+<p><img src="https://i.loli.net/2020/02/19/Jq8Y2tnL3VCEADI.png" alt="使用bs"></p>
+<p>是不是一下美观了许多。</p>
+<p>可能其他教程会提供第二种添加属性的办法，是在模板中操作的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; login_form.username(class&#x3D;&quot;form-control&quot;, placeholder&#x3D;&quot;请输入用户名&quot;) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是我个人并不推荐这种写法。我认为模板的功能是接受参数并渲染页面，使用少量过滤器即可。虽然标签属性属于 HTML，但是能让表单类处理的最好不要交给模板。而且交给表单类可以让代码很直观，并不复杂。不仅好维护，看起来也非常顺眼。</p>
+<h1 id="验证器"><a href="#验证器" class="headerlink" title="验证器"></a>验证器</h1><p>用户填写完表单，我们需要做表单校验工作，这里就用到了验证器。例如我们平时使用表单的时候，会遇到只能填入数字，只能填入英文字母和数字，字段是否是必填项，有的需要限制数据长度，数据格式等等，都需要用到验证器。</p>
+<p>使用 WTForms 提供的验证器，可以让我们不用考虑如何编写 HTMl 属性。</p>
+<p>我们需要导入验证器，作为字段参数使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> wtforms.validators <span class="keyword">import</span> DataRequired</span><br><span class="line"></span><br><span class="line">username = StringField(<span class="string">&quot;用户名&quot;</span>, validators=[DataRequired()])</span><br></pre></td></tr></table></figure>
+
+<p>例如这部分代码就是引入必填字段验证器并使用。</p>
+<p>在 HTML 中是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input class&#x3D;&quot;form-control&quot; id&#x3D;&quot;username&quot; name&#x3D;&quot;username&quot; placeholder&#x3D;&quot;请输入密码&quot; type&#x3D;&quot;text&quot; value&#x3D;&quot;&quot; required&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果在提交的时候这个字段没有数据，就会提示字段不能为空。</p>
+<p>常用的验证器：</p>
+<p>验证器</p>
+<p>说明</p>
+<p>Email</p>
+<p>验证电子邮件地址</p>
+<p>EqualTo</p>
+<p>比较两字段的值是否相同，例如注册时二次输入密码</p>
+<p>Length(min=-1, max=-1)</p>
+<p>判断输入字段的长度</p>
+<p>NumberRange</p>
+<p>判断输入数字的范围</p>
+<p>Required</p>
+<p>确保字段中有数据</p>
+<p>URL</p>
+<p>验证 URL</p>
+<p>Regexp</p>
+<p>使用正则表达式验证输入值</p>
+<p>如果没有合适的验证器，我们还可以自定义验证器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> wtforms.validators <span class="keyword">import</span> ValidationError</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">url_is_https</span>(<span class="params">form, field</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    验证 URL 是否 https 开头</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> field.startswith(<span class="string">&quot;https&quot;</span>):</span><br><span class="line">        <span class="keyword">return</span> ValidationError(<span class="string">&quot;URL 必须使用 https！&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用起来和内置验证器一样。</p>
+<h1 id="处理错误消息"><a href="#处理错误消息" class="headerlink" title="处理错误消息"></a>处理错误消息</h1><p>首先我们需要更新代码来实现错误消息的展示。将登录信息改为电子邮箱登录。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, render_template, flash</span><br><span class="line"><span class="keyword">from</span> flask_bootstrap <span class="keyword">import</span> Bootstrap</span><br><span class="line"><span class="keyword">from</span> flask_wtf <span class="keyword">import</span> FlaskForm</span><br><span class="line"><span class="keyword">from</span> wtforms <span class="keyword">import</span> StringField, PasswordField, BooleanField, SubmitField</span><br><span class="line"><span class="keyword">from</span> wtforms.validators <span class="keyword">import</span> Email, DataRequired</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">bootstrap = Bootstrap(app)</span><br><span class="line">app.secret_key = <span class="string">&quot;k&#123;/p9qw9vk4[x79XeZ7c8(q,y,g[Vs&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span>(<span class="params">FlaskForm</span>):</span></span><br><span class="line">    username = StringField(<span class="string">&quot;电子邮箱&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;form-control&quot;</span>, <span class="string">&quot;placeholder&quot;</span>: <span class="string">&quot;请输入电子邮箱&quot;</span>&#125;,</span><br><span class="line">                           validators=[Email(), DataRequired()])</span><br><span class="line">    password = PasswordField(<span class="string">&quot;密码&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;form-control&quot;</span>, <span class="string">&quot;placeholder&quot;</span>: <span class="string">&quot;请输入密码&quot;</span>&#125;,</span><br><span class="line">                             validators=[DataRequired()])</span><br><span class="line">    remember_me = BooleanField(<span class="string">&quot;记住我&quot;</span>)</span><br><span class="line">    submit = SubmitField(<span class="string">&quot;登录&quot;</span>, render_kw=&#123;<span class="string">&quot;class&quot;</span>: <span class="string">&quot;btn btn-primary&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&quot;/&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    login_form = LoginForm()</span><br><span class="line">    <span class="keyword">if</span> login_form.validate_on_submit():</span><br><span class="line">        flash(<span class="string">&quot;表单提交成功!&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, login_form=login_form)</span><br></pre></td></tr></table></figure>
+
+<p>index.html 增加了内置的消息提示和错误提示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &quot;base.html&quot; %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;</span><br><span class="line">首页</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block body %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% for msg in get_flashed_messages() %&#125;</span><br><span class="line">&lt;div class&#x3D;&quot;alert alert-success&quot; role&#x3D;&quot;alert&quot;&gt;</span><br><span class="line">    &#123;&#123; msg &#125;&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endfor %&#125;</span><br><span class="line"></span><br><span class="line">&lt;form method&#x3D;&quot;post&quot;&gt;</span><br><span class="line">    &#123;&#123; login_form.csrf_token &#125;&#125;</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">        &#123;&#123; login_form.username.label &#125;&#125;</span><br><span class="line">        &#123;&#123; login_form.username &#125;&#125;</span><br><span class="line"></span><br><span class="line">        &#123;% for err in login_form.username.errors %&#125;</span><br><span class="line">            &lt;small class&#x3D;&quot;text-danger&quot;&gt;&#123;&#123; err &#125;&#125;&lt;&#x2F;small&gt;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">    &lt;&#x2F;p&gt;</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">        &#123;&#123; login_form.password.label &#125;&#125;</span><br><span class="line">        &#123;&#123; login_form.password &#125;&#125;</span><br><span class="line">    &lt;&#x2F;p&gt;</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">        &#123;&#123; login_form.remember_me.label &#125;&#125;</span><br><span class="line">        &#123;&#123; login_form.remember_me &#125;&#125;</span><br><span class="line">    &lt;&#x2F;p&gt;</span><br><span class="line">    &lt;p&gt;</span><br><span class="line">        &#123;&#123; login_form.submit &#125;&#125;</span><br><span class="line">    &lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样在我们没有填写 Email 或者格式不正确就会看到错误提示：</p>
+<p><img src="https://i.loli.net/2020/02/19/EeocPBAUjQDKRfZ.png" alt="错误提示"></p>
+<p>会看到提示**Invalid email address.**。只不过是英文的，怎么改成中文的呢？</p>
+<p>需要改动以下部分代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.config[<span class="string">&quot;WTF_I18N_ENABLED&quot;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseForm</span>(<span class="params">FlaskForm</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        locales = [<span class="string">&quot;zh&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginForm</span>(<span class="params">BaseForm</span>):</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>我们需要编写基类继承 <code>FlaskForm</code>，定义 <code>Meta</code> 类，然后在表单组件继承我们创建的基类。</p>
+<p><img src="https://i.loli.net/2020/02/19/OsSRxoGWk49XKMq.png" alt="错误显示中文"></p>
+<p>可以看到已经变成中文了。</p>
+<p>如果我们每个标签都要处理错误消息，会产生大量重复的代码。还记得我们之前说过的宏吗？可以使用宏大幅减少代码量。</p>
+<p>编写宏：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;% macro form_data(form_field) %&#125;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; form_field.label &#125;&#125;</span><br><span class="line">    &#123;&#123; form_field &#125;&#125;</span><br><span class="line">    &#123;% for err in form_field.errors %&#125;</span><br><span class="line">    &lt;small class&#x3D;&quot;text-danger&quot;&gt;&#123;&#123; err &#125;&#125;&lt;&#x2F;small&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&#123;% endmacro %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用宏替代之前的电子邮件和密码字段的部分：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; macros.form_data(login_form.username) &#125;&#125;</span><br><span class="line">&#123;&#123; macros.form_data(login_form.password) &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行以后可以看到效果是一样的，但是帮我们节省了很多事情。</p>
+<h1 id="重新发送表单问题"><a href="#重新发送表单问题" class="headerlink" title="重新发送表单问题"></a>重新发送表单问题</h1><p><img src="https://i.loli.net/2020/02/19/e3RC7xFTM24qY1y.png" alt="重定向"></p>
+<p>相信我们都看过类似的提示框，之所以会出现这样的情况，是因为我们在刷新页面的时候会再次使用 POST 方式提交表单，导致浏览器需要用户确认。但一般情况我们刷新页面并不会再提交表单。这样就导致用户体验很不好。如何改善这个问题？</p>
+<p>只要在刷新的时候不提交 POST 请求就可以了，也就是让最后一个请求使用 GET 方式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> redirect, url_for</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&quot;/&quot;, methods=[&quot;GET&quot;, &quot;POST&quot;])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    login_form = LoginForm()</span><br><span class="line">    <span class="keyword">if</span> login_form.validate_on_submit():</span><br><span class="line">        flash(<span class="string">&quot;表单提交成功!&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&quot;index&quot;</span>))</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&quot;index.html&quot;</span>, login_form=login_form)</span><br></pre></td></tr></table></figure>
+
+<p>我们需要引入 <code>redirect</code>, <code>url_for</code> 来完成重定向。</p>
+<p>这样做就保证在成功提交表单以后，重定向到 <code>index</code> 对应的页面。也就避免了之前提到的问题。</p>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><p>有关表单的话题离不开文件上传。</p>
+<p>首先我们需要给 form 标签添加 <code>enctype=multipart/form-data</code> 属性。</p>
+<p>app.py 代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">from</span> wtforms <span class="keyword">import</span> SubmitField, FileField</span><br><span class="line"></span><br><span class="line">app.config[<span class="string">&#x27;MAX_CONTENT_LENGTH&#x27;</span>] = <span class="number">16</span> * <span class="number">1024</span> * <span class="number">1024</span></span><br><span class="line">app.config[<span class="string">&#x27;UPLOAD_FOLDER&#x27;</span>] = <span class="string">&#x27;/path/to/the/uploads&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileForm</span>(<span class="params">BaseForm</span>):</span></span><br><span class="line">    my_file = FileField(<span class="string">&quot;文件上传&quot;</span>)</span><br><span class="line">    submit = SubmitField(<span class="string">&quot;上传&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>MAX_CONTENT_LENGTH</code> 字段控制上传文件的大小，<code>UPLOAD_FOLDER</code> 控制上传文件的路径。</p>
+<p>index.html 代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends &quot;base.html&quot; %&#125;</span><br><span class="line">&#123;% import &quot;macros.html&quot; as macros %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block title %&#125;</span><br><span class="line">上传文件</span><br><span class="line">&#123;% endblock %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block body %&#125;</span><br><span class="line">&lt;form method&#x3D;&quot;post&quot; enctype&#x3D;&quot;multipart&#x2F;form-data&quot;&gt;</span><br><span class="line">    &#123;&#123; login_form.csrf_token &#125;&#125;</span><br><span class="line">    &#123;&#123; login_form.my_file &#125;&#125;</span><br><span class="line">    &#123;&#123; login_form.submit &#125;&#125;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2020/02/20/SyVsuYm1z4HoRtv.png" alt="上传文件"></p>
+<p>这里只是简单的实现的文件上传，视图函数还需要做很多工作。例如上传文件的名称必须修改成安全字符，上传文件类型的判断等等都需要在视图函数中处理。<a target="_blank" rel="noopener" href="https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/">详情查看官方文档。</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/215.html" title="Flask 表单">https://lijianxun.top/215.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Flask/" rel="tag"># Flask</a>
+              <a href="/tags/%E8%A1%A8%E5%8D%95/" rel="tag"># 表单</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/209.html" rel="prev" title="Loon 配置文件分享">
+      <i class="fa fa-chevron-left"></i> Loon 配置文件分享
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/250.html" rel="next" title="Kratos-3.0.0">
+      Kratos-3.0.0 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Flask-WTF"><span class="nav-number">1.</span> <span class="nav-text">Flask-WTF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0%E4%BF%9D%E6%8A%A4"><span class="nav-number">3.</span> <span class="nav-text">跨站请求伪造保护</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8%E5%8D%95"><span class="nav-number">4.</span> <span class="nav-text">创建表单</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">验证器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF%E6%B6%88%E6%81%AF"><span class="nav-number">6.</span> <span class="nav-text">处理错误消息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%8F%91%E9%80%81%E8%A1%A8%E5%8D%95%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">重新发送表单问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">8.</span> <span class="nav-text">文件上传</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

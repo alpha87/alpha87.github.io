@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="家里有一台win7系统的电脑，平时可以用来玩玩游戏消磨时间。但是有时候有一些重复的操作实在是无趣，所以打算写个脚本，让其自动化执行。 最终的目标就是把游戏里一些常用的操作都集合到脚本中去，且无序随机执行，模拟真人操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Python 和大漠插件进行文字识别">
+<meta property="og:url" content="https://lijianxun.top/56.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="家里有一台win7系统的电脑，平时可以用来玩玩游戏消磨时间。但是有时候有一些重复的操作实在是无趣，所以打算写个脚本，让其自动化执行。 最终的目标就是把游戏里一些常用的操作都集合到脚本中去，且无序随机执行，模拟真人操作。">
+<meta property="og:locale">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2015/04/03/18/56/font-705667__480.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/gQXydK4naZAjVPY.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/aPbjqkpzxrCZnM3.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/amZMzehNSLHdOR9.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/ES4b1GfATu5FLU3.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/17/AsyN1oc6Uw53fVt.png">
+<meta property="article:published_time" content="2019-03-12T02:45:17.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.286Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="大漠插件">
+<meta property="article:tag" content="文字识别">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2015/04/03/18/56/font-705667__480.jpg">
+
+<link rel="canonical" href="https://lijianxun.top/56.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用 Python 和大漠插件进行文字识别 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/56.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Python 和大漠插件进行文字识别
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-12 10:45:17" itemprop="dateCreated datePublished" datetime="2019-03-12T10:45:17+08:00">2019-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%B4%B5%E5%9C%A8%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">贵在折腾</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.pixabay.com/photo/2015/04/03/18/56/font-705667__480.jpg"> 家里有一台win7系统的电脑，平时可以用来玩玩游戏消磨时间。但是有时候有一些重复的操作实在是无趣，所以打算写个脚本，让其自动化执行。 最终的目标就是把游戏里一些常用的操作都集合到脚本中去，且无序随机执行，模拟真人操作。</p>
+<a id="more"></a>
+<h2 id="大漠插件介绍"><a href="#大漠插件介绍" class="headerlink" title="大漠插件介绍"></a>大漠插件介绍</h2><p>因为使用的是Windows系统，所以好多工作之前已经有大佬完成了。几年前使用过按键精灵的同学一定对大漠插件不陌生，其功能之强大，可以用来完成很多操作。 <img src="https://i.loli.net/2020/02/17/gQXydK4naZAjVPY.png" alt="大漠插件文档"> 从文档可以看出，功能实在太多了，覆盖了方方面面。我基本使用到的就是图片识别，文字识别，键鼠操作等，最强大的功能莫过于后台操作，也就是窗口最小化时不影响鼠标键盘的操作。想象一下，游戏在后台自动执行，前台继续做工作，互不干扰。 我现在需要做的就是将大漠插件使用python而不是按键精灵让其工作，因为按键精灵这类软件很容易被查出来。</p>
+<h2 id="文字识别"><a href="#文字识别" class="headerlink" title="文字识别"></a>文字识别</h2><p>图像转文字需要三个步骤。</p>
+<ol>
+<li>拿到图片</li>
+<li>二值化</li>
+<li>使用字库进行识别</li>
+</ol>
+<p>当这三步完成的时候，文字顺理成章就被识别出来了。 使用大漠插件的好处是每次识别不需要将识别的图片保存到本地，而是给定屏幕上的范围就可以识别了。 现在我们按步骤操作一波。</p>
+<h3 id="拿到图片，获取偏色列表"><a href="#拿到图片，获取偏色列表" class="headerlink" title="拿到图片，获取偏色列表"></a>拿到图片，获取偏色列表</h3><p><img src="https://i.loli.net/2020/02/17/aPbjqkpzxrCZnM3.png" alt="2113"> 我们需要识别这张图片中的“3”，“0”，“/”，“2”，“7”。 使用大漠偏色计算器计算偏色。 <img src="https://i.loli.net/2020/02/17/amZMzehNSLHdOR9.png" alt="1231"> 具体步骤是：</p>
+<ol>
+<li>先抓图，获取图片</li>
+<li>识别数字。将鼠标移到需要识别的数字的颜色部分（例如这个图片背景是棕色，文字是黑色，将鼠标移到黑色部分，稍后的二值化就是将黑色部分突出显示）。</li>
+<li>点击“根据颜色列表的第一个和RGB颜色偏差添加颜色到颜色列表”，会自动生成多个颜色。</li>
+<li>点击计算偏色。</li>
+</ol>
+<p>二值化预览区应该可以清晰的看到我们需要识别的数字了。 具体顺序可以配合着这张图： <img src="https://i.loli.net/2020/02/17/ES4b1GfATu5FLU3.png" alt="4311"> 如果你觉得识别后的文字还不够清晰，可以自己修改颜色列表。 这一步操作我们需要拿到<strong>偏色列表</strong>：514C45-2B2926。这个偏色列表之后用处非常大。</p>
+<h3 id="使用大漠综合工具新建或编辑字库"><a href="#使用大漠综合工具新建或编辑字库" class="headerlink" title="使用大漠综合工具新建或编辑字库"></a>使用大漠综合工具新建或编辑字库</h3><p>二值化显示的结果，程序还是不认识“3”或“0”，需要我们告诉程序，“3”这个字符对应的是数字<code>3</code>，这样当我们之后识别字符，程序再遇到“3”样子的字符就会返回<code>3</code>这个数字。 提取点阵并定义文字，将识别后的结果与我们想要的结果做对应，然后添加到字库。 简单描述我们的操作是：</p>
+<ol>
+<li><ol>
+<li>使用浮动抓图功能，在桌面上找到需要识别的范围</li>
+<li>在第一行RGB，偏色输入刚才的偏色列表</li>
+<li>点击<strong>提取点阵（多个）</strong></li>
+<li>打开或新建字库（txt文件）</li>
+<li>定义文字（然后回车）</li>
+</ol>
+</li>
+</ol>
+<p>配合图片解释一波： <img src="https://i.loli.net/2020/02/17/AsyN1oc6Uw53fVt.png" alt="31234"> 需要注意的是在提取点阵的时候弹出一个对话框，直接按确认就可以。 如果遇到一个预览结果显示多个字符，两个字符被认为是一个字符的情况，可能是偏色列表不够严谨，重新在判断偏色吧。 预览结果是“0”，那么就在<strong>定义文字</strong>一栏输入0，回车，这样就做了对应，并保存到字库中了。 重复以上操作，把需要识别的字符都做对应。当然我介绍的是对于游戏中一些特殊字符，系统无法识别需要自己做对应。大漠插件有提供系统字体的字库，也比较丰富，不一定必须自己造字库。</p>
+<h2 id="配合python返回识别结果"><a href="#配合python返回识别结果" class="headerlink" title="配合python返回识别结果"></a>配合python返回识别结果</h2><p>前面做了这么多工作，说到底还是为了python做准备。</p>
+<h3 id="使用32的python"><a href="#使用32的python" class="headerlink" title="使用32的python"></a>使用<strong>32</strong>的python</h3><p>如果你的电脑里已经有了python，不好意思，可能需要重装。因为调用大漠插件只能使用python <strong>32位</strong>的，不限制python2或3。我使用的是python3.7版本的32位。64位会报错。</p>
+<h3 id="安装pywin32库"><a href="#安装pywin32库" class="headerlink" title="安装pywin32库"></a>安装<code>pywin32</code>库</h3><p>安装好32位的python后，安装<code>pywin32</code>库来操作大漠插件。 命令行输入<code>pip install pywin32</code>，等待安装完成。</p>
+<h3 id="注册大漠插件"><a href="#注册大漠插件" class="headerlink" title="注册大漠插件"></a>注册大漠插件</h3><p>下载好大漠插件压缩包后，需要注册大漠插件。 在<code>dm.dll</code>文件的同目录中，使用管理员权限在cmd里执行： <code>regsvr32 dm.dll</code> 完成注册。</p>
+<h3 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> win32com.client</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DmBase</span>(<span class="params">object</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 调用大漠插件</span></span><br><span class="line">        self.dm = win32com.client.Dispatch(<span class="string">&quot;dm.dmsoft&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 设定字库文件，建议在初始化中调用，比较耗时</span></span><br><span class="line">        self.dm.setDict(<span class="number">0</span>, <span class="string">&quot;C:\\Users\\Li\\Desktop\\help\\data\\num.txt&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用字库</span></span><br><span class="line">        self.dm.useDict(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ocr</span>(<span class="params">self, x1, y1, x2, y2, color_format, sim=<span class="number">0.9</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            文字识别</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            - Args:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                x1 (int): 左上x</span></span><br><span class="line"><span class="string">                y1 (int): 左上y</span></span><br><span class="line"><span class="string">                x2 (int): 右下x</span></span><br><span class="line"><span class="string">                y2 (int): 右下y</span></span><br><span class="line"><span class="string">                color_format (str): 偏色列表</span></span><br><span class="line"><span class="string">                sim (float): 相似度，范围 0.1-1.0</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            - Return:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">                识别的字符串</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> self.dm.Ocr(x1, y1, x2, y2, color_format, sim)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了python调用大漠插件识别文字的操作。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/56.html" title="使用 Python 和大漠插件进行文字识别">https://lijianxun.top/56.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E5%A4%A7%E6%BC%A0%E6%8F%92%E4%BB%B6/" rel="tag"># 大漠插件</a>
+              <a href="/tags/%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB/" rel="tag"># 文字识别</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/67.html" rel="prev" title="微信小程序初探">
+      <i class="fa fa-chevron-left"></i> 微信小程序初探
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/37.html" rel="next" title="解决 locale.Error: unsupported locale setting 错误">
+      解决 locale.Error: unsupported locale setting 错误 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%BC%A0%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">大漠插件介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">文字识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%BF%E5%88%B0%E5%9B%BE%E7%89%87%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%81%8F%E8%89%B2%E5%88%97%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">拿到图片，获取偏色列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A4%A7%E6%BC%A0%E7%BB%BC%E5%90%88%E5%B7%A5%E5%85%B7%E6%96%B0%E5%BB%BA%E6%88%96%E7%BC%96%E8%BE%91%E5%AD%97%E5%BA%93"><span class="nav-number">2.2.</span> <span class="nav-text">使用大漠综合工具新建或编辑字库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E5%90%88python%E8%BF%94%E5%9B%9E%E8%AF%86%E5%88%AB%E7%BB%93%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">配合python返回识别结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A832%E7%9A%84python"><span class="nav-number">3.1.</span> <span class="nav-text">使用32的python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85pywin32%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text">安装pywin32库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%A4%A7%E6%BC%A0%E6%8F%92%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">注册大漠插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#demo"><span class="nav-number">3.4.</span> <span class="nav-text">demo</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

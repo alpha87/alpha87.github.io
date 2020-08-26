@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要介绍了查找集合的命令。如何查找所有集合，如何指定条件查找数据，使用运算符查找，查询结果排序等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习mongoDB（二）">
+<meta property="og:url" content="https://lijianxun.top/76.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="这篇文章主要介绍了查找集合的命令。如何查找所有集合，如何指定条件查找数据，使用运算符查找，查询结果排序等。">
+<meta property="og:locale">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png">
+<meta property="article:published_time" content="2017-03-02T03:32:00.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.207Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="mongoDB">
+<meta property="article:tag" content="pymongo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png">
+
+<link rel="canonical" href="https://lijianxun.top/76.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>学习mongoDB（二） | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/76.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学习mongoDB（二）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-02 11:32:00" itemprop="dateCreated datePublished" datetime="2017-03-02T11:32:00+08:00">2017-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Mongodb.png"> 这篇文章主要介绍了查找集合的命令。如何查找所有集合，如何指定条件查找数据，使用运算符查找，查询结果排序等。</p>
+<a id="more"></a>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><p>查找分为两部分，第一部分就是查找数据库中的所有集合；第二部分就是指定条件查询条件匹配的集合，条件可以以参数的形式传递给find()方法。</p>
+<h2 id="查询集合中的所有文档"><a href="#查询集合中的所有文档" class="headerlink" title="查询集合中的所有文档"></a>查询集合中的所有文档</h2><p>按照<a target="_blank" rel="noopener" href="https://alpha87.github.io/2017/03/01/%E5%AD%A6%E4%B9%A0mongoDB%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇文章</a>的顺序，我们已经插入好了数据。我们就以上文中的数据为例。 在连接好数据库以后，输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find()</span><br></pre></td></tr></table></figure>
+
+<p>查询所有文档，然后迭代打印出集合的内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> information <span class="keyword">in</span> coll:</span><br><span class="line">    print(information)</span><br></pre></td></tr></table></figure>
+
+<h1 id="指定条件"><a href="#指定条件" class="headerlink" title="指定条件"></a>指定条件</h1><h2 id="指定已知数据"><a href="#指定已知数据" class="headerlink" title="指定已知数据"></a>指定已知数据</h2><p>如果你知道需要查找数据的信息，可以以如下的格式传入到find()方法，作为参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&lt;field1&gt;:&lt;value1&gt;, &lt;field2&gt;:&lt;value2&gt;, ...)</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;borough&quot;:&quot;Manhattan&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然后打印：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> doc <span class="keyword">in</span> coll:</span><br><span class="line">    print(doc)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用操作符指定条件"><a href="#使用操作符指定条件" class="headerlink" title="使用操作符指定条件"></a>使用操作符指定条件</h2><p>mongoDB提供运算符来指定查询条件，比如比较运算符。使用运算符的查询条件通常有以下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&lt;field1&gt;:&#123;&lt;operator1&gt;:&lt;value1&gt;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有关运算符的完整列表，请参见<a target="_blank" rel="noopener" href="http://docs.mongodb.com/manual/reference/operator/query">查询运算符</a>。</p>
+<h3 id="大于运算符-gt"><a href="#大于运算符-gt" class="headerlink" title="大于运算符($gt)"></a>大于运算符($gt)</h3><p>查询其成绩数组包含字段得分大于30的文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$gt&quot;:30&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="小于运算符-lt"><a href="#小于运算符-lt" class="headerlink" title="小于运算符($lt)"></a>小于运算符($lt)</h3><p>查询其成绩数组包含字段得分小于10的文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$lt&quot;:10&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="组合条件"><a href="#组合条件" class="headerlink" title="组合条件"></a>组合条件</h2><p>您可以在逻辑连接（AND）和逻辑析取（OR）中组合多个查询条件。</p>
+<h3 id="逻辑和-and"><a href="#逻辑和-and" class="headerlink" title="逻辑和 (and)"></a>逻辑和 (and)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;cuisine&quot;:&quot;ltalian&quot;,&quot;address.zipcode&quot;:&quot;10075&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="逻辑或-or"><a href="#逻辑或-or" class="headerlink" title="逻辑或(or)"></a>逻辑或(or)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;$or&quot;:[&#123;&quot;cuisine&quot;:&quot;ltalian&quot;&#125;,&#123;&quot;address.zipcode&quot;:&quot;10075&quot;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="查询结果排序"><a href="#查询结果排序" class="headerlink" title="查询结果排序"></a>查询结果排序</h1><p>如果要为查询的集合指定顺序，使用sort()方法追加到查询中。 pymongo.ASCENDING 用于升序，pymongo.DESCENDING 用于降序。 文档提供的例子： <code>import pymongo cursor = db.restaurants.find().sort([ (&quot;borough&quot;, pymongo.ASCENDING), (&quot;address.zipcode&quot;, pymongo.ASCENDING) ])</code></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/76.html" title="学习mongoDB（二）">https://lijianxun.top/76.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+              <a href="/tags/pymongo/" rel="tag"># pymongo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/77.html" rel="prev" title="学习mongoDB（一）">
+      <i class="fa fa-chevron-left"></i> 学习mongoDB（一）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/45.html" rel="next" title="如何实现简单的微信机器人">
+      如何实现简单的微信机器人 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE"><span class="nav-number">1.</span> <span class="nav-text">查找</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E6%A1%A3"><span class="nav-number">1.1.</span> <span class="nav-text">查询集合中的所有文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">指定条件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%B7%B2%E7%9F%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">2.1.</span> <span class="nav-text">指定已知数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6%E6%8C%87%E5%AE%9A%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">使用操作符指定条件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E4%BA%8E%E8%BF%90%E7%AE%97%E7%AC%A6-gt"><span class="nav-number">2.2.1.</span> <span class="nav-text">大于运算符($gt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E4%BA%8E%E8%BF%90%E7%AE%97%E7%AC%A6-lt"><span class="nav-number">2.2.2.</span> <span class="nav-text">小于运算符($lt)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">组合条件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%92%8C-and"><span class="nav-number">2.3.1.</span> <span class="nav-text">逻辑和 (and)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%88%96-or"><span class="nav-number">2.3.2.</span> <span class="nav-text">逻辑或(or)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E6%8E%92%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">查询结果排序</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

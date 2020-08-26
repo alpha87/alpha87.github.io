@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前写到宅宅生活收藏夹的部署方法，见 使用Flask，Nginx，Gunicorn，Supervisor完成网站部署。这次介绍一下如何抓取知乎答案，获取知乎美图。 可以说爬虫是学习 Python 的入门必修课。当能独立写出第一个完整的爬虫的时候，我们已经迈出了一大步。因为在这过程中，我们已经学会了如何查看文档，学会使用 Python 相关库的操作，怎样使用 Chrome 的开发者工具（相关工具）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Python 抓取知乎美图">
+<meta property="og:url" content="https://lijianxun.top/59.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="之前写到宅宅生活收藏夹的部署方法，见 使用Flask，Nginx，Gunicorn，Supervisor完成网站部署。这次介绍一下如何抓取知乎答案，获取知乎美图。 可以说爬虫是学习 Python 的入门必修课。当能独立写出第一个完整的爬虫的时候，我们已经迈出了一大步。因为在这过程中，我们已经学会了如何查看文档，学会使用 Python 相关库的操作，怎样使用 Chrome 的开发者工具（相关工具）">
+<meta property="og:locale">
+<meta property="og:image" content="https://cdn.pixabay.com/photo/2018/06/03/01/15/fish-3449604__480.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/14/gFpQvUTA2WhwJa9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/25655581/60482994-3c431e00-9cc6-11e9-9344-3c50b9dbef10.png">
+<meta property="article:published_time" content="2019-07-01T02:49:28.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.305Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="脚本">
+<meta property="article:tag" content="钓鱼贴">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.pixabay.com/photo/2018/06/03/01/15/fish-3449604__480.png">
+
+<link rel="canonical" href="https://lijianxun.top/59.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>使用 Python 抓取知乎美图 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/59.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Python 抓取知乎美图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-07-01 10:49:28" itemprop="dateCreated datePublished" datetime="2019-07-01T10:49:28+08:00">2019-07-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.pixabay.com/photo/2018/06/03/01/15/fish-3449604__480.png"></p>
+<p>之前写到<strong>宅宅生活收藏夹</strong>的部署方法，见 <a href="https://lijianxun.top/?p=52">使用Flask，Nginx，Gunicorn，Supervisor完成网站部署</a>。这次介绍一下如何抓取知乎答案，获取知乎美图。</p>
+<p>可以说爬虫是学习 Python 的入门必修课。当能独立写出第一个完整的爬虫的时候，我们已经迈出了一大步。因为在这过程中，我们已经学会了如何查看文档，学会使用 Python 相关库的操作，怎样使用 Chrome 的开发者工具（相关工具）和把抓取的数据保存到数据库中等等一系列操作，当然收获最多的还是学习 Python 的自信心。</p>
+<p>下面以抓取知乎图片为例，迈出我们自学 Python 爬虫的第一步。</p>
+<a id="more"></a>
+<p>本文除 Python 相关库的使用外，还会涉及到 <code>mongo</code> 数据库的使用。</p>
+<p>因为<strong>宅宅生活收藏夹</strong>只是为了收集知乎钓鱼贴的图片，有针对性，所以不能通过获取知乎首页列表全面抓取。当然抓取方式大同小异，把抓取列表改为知乎首页也是可以的。</p>
+<h1 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h1><p>首先我们需要收集知乎各类钓鱼贴，这一步可以使用爬虫（通过爬取别人已经收集的钓鱼贴，或者各种社区可能已有钓鱼贴专栏等）获取，也可以在浏览知乎时，发现合适的贴子手动添加。</p>
+<p>我们需要将钓鱼贴的 ID 存入数据库中，爬虫运行时读库获取需要爬取的目标贴。</p>
+<p>通过写一个爬虫，生成任务池多线程调用。将获取到的答案数据清洗，只收集答案中的图片。</p>
+<p>存入库中的结构和知乎的类似：答案集合保存所有答案，每一个答案是一条独立的文档。可能写的有点绕。</p>
+<p>具体结构类似这种结构：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;Answer&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;id&quot;</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">&quot;question_id&quot;</span>: <span class="string">&quot;xxx&quot;</span>,</span><br><span class="line">            <span class="string">&quot;title&quot;</span>: <span class="string">&quot;xxx&quot;</span>,</span><br><span class="line">            <span class="string">&quot;author&quot;</span>: <span class="string">&quot;xxx&quot;</span>,</span><br><span class="line">            <span class="string">&quot;content: [</span></span><br><span class="line"><span class="string">                &quot;</span>imgUrl<span class="string">&quot;,</span></span><br><span class="line"><span class="string">                &quot;</span>...<span class="string">&quot;</span></span><br><span class="line"><span class="string">            ]</span></span><br><span class="line"><span class="string">        &#125;,</span></span><br><span class="line"><span class="string">        &#123;</span></span><br><span class="line"><span class="string">            &quot;</span>id<span class="string">&quot;: 2,</span></span><br><span class="line"><span class="string">            &quot;</span>question_id<span class="string">&quot;: &quot;</span>xxx<span class="string">&quot;,</span></span><br><span class="line"><span class="string">            &quot;</span>title<span class="string">&quot;: &quot;</span>xxx<span class="string">&quot;,</span></span><br><span class="line"><span class="string">            &quot;</span>author<span class="string">&quot;: &quot;</span>xxx<span class="string">&quot;,</span></span><br><span class="line"><span class="string">            &quot;</span>content: [</span><br><span class="line">                <span class="string">&quot;imgUrl&quot;</span>,</span><br><span class="line">                <span class="string">&quot;...&quot;</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>Answer</code> 为数据库的集合，集合中的每一项是一条回答。</p>
+<p>用这种格式保存的好处是我们只需通过贴子的 ID 查询答案即可，保存起来也非常方便。</p>
+<h1 id="知乎爬虫"><a href="#知乎爬虫" class="headerlink" title="知乎爬虫"></a>知乎爬虫</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>在开始之前需要安装项目依赖，只用到两个常用库：</p>
+<p><code>python3 -m pip install requests pymongo</code></p>
+<p>分别用来请求 URL 和操作数据库。</p>
+<p>安装完成后记得启动 <code>mongo</code> 服务。</p>
+<h2 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h2><p>爬虫代码比较简单，代码不过百行，关键找到知乎答案的接口，解析即可。而且这个接口也是非常好找的。</p>
+<p>用 Chrome 的开发者工具一下就找到了…</p>
+<p><img src="https://i.loli.net/2020/02/14/gFpQvUTA2WhwJa9.png" alt="知乎 API 截图"></p>
+<p>接口也没有任何加密或权限限制，在请求头中加入 <code>Cookies</code> 就可以了。是不是突然觉得很简单？</p>
+<p>只要我们控制好频率，不要影响到知乎服务就行了。毕竟我们只是想获取答案而已。</p>
+<p>通过 Chrome 开发者工具分析，请求携带了如下参数，我们只用到 <code>limit</code> 和 <code>offset</code>，用来控制接口返回的数量和返回的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">include: data[*].is_normal,admin_closed_comment,reward_info,is_collapsed,annotation_action,annotation_detail,collapse_reason,is_sticky,collapsed_by,suggest_edit,comment_count,can_comment,content,editable_content,voteup_count,reshipment_settings,comment_permission,created_time,updated_time,review_info,relevant_info,question,excerpt,relationship.is_authorized,is_author,voting,is_thanked,is_nothelp,is_labeled,is_recognized,paid_info;data[*].mark_infos[*].url;data[*].author.follower_count,badge[*].topics</span><br><span class="line">offset:</span><br><span class="line">limit: 3</span><br><span class="line">sort_by: default</span><br><span class="line">platform: desktop</span><br></pre></td></tr></table></figure>
+
+<p>完整的请求 URL 是：</p>
+<p><code>https://www.zhihu.com/api/v4/questions/21115811/answers?include=data%5B*%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelevant_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cis_labeled%2Cis_recognized%2Cpaid_info%3Bdata%5B*%5D.mark_infos%5B*%5D.url%3Bdata%5B*%5D.author.follower_count%2Cbadge%5B*%5D.topics&amp;offset=&amp;limit=3&amp;sort_by=default&amp;platform=desktop</code></p>
+<p>我们只要动态更改其中的 <code>question</code>，<code>limit</code> 和 <code>offset</code> 就可以了。</p>
+<p>我们通过接口返回的答案总数，判断需要翻多少页，当然也可以通过接口返回的 <code>next</code> 和 <code>previous</code> 来获取下一页或前一页答案链接。知乎的接口设计的非常方便啊。</p>
+<p>当然在翻页抓取的时候切记设置睡眠时间，放在服务器上爬的慢一点也没关系。<strong>不要影响到知乎的正常服务</strong>。</p>
+<p>请求成功后我们就可以根据自己的需求，存储数据了，至于如何判断答案中是否有图片，可以参考以下代码。</p>
+<p>使用到了 <code>lxml</code> 库，也可以使用 <code>re</code> 库代替。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部分代码</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_content</span>(<span class="params">content</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;解析答案中的 content，直接获取图片&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;&lt;img &quot;</span> <span class="keyword">in</span> content:</span><br><span class="line">        img_list = set(etree.HTML(content).xpath(<span class="string">&quot;//img/@data-original&quot;</span>))</span><br><span class="line">        <span class="keyword">return</span> list(img_list)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br></pre></td></tr></table></figure>
+
+<p>先判断回答中是否有 <code>img</code> 标签，如果没有直接返回空列表，如果有的话，通过 <code>data-original</code> 属性获取原始大小的图片链接。也是返回一个包含图片链接的列表类型。</p>
+<p>在入库的时候，我们通过 <code>parse_content</code> 的返回判断是否需要入库，如果是 <code>[]</code> 就跳过，如果列表不为空就入库。这样在之后展示的时候不会只展示作者信息，却没有回答的情况了（其实是该作者回答中没有图片）。</p>
+<h2 id="调用爬虫"><a href="#调用爬虫" class="headerlink" title="调用爬虫"></a>调用爬虫</h2><p>当我们完成上述操作，就可以单独写一个文件使用多线程调用爬虫了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor</span><br><span class="line"></span><br><span class="line">qid_list = db.get_all_question()</span><br><span class="line">crawler_list = [ZhihuSpider(qid).run <span class="keyword">for</span> qid <span class="keyword">in</span> qid_list]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> ThreadPoolExecutor(max_workers=<span class="number">4</span>) <span class="keyword">as</span> executor:</span><br><span class="line">    future = [executor.submit(task) <span class="keyword">for</span> task <span class="keyword">in</span> crawler_list]</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> future:</span><br><span class="line">        f.result()</span><br></pre></td></tr></table></figure>
+
+<p><code>qid_list</code> 来自查库获取所有的知乎贴子 ID。</p>
+<p>使用 <code>concurrent.futures</code> 库并行执行任务，在我们的代码里使用 <code>ThreadPoolExecutor</code>，它使用线程池来异步执行调用。</p>
+<p><code>max_workers</code> 控制最多线程的使用，本例中使用最多4个线程执行任务。</p>
+<p>具体文档见 <a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/concurrent.futures.html#threadpoolexecutor">ThreadPoolExecutor</a>，是对 <code>thread</code> 库的封装，让我们使用线程时更加简单。</p>
+<p>完整代码见 <a target="_blank" rel="noopener" href="https://github.com/alpha87/zhihuFish">github</a>。</p>
+<p>最后总结一下整体思路：我们先把需要抓取的 ID 存入数据库，作为任务池，爬虫调取任务池中的 ID，将爬取结果再保存到数据库。</p>
+<p>等我们学会了 Python 爬虫，再学 Web 开发的时候，还能将我们抓取的结果展示出来。一不小心又学习了 Python Web 开发，多好。</p>
+<h1 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h1><p>当我们爬虫写好，入库，并成功展示出来，不知不觉就实现了一个小程序项目：<strong>宅宅生活收藏夹</strong>。</p>
+<p><img src="https://user-images.githubusercontent.com/25655581/60482994-3c431e00-9cc6-11e9-9344-3c50b9dbef10.png" alt="小程序首页展示"></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/59.html" title="使用 Python 抓取知乎美图">https://lijianxun.top/59.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/%E8%84%9A%E6%9C%AC/" rel="tag"># 脚本</a>
+              <a href="/tags/%E9%92%93%E9%B1%BC%E8%B4%B4/" rel="tag"># 钓鱼贴</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/70.html" rel="prev" title="微信小程序输入框的使用">
+      <i class="fa fa-chevron-left"></i> 微信小程序输入框的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/72.html" rel="next" title="新买来的服务器要怎么配置">
+      新买来的服务器要怎么配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">整体思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9F%A5%E4%B9%8E%E7%88%AC%E8%99%AB"><span class="nav-number">2.</span> <span class="nav-text">知乎爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D"><span class="nav-number">2.1.</span> <span class="nav-text">开始之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spider"><span class="nav-number">2.2.</span> <span class="nav-text">Spider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%88%AC%E8%99%AB"><span class="nav-number">2.3.</span> <span class="nav-text">调用爬虫</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A6%8F%E5%88%A9"><span class="nav-number">3.</span> <span class="nav-text">福利</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

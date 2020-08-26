@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="互联网已经进入了知识付费时代。随之出现像小鹅通，短书等这样的服务商，让企业或者个人更容易开展线上教育服务。而且这类服务一般都嵌套在微信公众号中，通过公众号内嵌的网页进行浏览和学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次短书视频下载">
+<meta property="og:url" content="https://lijianxun.top/362.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="互联网已经进入了知识付费时代。随之出现像小鹅通，短书等这样的服务商，让企业或者个人更容易开展线上教育服务。而且这类服务一般都嵌套在微信公众号中，通过公众号内嵌的网页进行浏览和学习。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/BnLo3sAJdTbczZi.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/LveEO8pRsA4zlfI.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/m1OpwFYDtWrcVXL.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/Cb9wDKHVEI8513k.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/UQBLvqIRpEHrdu8.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/P8mnIUxSHXVKDGY.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/11/wgEfRv1Sr7YmBkM.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/11/CYI5W4ve3VfwcgU.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/09/HhCobTg3xaNprqS.png">
+<meta property="article:published_time" content="2020-06-11T08:27:13.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.371Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/09/BnLo3sAJdTbczZi.png">
+
+<link rel="canonical" href="https://lijianxun.top/362.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>记一次短书视频下载 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/362.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记一次短书视频下载
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-11 16:27:13" itemprop="dateCreated datePublished" datetime="2020-06-11T16:27:13+08:00">2020-06-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">编程学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>互联网已经进入了知识付费时代。随之出现像小鹅通，短书等这样的服务商，让企业或者个人更容易开展线上教育服务。而且这类服务一般都嵌套在微信公众号中，通过公众号内嵌的网页进行浏览和学习。</p>
+<a id="more"></a>
+<p>这篇文章主要记录如何保存<strong>短书</strong>平台的会员视频。因为我已经购买了会员，可以浏览会员课程，只是每次都要在微信中打开，很不不方便，所以把课程视频都下载到了本地，随时随地观看。这篇文章并不是破解会员视频下载。</p>
+<h1 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h1><p>因为是在微信公众号里的网页，首先想到的是抓包。我使用的是 Charles。 抓包首先需要安装证书，电脑的安装这里就不赘述了，因为抓包的手机还没有安装证书，这里记录一下华为手机如何安装证书文件。</p>
+<ul>
+<li>首先需要在移动设备上安装证书文件。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/06/09/BnLo3sAJdTbczZi.png" alt="移动端选择"></p>
+<ul>
+<li>根据提示设置好 WIFI 代理，然后打开 chls.pro/ssl 页面获取证书。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/06/09/LveEO8pRsA4zlfI.png" alt="提示"></p>
+<ul>
+<li>设置手机 WIFI 代理。</li>
+</ul>
+<p><img src="https://i.loli.net/2020/06/09/m1OpwFYDtWrcVXL.jpg" alt="手机设置代理"> 都设置好之后，打开 <a href="chls.pro/ssl">chls.pro/ssl</a>，下载证书文件（记住保存的位置）。打开设置，在搜索栏搜索<strong>加密与凭据</strong>。 <img src="https://i.loli.net/2020/06/09/Cb9wDKHVEI8513k.jpg" alt="加密与凭据"> 选择<strong>从存储设备安装</strong>，找到你刚才下载好的 <code>pem</code> 文件，根据提示输入锁屏密码安装即可。 安装好以后查看 Charles，如果请求 <code>https</code> 网页仍然显示 <code>unknown</code>，还需要配置 SSL Proxying。 <img src="https://i.loli.net/2020/06/09/UQBLvqIRpEHrdu8.png" alt="SSL Proxying Settings"> 我们这里粗略把所有 SSL 请求都包含。 <img src="https://i.loli.net/2020/06/09/P8mnIUxSHXVKDGY.png" alt="包含全部请求"> 这样配置好之后应该就能展示数据了。 <img src="https://i.loli.net/2020/06/11/wgEfRv1Sr7YmBkM.png" alt="抓包数据"></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>在众多接口中，找到了对应视频路径。抓包找到接口很简单，这里就不占用篇幅讲了。没有任何加密，只要在视频所在页面刷新请求，就能找到接口数据。 <img src="https://i.loli.net/2020/06/11/CYI5W4ve3VfwcgU.png" alt="视频链接"> 我们发现这个链接是一个 m3u8 格式的链接。</p>
+<h1 id="m3u8"><a href="#m3u8" class="headerlink" title="m3u8"></a>m3u8</h1><p>上文中我们获取到了视频链接，但是在浏览器中打开后，下载了一个后缀为 m3u8 的文件。</p>
+<blockquote>
+<p>M3U 是一种播放多媒体列表的档案格式，它的设计初衷是为了播放音频文件，比如 MP3，但是越来越多的软件现在用来播放视频文件列表，M3U 也可以指定在线流媒体音频源。很多播放器和软件都支持 M3U 文件格式。M3U 文件是一种纯文本文件，可以指定一个或多个多媒体文件的位置，其文件扩展名是 M3U 或者 m3u 。M3U8 是 Unicode 版本的 M3U，用 UTF-8 编码。M3U 和 M3U8 文件都是苹果公司使用的 HTTP Live Streaming 格式的基础，这种格式可以在 iPhone 和 Macbook 等设备播放。（维基百科）</p>
+</blockquote>
+<p>这样就好理解了，m3u8 文件其实是一个文本文件。 <img src="https://i.loli.net/2020/06/09/HhCobTg3xaNprqS.png" alt="m3u8 文件"> 打开之后发现其实是很多 ts 视频链接。链接的参数标注了 ts 视频属于整个视频的某一位置。 这样就好解决了。解析 m3u8 文件，分别下载每个 ts 文件，然后再合并。为了方便，这里用到了 FFmpeg。 <strong>（其实这份 m3u8 文件非常睿智。我们只需要将其中一个 ts 链接对应的参数删除，下载下来的就是完整的 ts 视频文件了。）</strong></p>
+<h1 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a>FFmpeg</h1><p><a target="_blank" rel="noopener" href="https://ffmpeg.org/">FFmpeg</a> 是一个强大的视频处理开源软件，完整的跨平台解决方案，用于记录，转换和流传输音频和视频。功能非常强大，但我们这里只用它下载 m3u8 文件的视频，并且导出到 mp4 格式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i https://vod.duanshu.com/e4a629253562005/01f061450147451/v.f22311.m3u8\?t\=5edcc881\&amp;us\=cidpmpps\&amp;sign\=e9b9144a5 test.mp4</span><br></pre></td></tr></table></figure>
+
+<p>只需一行简单的命令，FFmpeg 就可以快速把视频下载到本地，非常方便。 这篇文章，其实抓包和爬虫的部分很少，主要是记录如何在华为手机上安装证书，和了解 m3u8 文件，以及 FFmpeg 这个强大的工具。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/362.html" title="记一次短书视频下载">https://lijianxun.top/362.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/344.html" rel="prev" title="不可不知的几个自学网站">
+      <i class="fa fa-chevron-left"></i> 不可不知的几个自学网站
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/367.html" rel="next" title="58 同城字体反爬虫实战">
+      58 同城字体反爬虫实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">抓包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#m3u8"><span class="nav-number">3.</span> <span class="nav-text">m3u8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FFmpeg"><span class="nav-number">4.</span> <span class="nav-text">FFmpeg</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

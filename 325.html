@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg">
+  <link rel="mask-icon" href="https://i.loli.net/2020/08/26/bsgqJHCu2PjUDmc.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对于密码管理这个话题，不同的人有不同的看法。一部分人可能认为密码管理并没有那么重要，为了方便记忆，几乎所有的账户都是一个相同的密码；另一部分人则会很重视密码管理，并且会养成良好习惯，长期坚持。我认为密码就相当于一道保险，在它没起作用的时候，你会觉得它可有可无，或者不值得花时间研究。可一旦出现问题，迎来的却是找回密码，等待申诉结果，可能所有相同密码的账户都被牵连等等问题。如果你之前从未考虑过密码管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何科学管理你的密码">
+<meta property="og:url" content="https://lijianxun.top/325.html">
+<meta property="og:site_name" content="简讯">
+<meta property="og:description" content="对于密码管理这个话题，不同的人有不同的看法。一部分人可能认为密码管理并没有那么重要，为了方便记忆，几乎所有的账户都是一个相同的密码；另一部分人则会很重视密码管理，并且会养成良好习惯，长期坚持。我认为密码就相当于一道保险，在它没起作用的时候，你会觉得它可有可无，或者不值得花时间研究。可一旦出现问题，迎来的却是找回密码，等待申诉结果，可能所有相同密码的账户都被牵连等等问题。如果你之前从未考虑过密码管理">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/ygkmEe87HRPD4hz.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/BpeKPS8xzNOVlhL.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/7DMobx8RZQI91Ty.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/jyuKA59HWakLUzD.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/FfndVaYMzmhUAxS.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/MJUHEaYFsSIBpuX.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/bJYZFrVc9ohKMiA.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/H9fruU5ySIxbcqk.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/ML2pTkDNhOaqIUy.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/19xlkDKpPLbqNWd.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/Jf5o98yKEuItgCe.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/HWSbxtqencaoCEP.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/RAkgs3Bd24hNX6L.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/TJ8Y2mFRhfsgeku.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/9ZKq8ML7FeWAzo6.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/c2ZiBoYInKevDyj.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/17/SjpGAFRr8YbfZId.png">
+<meta property="article:published_time" content="2020-03-17T11:35:23.000Z">
+<meta property="article:modified_time" content="2020-08-03T01:24:29.363Z">
+<meta property="article:author" content="Jianxun">
+<meta property="article:tag" content="1Password">
+<meta property="article:tag" content="enpass">
+<meta property="article:tag" content="KeePass">
+<meta property="article:tag" content="密码管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/03/17/ygkmEe87HRPD4hz.png">
+
+<link rel="canonical" href="https://lijianxun.top/325.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>如何科学管理你的密码 | 简讯</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">简讯</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://lijianxun.top/325.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Jianxun">
+      <meta itemprop="description" content="岁月无婷无华">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="简讯">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何科学管理你的密码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-03-17 19:35:23" itemprop="dateCreated datePublished" datetime="2020-03-17T19:35:23+08:00">2020-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-03 09:24:29" itemprop="dateModified" datetime="2020-08-03T09:24:29+08:00">2020-08-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A5%BD%E7%89%A9%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">好物推荐</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于密码管理这个话题，不同的人有不同的看法。一部分人可能认为密码管理并没有那么重要，为了方便记忆，几乎所有的账户都是一个相同的密码；另一部分人则会很重视密码管理，并且会养成良好习惯，长期坚持。我认为密码就相当于一道保险，在它没起作用的时候，你会觉得它可有可无，或者不值得花时间研究。可一旦出现问题，迎来的却是找回密码，等待申诉结果，可能所有相同密码的账户都被牵连等等问题。如果你之前从未考虑过密码管理问题，可能这篇文章会帮助到你。</p>
+<a id="more"></a>
+<h1 id="弱密码的危害"><a href="#弱密码的危害" class="headerlink" title="弱密码的危害"></a>弱密码的危害</h1><p>不论我们是否管理密码，一定都清楚弱密码的危害，<strong>容易被盗号</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://nordpass.com/blog/top-worst-passwords-2019/">2019 年最差密码排行榜</a>公布，<strong>12345</strong> 名列榜首。榜单由安全公司 NordPass 发布。通过收集 2019 年数据泄露中暴露的密码（收集了近 5 亿个密码），列出了 200 种最流行的密码列表。</p>
+<p><img src="https://i.loli.net/2020/03/17/ygkmEe87HRPD4hz.png" alt="受欢迎密码"></p>
+<p>如果这份榜单对你来说没有直观的感受，可以试试<a target="_blank" rel="noopener" href="https://password.kaspersky.com/cn/">卡巴斯基密码检测工具</a>，明确指出你的密码可以在多久之内被攻破。</p>
+<p>例如我过去最常用的密码，几乎所有账号都是这个密码：</p>
+<p><img src="https://i.loli.net/2020/03/17/BpeKPS8xzNOVlhL.png" alt="旧密码"></p>
+<p>普通的家庭电脑两天左右就可破解。</p>
+<p>现在使用的密码，而且每个账号的密码都不相同：</p>
+<p><img src="https://i.loli.net/2020/03/17/7DMobx8RZQI91Ty.png" alt="新密码"></p>
+<p>这样的感受是不是更直观一些。</p>
+<h1 id="开始管理你的密码"><a href="#开始管理你的密码" class="headerlink" title="开始管理你的密码"></a>开始管理你的密码</h1><p>本文提供两种方式管理密码。一种是靠大脑记忆，另一种是通过使用软件协助管理。</p>
+<p>通过大脑记忆是依靠规律来记忆密码。</p>
+<p>通过软件管理密码基本都是一个思路：只需要记忆一个主密码，打开密码管理软件，之后的生成密码和输入都借助软件完成。</p>
+<h2 id="大脑记忆"><a href="#大脑记忆" class="headerlink" title="大脑记忆"></a>大脑记忆</h2><p>人民日报曾在微博上提供过记忆密码的方法。</p>
+<p><img src="https://i.loli.net/2020/03/17/jyuKA59HWakLUzD.png" alt="人民日报"></p>
+<p>举例来说，现在我需要给我的微信生成密码，公式可以是这样的（可以根据你的需求调换位置）：</p>
+<p><strong>平台+生日+姓名+特殊字符</strong></p>
+<p>那么生成密码将是：<strong>weiXIN0807ljx!@#</strong></p>
+<p><img src="https://i.loli.net/2020/03/17/FfndVaYMzmhUAxS.png" alt="微信密码"></p>
+<p>这套密码记忆方法可以保证不同的平台密码不同，同时还能加长密码长度。但是这种管理密码方法并不能保证在登录时自动输入。</p>
+<p>如果你像我一样，不愿记忆密码，不愿输入密码，可以尝试密码管理软件。</p>
+<h2 id="选择密码管理器"><a href="#选择密码管理器" class="headerlink" title="选择密码管理器"></a>选择密码管理器</h2><p>先说说我个人在选择密码管理软件时的要求吧。</p>
+<h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><p>首先我会考虑到的是安全问题。这个是最重要也是最基本的要求。作为一款密码管理软件，如果安全都谈不上，那就没有存在的必要了。好在只要是我们听说过的软件，基本都比较可靠。所以在挑选软件的时候选择知名度较高的就可以。</p>
+<h3 id="跨平台"><a href="#跨平台" class="headerlink" title="跨平台"></a>跨平台</h3><p>这个需求同样很重要。毕竟现在的设备越来越多，如果说只能在手机或者在电脑上使用，那手动输入密码带来的痛苦会让你放弃密码管理。</p>
+<p>我最常用的设备有 iPhone，Mac 和 Chrome 浏览器。所以只要密码管理软件同时满足这三个平台，且方便同步，我就会尝试。</p>
+<h3 id="价格"><a href="#价格" class="headerlink" title="价格"></a>价格</h3><p>价格也是重要的指标。从我开始管理密码，一共尝试过三种密码管理软件，分别是 1 Password，enpass 和 KeePass。</p>
+<p><a target="_blank" rel="noopener" href="https://1password.com/zh-cn/">1 Password</a> 是老牌密码管理应用了，也是我接触最早的密码管理软件。我记得当时还是 68 元买断，但是在使用一年之后，1 Password 就改为订阅制，高额的费用让我放弃使用（因为我觉得我的密码不值得花那么多钱来管理）。</p>
+<p><img src="https://i.loli.net/2020/03/17/MJUHEaYFsSIBpuX.png" alt="1password价格"></p>
+<p>不过最近 1 Password 的活动越来越多，基本上动动手指就能免费获得一年的使用权。如果想尝试，可以参考这篇文章：<a href="https://lijianxun.top/48.html">使用 1Password 管理你的密码</a>。</p>
+<p><a target="_blank" rel="noopener" href="https://www.enpass.io/">enpass</a> 扬言自己坚持买断制，不会跟风改为订阅制。可没过多久，大概是 2019 年底改成了订阅制。其实不论是对 enpass 自己还是对用户，这样都是一种负责的做法，毕竟公司要恰饭。我们作为用户也不希望自己的密码随公司一起远去。enpass 价格还是很亲民的（毕竟不需要维护服务器）。如果你是 enpass 的老用户，之前付费会自动转为高级用户，即使改为订阅制，也相当于已经购买了终身版。可以说从买断制转为订阅制，这样的做法已经非常良心了，没有哪家公司敢这样承诺用户。 一度让我考虑当 1 Password 过期后更换成 enpass。即使现在，<strong>如果有人让我推荐一款密码管理软件，我也会毫不犹豫的先建议使用 enpass</strong>。</p>
+<p><img src="https://i.loli.net/2020/03/17/bJYZFrVc9ohKMiA.png" alt="enpass价格"></p>
+<p><a target="_blank" rel="noopener" href="https://keepass.info/">KeePass</a> 是我现在使用的密码管理应用，<strong>重点是开源且免费</strong>。不过从严格意义上来说，我现在使用的密码管理软件全部基于 KeePass。因为 KeePass 只有 Windows 客户端。但正是因为开源，所以出现了很多优秀的第三方客户端，满足各个平台的使用。</p>
+<p><img src="https://i.loli.net/2020/03/17/H9fruU5ySIxbcqk.png" alt="keepass软件列表"></p>
+<h3 id="外观"><a href="#外观" class="headerlink" title="外观"></a>外观</h3><p>颜值的话 1 Password 没得说。不论是移动端还是桌面端，都非常大方美观。</p>
+<p><img src="https://i.loli.net/2020/03/17/ML2pTkDNhOaqIUy.png" alt="1p"></p>
+<p>enpass 也不错。移动端和桌面端以蓝色为主色调。个人还是比较喜欢的。</p>
+<p><img src="https://i.loli.net/2020/03/17/19xlkDKpPLbqNWd.png" alt="enp"></p>
+<p>KeePass 系列的密码管理软件，颜值是硬伤。可以说比较古代，像是上个世纪的产物，就不上图了。好在我对外观的要求不算太高，基本都能接受…</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>KeePass 和上述两种密码管理软件不同，1 Password 将用户密码保存在自己的服务器上（所以费用很高，毕竟维护服务器需要成本）。 enpass 可以离线使用，也支持云同步，但是有自己的数据格式。KeePass 的逻辑是新建一个数据库，在数据库中保存密码。而这个数据库在用户手中。这也是我为什么从 enpass 转到 KeePass 的原因。密码管理软件不像其他软件，一旦选择基本上是长期使用，后期转移数据是非常麻烦的。虽然现在这类软件基本都支持导入和导出，可是如果一旦密码数量太多，在导入的过程中，某些字段稍微有一点误差，就会在后期维护造成不少麻烦。</p>
+<p>因为我考虑到 KeePass 是开源应用，会有很多第三方软件支持，就算某个软件不能用了，但是只要支持 KeePass 数据库，我就可以继续使用密码。而且考虑到未来用户会越来越重视密码管理，基于 KeePass 的密码管理器会越来越多。所以我最终选择了 KeePass。</p>
+<h1 id="iOS-平台"><a href="#iOS-平台" class="headerlink" title="iOS 平台"></a>iOS 平台</h1><p>iOS 平台我使用过两款应用，一款是 FantasyPass，另一款是 KeePassium。</p>
+<p><img src="https://i.loli.net/2020/03/17/Jf5o98yKEuItgCe.jpg" alt="两款应用"></p>
+<p>最终选择了 FantasyPass。不论是外观还是操作，细节等各方面都比 KeePassium 好用。具体可查看作者 <a target="_blank" rel="noopener" href="https://github.com/kaich/FantasyPass">README</a>。</p>
+<p>FantasyPass 支持 WebDAV，可以使用坚果云同步数据库。如果你像我一样选择了 KeePass，可以试试这款软件。</p>
+<h1 id="Mac-平台"><a href="#Mac-平台" class="headerlink" title="Mac 平台"></a>Mac 平台</h1><p>Mac 上我试过三款都是开源应用。GitHub 上搜索 KeePass 就能找到。</p>
+<p><img src="https://i.loli.net/2020/03/17/HWSbxtqencaoCEP.png" alt="github-keepass"></p>
+<p>它们分别是 <a target="_blank" rel="noopener" href="https://keeweb.info/">keeweb</a>，<a target="_blank" rel="noopener" href="https://keepassxc.org/">keepassxc</a> 和 <a target="_blank" rel="noopener" href="https://macpassapp.org/">MacPass</a>。</p>
+<p>其中 keeweb 因为是基于 Electron 开发的，所以颜值最高。</p>
+<p><img src="https://i.loli.net/2020/03/17/RAkgs3Bd24hNX6L.png" alt="keeweb11"></p>
+<p>其余两款，单单通过颜值判断，都像是上世纪的产物。可能 MacPass 还好一点？</p>
+<p>keepassxc：</p>
+<p><img src="https://i.loli.net/2020/03/17/TJ8Y2mFRhfsgeku.png" alt="keepassx"></p>
+<p>MacPass：</p>
+<p><img src="https://i.loli.net/2020/03/17/9ZKq8ML7FeWAzo6.png" alt="macPass"></p>
+<p>其实这三款我还是很难选择的。毕竟 keeweb 比较符合现代人的审美，但是在细节上不如 keepassxc 和 MacPass。因为我的数据库使用了密码和密钥文件，keeweb 每次解锁的时候都要手动选择密钥文件，让我觉得很不方便。keepassxc 和 MacPass 都可以记录密钥文件的位置。所以 keeweb 首先被我排除了，如果你的数据库不需要密钥文件解锁，那我建议你使用 keeweb。</p>
+<p>在 keepassxc 和 MacPass 之间我更偏向于 keepassxc。密码管理软件一方面要保证管理密码简单易操作，另一方面也要保证方便输入。</p>
+<p>keepassxc 提供了 keepassxc-browser 配套使用。因为在 Mac 上，大部分输入密码的操作都是在 Chrome 浏览器上进行的，所以我会更多考虑浏览器的自动输入。如果 Chrome 没有保存网页的账户和密码，我会使用插件自动键入。感觉插件相比全局键入，匹配会更智能一些。</p>
+<p>安装好 keepassxc-browser 插件后，要保证 keepassxc 处于运行状态，插件会自动检测 keepassxc 的数据库。</p>
+<p><img src="https://i.loli.net/2020/03/17/c2ZiBoYInKevDyj.png" alt="插件"></p>
+<p>连接无误后，在登录的时候会看到一把绿色的钥匙，正是 keepassxc 的 logo。</p>
+<p><img src="https://i.loli.net/2020/03/17/SjpGAFRr8YbfZId.png" alt="github登录"></p>
+<p>点击钥匙图标，密码就会自动填入了（如果你是第一次在此网站使用自动填入功能，keepassxc 会弹出提示让你先确认）。如果在登录框没有绿色钥匙，且插件运行正常，还能手动指定输入框的位置，这个功能还是非常实用的。</p>
+<p>如果你不喜欢 keepassxc，更偏向于 keeweb 或是 MacPass，这里推荐一款 Chrome 插件：<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/keepass-tusk-password-acc/fmhmiaejopepamlcjkncpgpdjichnecm">KeePass Tusk</a>。支持自动键入，支持 WebDAV，同步起来方便些。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如果你不想折腾，也不在乎付费，可以试试 enpass，也可以薅羊毛使用一年的 1 Password。</p>
+<p>如果想让数据掌握在自己手中，可以试试开源免费的 KeePass。不愿过多折腾，可以直接使用我推荐的应用，当然也可以自己尝试其他第三方 KeePass 密码管理器，适合自己的才是最好的。</p>
+<p>感谢阅读。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>Jianxun
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="https://lijianxun.top/325.html" title="如何科学管理你的密码">https://lijianxun.top/325.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/1Password/" rel="tag"># 1Password</a>
+              <a href="/tags/enpass/" rel="tag"># enpass</a>
+              <a href="/tags/KeePass/" rel="tag"># KeePass</a>
+              <a href="/tags/%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86/" rel="tag"># 密码管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/322.html" rel="prev" title="解决 Electron 安装慢问题">
+      <i class="fa fa-chevron-left"></i> 解决 Electron 安装慢问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/334.html" rel="next" title="Mac 最强虚拟机 Parallels Desktop 下载">
+      Mac 最强虚拟机 Parallels Desktop 下载 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%B1%E5%AF%86%E7%A0%81%E7%9A%84%E5%8D%B1%E5%AE%B3"><span class="nav-number">1.</span> <span class="nav-text">弱密码的危害</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E5%AF%86%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">开始管理你的密码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E8%84%91%E8%AE%B0%E5%BF%86"><span class="nav-number">2.1.</span> <span class="nav-text">大脑记忆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">选择密码管理器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%B9%B3%E5%8F%B0"><span class="nav-number">2.2.2.</span> <span class="nav-text">跨平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%B7%E6%A0%BC"><span class="nav-number">2.2.3.</span> <span class="nav-text">价格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E8%A7%82"><span class="nav-number">2.2.4.</span> <span class="nav-text">外观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">2.2.5.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-%E5%B9%B3%E5%8F%B0"><span class="nav-number">3.</span> <span class="nav-text">iOS 平台</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mac-%E5%B9%B3%E5%8F%B0"><span class="nav-number">4.</span> <span class="nav-text">Mac 平台</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jianxun</p>
+  <div class="site-description" itemprop="description">岁月无婷无华</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alpha87" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alpha87" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:i@lijianxun.top" title="E-Mail → mailto:i@lijianxun.top"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-Hans" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jianxun</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -20,25 +20,27 @@
     var CONFIG = {"hostname":"lijianxun.top","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="三晋先锋自动积分。">
+  <meta name="description" content="仅供学习交流使用，严禁用于商业或其他用途，请于24小时内删除！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="三晋先锋自动积分脚本">
 <meta property="og:url" content="https://lijianxun.top/ckj8ggpin0000ls6mfgsi3ff5.html">
 <meta property="og:site_name" content="简讯">
-<meta property="og:description" content="三晋先锋自动积分。">
+<meta property="og:description" content="仅供学习交流使用，严禁用于商业或其他用途，请于24小时内删除！">
 <meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/03/07/yVYAm3HUhSfGi5j.jpg">
 <meta property="og:image" content="https://i.loli.net/2020/12/28/92hpksd8n7Ie6F5.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/28/XuO3eUF4yJ1Dt8P.jpg">
 <meta property="og:image" content="https://i.loli.net/2020/12/28/nsdFNgaqDJX4uiI.jpg">
-<meta property="og:image" content="https://i.loli.net/2020/12/28/ldYM28zmhrgCvoT.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/02/22/BbI8DRJ7eldxZNs.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/01/12/ykHU2RSXoCZFfxr.jpg">
 <meta property="article:published_time" content="2020-12-28T11:01:49.000Z">
-<meta property="article:modified_time" content="2020-12-28T11:04:52.032Z">
+<meta property="article:modified_time" content="2021-03-07T02:54:11.047Z">
 <meta property="article:author" content="Jianxun">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="脚本">
 <meta property="article:tag" content="云函数">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/12/28/92hpksd8n7Ie6F5.png">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/07/yVYAm3HUhSfGi5j.jpg">
 
 <link rel="canonical" href="https://lijianxun.top/ckj8ggpin0000ls6mfgsi3ff5.html">
 
@@ -189,10 +191,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-12-28 19:01:49 / Modified: 19:04:52" itemprop="dateCreated datePublished" datetime="2020-12-28T19:01:49+08:00">2020-12-28</time>
+              <time title="Created: 2020-12-28 19:01:49" itemprop="dateCreated datePublished" datetime="2020-12-28T19:01:49+08:00">2020-12-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-07 10:54:11" itemprop="dateModified" datetime="2021-03-07T10:54:11+08:00">2021-03-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -214,11 +222,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>三晋先锋自动积分。</p>
+        <p><img src="https://i.loli.net/2021/03/07/yVYAm3HUhSfGi5j.jpg"></p>
+<p><strong>仅供学习交流使用，严禁用于商业或其他用途，请于24小时内删除！</strong></p>
 <a id="more"></a>
 
-<h2 id="密码加密部分"><a href="#密码加密部分" class="headerlink" title="密码加密部分"></a>密码加密部分</h2><p>加密后的密码受 <a target="_blank" rel="noopener" href="https://github.com/RuikaiWang/Study">RuikaiWang/Study</a> 启发，也可直接抓包获取。</p>
-<p>有条件的同学可以运行<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/RuikaiWang/Study/master/PassWordEncode.py">这部分代码</a>尝试获取加密后的内容。主要是 AES 太难安装了，推荐抓包获取。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>本脚本可使用腾讯云函数每日定时执行，也可直接在本地使用命令行运行。</p>
+<p>本地运行需要先修改 <code>username</code> 和 <code>password</code> 字段，对应输入用户名和密码，然后在终端使用 <code>python3 index.py</code> 执行。</p>
+<h2 id="密码加密部分"><a href="#密码加密部分" class="headerlink" title="密码加密部分"></a>密码加密部分</h2><p>加密后的密码受 <a target="_blank" rel="noopener" href="https://github.com/RuikaiWang/Study">RuikaiWang/Study</a> 启发（Copy）。</p>
+<h3 id="安装-pycrypto"><a href="#安装-pycrypto" class="headerlink" title="安装 pycrypto"></a>安装 pycrypto</h3><ol>
+<li>pip uninstall crypto</li>
+<li>pip uninstall pycrypto</li>
+<li>pip install pycrypto</li>
+</ol>
 <h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>用户名和密码建议通过环境变量获取。详情可查看<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/583/30228">腾讯云函数环境变量文档</a>。</p>
 <p>Python 获取环境变量的方式：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">value = os.environ.get(<span class="string">&#x27;key&#x27;</span>)</span><br><span class="line">print(value)</span><br></pre></td></tr></table></figure>
@@ -233,12 +248,13 @@
 </ol>
 <p>这三步就是将第三方依赖安装到代码所在文件夹下。如下图：</p>
 <p><img src="https://i.loli.net/2020/12/28/92hpksd8n7Ie6F5.png" alt="第三方库"></p>
-<h2 id="Server-酱微信通知"><a href="#Server-酱微信通知" class="headerlink" title="Server 酱微信通知"></a>Server 酱微信通知</h2><p><a target="_blank" rel="noopener" href="http://sc.ftqq.com/3.version">Server 酱</a>使用 GitHub 一键登录，获取 SCKEY。</p>
-<p><img src="https://i.loli.net/2020/12/28/XuO3eUF4yJ1Dt8P.jpg" alt="SCKEY"></p>
+<h2 id="Server-酱微信通知"><a href="#Server-酱微信通知" class="headerlink" title="Server 酱微信通知"></a>Server 酱微信通知</h2><p><a target="_blank" rel="noopener" href="https://sct.ftqq.com/">Server 酱</a>使用微信登录，获取 SendKey。</p>
+<p><img src="https://i.loli.net/2020/12/28/XuO3eUF4yJ1Dt8P.jpg" alt="SendKey"></p>
 <h2 id="触发管理"><a href="#触发管理" class="headerlink" title="触发管理"></a>触发管理</h2><p><img src="https://i.loli.net/2020/12/28/nsdFNgaqDJX4uiI.jpg" alt="触发管理"></p>
 <p>按上图设置好，每天中午的 11 点 10 分 16 秒开始执行任务。</p>
-<h2 id="微信通知"><a href="#微信通知" class="headerlink" title="微信通知"></a>微信通知</h2><p><img src="https://i.loli.net/2020/12/28/ldYM28zmhrgCvoT.jpg" alt="通知样式"></p>
+<h2 id="微信通知"><a href="#微信通知" class="headerlink" title="微信通知"></a>微信通知</h2><div align=center><img src="https://i.loli.net/2021/02/22/BbI8DRJ7eldxZNs.jpg"></div>
 
+<h2 id="赞赏"><a href="#赞赏" class="headerlink" title="赞赏"></a>赞赏</h2><div align=center><img width="260" height="260" src="https://i.loli.net/2021/01/12/ykHU2RSXoCZFfxr.jpg"></div>
     </div>
 
     
@@ -337,7 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">密码加密部分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">2.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">依赖安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-%E9%85%B1%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5"><span class="nav-number">4.</span> <span class="nav-text">Server 酱微信通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">触发管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5"><span class="nav-number">6.</span> <span class="nav-text">微信通知</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E9%83%A8%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">密码加密部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-pycrypto"><span class="nav-number">2.1.</span> <span class="nav-text">安装 pycrypto</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">依赖安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Server-%E9%85%B1%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5"><span class="nav-number">5.</span> <span class="nav-text">Server 酱微信通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">触发管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5"><span class="nav-number">7.</span> <span class="nav-text">微信通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%9E%E8%B5%8F"><span class="nav-number">8.</span> <span class="nav-text">赞赏</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -398,7 +414,7 @@
 <div class="copyright">
   
   &copy; 2016 – 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

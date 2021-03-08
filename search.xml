@@ -2366,9 +2366,11 @@
     <url>/ckm04di7q004e1c6m47ll1yeq.html</url>
     <content><![CDATA[<p><img src="https://i.loli.net/2021/03/07/yVYAm3HUhSfGi5j.jpg"></p>
 <p><strong>仅供学习交流使用，严禁用于商业或其他用途，请于24小时内删除！</strong></p>
+<p>【三晋先锋自动积分脚本｜每日 15 分】直接输入用户名和密码：支持命令行运行；支持本地 app.exe 运行；支持腾讯云函数运行。「需要每日自动积分可搜索微信小程序咨询客服：三晋先锋积分助手」。</p>
 <a id="more"></a>
 
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>本脚本可使用腾讯云函数每日定时执行，也可直接在本地使用命令行运行。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>github: <a href="https://github.com/alpha87/SJXF-SCF">https://github.com/alpha87/SJXF-SCF</a></p>
+<p>可执行文件下载：<a href="https://github.com/alpha87/SJXF-SCF/releases/tag/v0.0.2">https://github.com/alpha87/SJXF-SCF/releases/tag/v0.0.2</a></p>
 <p>本地运行需要先修改 <code>username</code> 和 <code>password</code> 字段，对应输入用户名和密码，然后在终端使用 <code>python3 index.py</code> 执行。</p>
 <h2 id="密码加密部分"><a href="#密码加密部分" class="headerlink" title="密码加密部分"></a>密码加密部分</h2><p>加密后的密码受 <a href="https://github.com/RuikaiWang/Study">RuikaiWang/Study</a> 启发（Copy）。</p>
 <h3 id="安装-pycrypto"><a href="#安装-pycrypto" class="headerlink" title="安装 pycrypto"></a>安装 pycrypto</h3><ol>

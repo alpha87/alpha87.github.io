@@ -223,34 +223,34 @@
 <a id="more"></a>
 <h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><p>查找分为两部分，第一部分就是查找数据库中的所有集合；第二部分就是指定条件查询条件匹配的集合，条件可以以参数的形式传递给find()方法。</p>
 <h2 id="查询集合中的所有文档"><a href="#查询集合中的所有文档" class="headerlink" title="查询集合中的所有文档"></a>查询集合中的所有文档</h2><p>按照<a target="_blank" rel="noopener" href="https://alpha87.github.io/2017/03/01/%E5%AD%A6%E4%B9%A0mongoDB%EF%BC%88%E4%B8%80%EF%BC%89/">上一篇文章</a>的顺序，我们已经插入好了数据。我们就以上文中的数据为例。 在连接好数据库以后，输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find()<br></code></pre></td></tr></table></figure>
 
 <p>查询所有文档，然后迭代打印出集合的内容：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> information <span class="keyword">in</span> coll:</span><br><span class="line">    print(information)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> information <span class="hljs-keyword">in</span> coll:<br>    print(information)<br></code></pre></td></tr></table></figure>
 
 <h1 id="指定条件"><a href="#指定条件" class="headerlink" title="指定条件"></a>指定条件</h1><h2 id="指定已知数据"><a href="#指定已知数据" class="headerlink" title="指定已知数据"></a>指定已知数据</h2><p>如果你知道需要查找数据的信息，可以以如下的格式传入到find()方法，作为参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&lt;field1&gt;:&lt;value1&gt;, &lt;field2&gt;:&lt;value2&gt;, ...)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">(&lt;field1&gt;:&lt;value1&gt;, &lt;field2&gt;:&lt;value2&gt;, ...)<br></code></pre></td></tr></table></figure>
 
 <p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;borough&quot;:&quot;Manhattan&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find(&#123;&quot;borough&quot;:&quot;Manhattan&quot;&#125;)<br></code></pre></td></tr></table></figure>
 
 <p>然后打印：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> doc <span class="keyword">in</span> coll:</span><br><span class="line">    print(doc)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> doc <span class="hljs-keyword">in</span> coll:<br>    print(doc)<br></code></pre></td></tr></table></figure>
 
 <h2 id="使用操作符指定条件"><a href="#使用操作符指定条件" class="headerlink" title="使用操作符指定条件"></a>使用操作符指定条件</h2><p>mongoDB提供运算符来指定查询条件，比如比较运算符。使用运算符的查询条件通常有以下形式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&lt;field1&gt;:&#123;&lt;operator1&gt;:&lt;value1&gt;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">&#123;&lt;field1&gt;:&#123;&lt;operator1&gt;:&lt;value1&gt;&#125;&#125;<br></code></pre></td></tr></table></figure>
 
 <p>有关运算符的完整列表，请参见<a target="_blank" rel="noopener" href="http://docs.mongodb.com/manual/reference/operator/query">查询运算符</a>。</p>
 <h3 id="大于运算符-gt"><a href="#大于运算符-gt" class="headerlink" title="大于运算符($gt)"></a>大于运算符($gt)</h3><p>查询其成绩数组包含字段得分大于30的文档。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$gt&quot;:30&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$gt&quot;:30&#125;&#125;)<br></code></pre></td></tr></table></figure>
 
 <h3 id="小于运算符-lt"><a href="#小于运算符-lt" class="headerlink" title="小于运算符($lt)"></a>小于运算符($lt)</h3><p>查询其成绩数组包含字段得分小于10的文档。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$lt&quot;:10&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find(&#123;&quot;grades.score&quot;:&#123;&quot;$lt&quot;:10&#125;&#125;)<br></code></pre></td></tr></table></figure>
 
 <h2 id="组合条件"><a href="#组合条件" class="headerlink" title="组合条件"></a>组合条件</h2><p>您可以在逻辑连接（AND）和逻辑析取（OR）中组合多个查询条件。</p>
-<h3 id="逻辑和-and"><a href="#逻辑和-and" class="headerlink" title="逻辑和 (and)"></a>逻辑和 (and)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;cuisine&quot;:&quot;ltalian&quot;,&quot;address.zipcode&quot;:&quot;10075&quot;&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="逻辑和-and"><a href="#逻辑和-and" class="headerlink" title="逻辑和 (and)"></a>逻辑和 (and)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find(&#123;&quot;cuisine&quot;:&quot;ltalian&quot;,&quot;address.zipcode&quot;:&quot;10075&quot;&#125;)<br></code></pre></td></tr></table></figure>
 
-<h3 id="逻辑或-or"><a href="#逻辑或-or" class="headerlink" title="逻辑或(or)"></a>逻辑或(or)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">coll &#x3D; db.test.find(&#123;&quot;$or&quot;:[&#123;&quot;cuisine&quot;:&quot;ltalian&quot;&#125;,&#123;&quot;address.zipcode&quot;:&quot;10075&quot;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="逻辑或-or"><a href="#逻辑或-or" class="headerlink" title="逻辑或(or)"></a>逻辑或(or)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">coll &#x3D; db.test.find(&#123;&quot;$or&quot;:[&#123;&quot;cuisine&quot;:&quot;ltalian&quot;&#125;,&#123;&quot;address.zipcode&quot;:&quot;10075&quot;&#125;]&#125;)<br></code></pre></td></tr></table></figure>
 
 <h1 id="查询结果排序"><a href="#查询结果排序" class="headerlink" title="查询结果排序"></a>查询结果排序</h1><p>如果要为查询的集合指定顺序，使用sort()方法追加到查询中。 pymongo.ASCENDING 用于升序，pymongo.DESCENDING 用于降序。 文档提供的例子： <code>import pymongo cursor = db.restaurants.find().sort([ (&quot;borough&quot;, pymongo.ASCENDING), (&quot;address.zipcode&quot;, pymongo.ASCENDING) ])</code></p>
 

@@ -221,15 +221,15 @@
         <p><img src="https://i.loli.net/2020/02/06/wPgo6lWLnCHe5if.png" alt="Lua"> <a target="_blank" rel="noopener" href="https://www.lua.org/">Lua</a> 是一种强大、高效、轻量级、可嵌入的脚本语言。它支持过程编程、面向对象编程、函数编程、数据驱动编程和数据描述。</p>
 <a id="more"></a>
 <p>首先需要搭建Lua的开发环境。 我们安装Lua最新版本 5.3.5</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -R -O http:&#x2F;&#x2F;www.lua.org&#x2F;ftp&#x2F;lua-5.3.5.tar.gz</span><br><span class="line">tar zxf lua-5.3.5.tar.gz</span><br><span class="line">cd lua-5.3.5</span><br><span class="line">make linux test</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">curl -R -O http:&#x2F;&#x2F;www.lua.org&#x2F;ftp&#x2F;lua-5.3.5.tar.gz<br>tar zxf lua-5.3.5.tar.gz<br>cd lua-5.3.5<br>make linux test<br></code></pre></td></tr></table></figure>
 
 <p>如果是MacOSX，最后一条命令需要使用<code>make macosx test</code>。 安装完成后创建软链：ln -s ~/lua-5.3.5/src/lua /usr/bin/lua</p>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>在安装过程中如果报错为：<code>readline/readline.h: No such file or directory</code>，说明缺少依赖。 Ubuntu：<code>apt-get install -y libreadline-dev</code> CentOS：<code>yum install -y readline-devel</code></p>
 <h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>安装完成后在终端输入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~ lua</span><br><span class="line">Lua 5.3.5  Copyright (C) 1994-2018 Lua.org, PUC-Rio</span><br><span class="line">&gt; print(&quot;hello, world&quot;)</span><br><span class="line">hello, world</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">~ lua<br>Lua 5.3.5  Copyright (C) 1994-2018 Lua.org, PUC-Rio<br>&gt; print(&quot;hello, world&quot;)<br>hello, world<br></code></pre></td></tr></table></figure>
 
 <p>使用<code>Ctrl+C</code>退出交互式界面。 也可以创建文件 test.lua，内容同上。 终端执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~ lua test.lua </span><br><span class="line">hello,world</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plain">~ lua test.lua <br>hello,world<br></code></pre></td></tr></table></figure>
 
 <p>这样Lua的开发环境就安装完成了。</p>
 

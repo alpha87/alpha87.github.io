@@ -251,7 +251,7 @@
 </blockquote>
 <p>这样就好理解了，m3u8 文件其实是一个文本文件。 <img src="https://i.loli.net/2020/06/09/HhCobTg3xaNprqS.png" alt="m3u8 文件"> 打开之后发现其实是很多 ts 视频链接。链接的参数标注了 ts 视频属于整个视频的某一位置。 这样就好解决了。解析 m3u8 文件，分别下载每个 ts 文件，然后再合并。为了方便，这里用到了 FFmpeg。 <strong>（其实这份 m3u8 文件非常睿智。我们只需要将其中一个 ts 链接对应的参数删除，下载下来的就是完整的 ts 视频文件了。）</strong></p>
 <h1 id="FFmpeg"><a href="#FFmpeg" class="headerlink" title="FFmpeg"></a>FFmpeg</h1><p><a target="_blank" rel="noopener" href="https://ffmpeg.org/">FFmpeg</a> 是一个强大的视频处理开源软件，完整的跨平台解决方案，用于记录，转换和流传输音频和视频。功能非常强大，但我们这里只用它下载 m3u8 文件的视频，并且导出到 mp4 格式。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i https://vod.duanshu.com/e4a629253562005/01f061450147451/v.f22311.m3u8\?t\=5edcc881\&amp;us\=cidpmpps\&amp;sign\=e9b9144a5 test.mp4</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ffmpeg -i https://vod.duanshu.com/e4a629253562005/01f061450147451/v.f22311.m3u8\?t\=5edcc881\&amp;us\=cidpmpps\&amp;sign\=e9b9144a5 test.mp4<br></code></pre></td></tr></table></figure>
 
 <p>只需一行简单的命令，FFmpeg 就可以快速把视频下载到本地，非常方便。 这篇文章，其实抓包和爬虫的部分很少，主要是记录如何在华为手机上安装证书，和了解 m3u8 文件，以及 FFmpeg 这个强大的工具。</p>
 

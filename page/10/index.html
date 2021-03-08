@@ -641,79 +641,79 @@
 <li>bench</li>
 </ul>
 <h1 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h1><p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject testproject</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy startproject testproject<br></code></pre></td></tr></table></figure>
 
 <p>这个命令用于生成我们所需要的爬虫项目。进入到该目录中，会发现生成了许多文件。这些文件的用法在以后都会一一详解。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">└── testproject</span><br><span class="line">    ├── scrapy.cfg</span><br><span class="line">    └── testproject</span><br><span class="line">        ├── __init__.py</span><br><span class="line">        ├── items.py</span><br><span class="line">        ├── middlewares.py</span><br><span class="line">        ├── pipelines.py</span><br><span class="line">        ├── settings.py</span><br><span class="line">        └── spiders</span><br><span class="line">            └── __init__.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">.<br>└── testproject<br>    ├── scrapy.cfg<br>    └── testproject<br>        ├── __init__.py<br>        ├── items.py<br>        ├── middlewares.py<br>        ├── pipelines.py<br>        ├── settings.py<br>        └── spiders<br>            └── __init__.py<br></code></pre></td></tr></table></figure>
 
 <h1 id="生成-spider"><a href="#生成-spider" class="headerlink" title="生成 spider"></a>生成 spider</h1><p>命令：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider baidu www.baidu.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">scrapy genspider baidu www.baidu.com<br></code></pre></td></tr></table></figure>
 
 <p>进入到 spider 文件夹下，输入该命令会生成一个名为 baidu.py 的文件，cat 这个文件，我们会发现其实就是最基本的 spider 模板。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaiduSpider</span>(<span class="params">scrapy.Spider</span>):</span></span><br><span class="line">    name = <span class="string">&#x27;baidu&#x27;</span></span><br><span class="line">    allowed_domains = [<span class="string">&#x27;www.baidu.com&#x27;</span>]</span><br><span class="line">    start_urls = [<span class="string">&#x27;http://www.baidu.com/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span>(<span class="params">self, response</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-keyword">import</span> scrapy<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaiduSpider</span>(<span class="hljs-params">scrapy.Spider</span>):</span><br>    name = <span class="hljs-string">&#x27;baidu&#x27;</span><br>    allowed_domains = [<span class="hljs-string">&#x27;www.baidu.com&#x27;</span>]<br>    start_urls = [<span class="hljs-string">&#x27;http://www.baidu.com/&#x27;</span>]<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parse</span>(<span class="hljs-params">self, response</span>):</span><br>        <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="模板选择"><a href="#模板选择" class="headerlink" title="模板选择"></a>模板选择</h2><p>在终端输入命令可以查看生成模板的类型：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -l</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy genspider -l<br></code></pre></td></tr></table></figure>
 
 <p>输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Available templates:</span><br><span class="line">  basic</span><br><span class="line">  crawl</span><br><span class="line">  csvfeed</span><br><span class="line">  xmlfeed</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">Available templates:<br>  basic<br>  crawl<br>  csvfeed<br>  xmlfeed<br></code></pre></td></tr></table></figure>
 
 <p>也就是系统自带这四种模板，如果没有指定模板，会选择<code>basic</code>基本模板。如果你问我可以自定义模板吗，当然可以了，不过本文暂时不涉及这个问题，如果有需要可以先自行google。</p>
 <p>使用模板命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider -t xmlfeed zhihu www.zhihu.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy genspider -t xmlfeed zhihu www.zhihu.com<br></code></pre></td></tr></table></figure>
 
 <p><code>-t</code>就是TEMPLATE，也就是模板。</p>
 <p>例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy genspider -l</span><br><span class="line">Available templates:</span><br><span class="line">  basic</span><br><span class="line">  crawl</span><br><span class="line">  csvfeed</span><br><span class="line">  xmlfeed</span><br><span class="line"></span><br><span class="line">$ scrapy genspider example example.com</span><br><span class="line">Created spider <span class="string">&#x27;example&#x27;</span> using template <span class="string">&#x27;basic&#x27;</span></span><br><span class="line"></span><br><span class="line">$ scrapy genspider -t crawl scrapyorg scrapy.org</span><br><span class="line">Created spider <span class="string">&#x27;scrapyorg&#x27;</span> using template <span class="string">&#x27;crawl&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ scrapy genspider -l<br>Available templates:<br>  basic<br>  crawl<br>  csvfeed<br>  xmlfeed<br><br>$ scrapy genspider example example.com<br>Created spider <span class="hljs-string">&#x27;example&#x27;</span> using template <span class="hljs-string">&#x27;basic&#x27;</span><br><br>$ scrapy genspider -t crawl scrapyorg scrapy.org<br>Created spider <span class="hljs-string">&#x27;scrapyorg&#x27;</span> using template <span class="hljs-string">&#x27;crawl&#x27;</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="crawl"><a href="#crawl" class="headerlink" title="crawl"></a>crawl</h1><p>用于运行指定spider</p>
 <p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl baidu</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy crawl baidu<br></code></pre></td></tr></table></figure>
 
 <h1 id="check"><a href="#check" class="headerlink" title="check"></a>check</h1><p><code>check</code>用来检查项目中的代码是否有错误。如果没错会返回ok，如果有错会定位错误代码的位置。</p>
 <p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy check</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy check<br></code></pre></td></tr></table></figure>
 
 <p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy check</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 0 contracts <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  testproject scrapy check<br><br>----------------------------------------------------------------------<br>Ran 0 contracts <span class="hljs-keyword">in</span> 0.000s<br><br>OK<br></code></pre></td></tr></table></figure>
 
 <h1 id="list"><a href="#list" class="headerlink" title="list"></a>list</h1><p>运行命令会列出项目中所有的spider。</p>
 <p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy list</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy list<br></code></pre></td></tr></table></figure>
 
 <p>示例，在我们创建的项目目录下运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy list</span><br><span class="line">baidu</span><br><span class="line">zhihu</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  testproject scrapy list<br>baidu<br>zhihu<br></code></pre></td></tr></table></figure>
 
 <h1 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h1><p>运行这个命令会进入命令行交互模式，以给定的 URL(如果给出)或者空(没有给出 URL)启动 Scrapy shell。查看 Scrapy 终端(Scrapy shell)可以做一些简单的操作，可以使用选择器快速获取信息，方便调试。</p>
 <h1 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h1><p>使用这个命令会执行一次请求，并调用scrapy的下载器，返回网页的源码。</p>
 <p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy fetch http://www.baidu.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy fetch http://www.baidu.com<br></code></pre></td></tr></table></figure>
 
 <p>还可以加三个参数：</p>
 <p><code>--nolog</code> <code>--headers</code> <code>--no-redirect</code></p>
 <p>分别是不输出日志信息，返回网页的请求头和禁止重定向。如果网页没有重定向的话返回的还是原网页。</p>
 <h1 id="view"><a href="#view" class="headerlink" title="view"></a>view</h1><p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy view http://www.taobao.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy view http://www.taobao.com<br></code></pre></td></tr></table></figure>
 
 <p>这个命令比较有用，它的作用是请求网址，输出网址的源码，并将该网页保存成一个文件，使用浏览器打开。如果打开的网址和你正常加载的网页有所不同，一般情况下没显示的部分使用了异步加载。因此该命令可以用来检查 spider 所获取到的页面,并确认这是您所期望的。</p>
 <p>这样在你以后的抓取过程中就可以使用这个命令分析网页是否使用了异步加载。</p>
 <h1 id="runspider"><a href="#runspider" class="headerlink" title="runspider"></a>runspider</h1><p>这个命令和crawl命令的区别在于crawl命令后是spider的<code>name</code>，而runspider命令后加的是爬虫的文件名，在本文的项目中，使用crawl命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl baidu</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy crawl baidu<br></code></pre></td></tr></table></figure>
 
 <p>使用runspider就是：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy runspider baidu.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy runspider baidu.py<br></code></pre></td></tr></table></figure>
 
 <h1 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h1><p>用来获取项目的配置信息。</p>
 <p>例如获取项目名称：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  testproject scrapy settings --get BOT_NAME</span><br><span class="line">testproject</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  testproject scrapy settings --get BOT_NAME<br>testproject<br></code></pre></td></tr></table></figure>
 
 <h1 id="edit"><a href="#edit" class="headerlink" title="edit"></a>edit</h1><p>如果你不使用vim作为编辑器的话，这个命令不常用，因为这个命令会调用vim来编辑文件。</p>
 <p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy edit baidu</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy edit baidu<br></code></pre></td></tr></table></figure>
 
 <h1 id="parse"><a href="#parse" class="headerlink" title="parse"></a>parse</h1><p>获取给定的 URL 并使用相应的 spider 分析处理。如果您提供 –callback 选项,则使用 spider 的该方法处理,否则使用 parse</p>
 <p>使用上一篇的例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy parse http://quotes.toscrape.com -c parse</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scrapy parse http://quotes.toscrape.com -c parse<br></code></pre></td></tr></table></figure>
 
 <p>支持的操作：</p>
 <p>--spider = SPIDER: bypass spider autodetection and force use of specific spider 跳过自动检测 spider 并强制使用特定的 spider</p>
@@ -729,7 +729,7 @@
 <h1 id="bench"><a href="#bench" class="headerlink" title="bench"></a>bench</h1><p>这个命令会运行 benchmark 测试，模拟测试scrapy的爬取速度。</p>
 <h1 id="version"><a href="#version" class="headerlink" title="version"></a>version</h1><p>这个命令可以查询当前scrapy的版本，和一些依赖库版本信息。</p>
 <p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ scrapy version</span><br><span class="line">Scrapy 1.8.0</span><br><span class="line"></span><br><span class="line">➜  ~ scrapy version -v</span><br><span class="line">Scrapy       : 1.8.0</span><br><span class="line">lxml         : 4.5.0.0</span><br><span class="line">libxml2      : 2.9.10</span><br><span class="line">cssselect    : 1.1.0</span><br><span class="line">parsel       : 1.5.2</span><br><span class="line">w3lib        : 1.21.0</span><br><span class="line">Twisted      : 19.10.0</span><br><span class="line">Python       : 3.8.0 (v3.8.0:fa919fdf25, Oct 14 2019, 10:23:27) - [Clang 6.0 (clang-600.0.57)]</span><br><span class="line">pyOpenSSL    : 19.1.0 (OpenSSL 1.1.1d  10 Sep 2019)</span><br><span class="line">cryptography : 2.8</span><br><span class="line">Platform     : macOS-10.14.6-x86_64-i386-64bit</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  ~ scrapy version<br>Scrapy 1.8.0<br><br>➜  ~ scrapy version -v<br>Scrapy       : 1.8.0<br>lxml         : 4.5.0.0<br>libxml2      : 2.9.10<br>cssselect    : 1.1.0<br>parsel       : 1.5.2<br>w3lib        : 1.21.0<br>Twisted      : 19.10.0<br>Python       : 3.8.0 (v3.8.0:fa919fdf25, Oct 14 2019, 10:23:27) - [Clang 6.0 (clang-600.0.57)]<br>pyOpenSSL    : 19.1.0 (OpenSSL 1.1.1d  10 Sep 2019)<br>cryptography : 2.8<br>Platform     : macOS-10.14.6-x86_64-i386-64bit<br></code></pre></td></tr></table></figure>
       
     </div>
 

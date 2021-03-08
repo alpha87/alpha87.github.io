@@ -223,7 +223,7 @@
 <a id="more"></a>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装virtualenv和virtualenvwrapper，两者配合会更方便我们使用python虚拟环境。 <code>pip install virtualenv virtualenvwrapper</code> 安装好以后需要简单的配置。</p>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>在你的shell配置文件中加入以下两行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export WORKON_HOME=$HOME/.virtualenvs</span><br><span class="line">source /usr/local/bin/virtualenvwrapper.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">export WORKON_HOME=$HOME/.virtualenvs<br>source /usr/local/bin/virtualenvwrapper.sh<br></code></pre></td></tr></table></figure>
 
 <p>例如我使用的是zsh，那么在<code>~/.zshrc</code>文件中加入这两行。 更新配置文件： <code>source ~/.zshrc</code></p>
 <h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>简单罗列一些常用的命令，如果需要查看全部命令或了解一些命令可接的参数，请查看<a target="_blank" rel="noopener" href="https://virtualenvwrapper.readthedocs.io/en/latest/index.html">virtualenvwrapper Doc</a> <strong>创建虚拟环境</strong> <code>mkvirtualenv pyvenv</code> 在WORKON_HOME中创建一个名为<code>pyvenv</code>的虚拟环境。 <strong>显示虚拟环境的详细信息</strong> <code>showvirtualenv pyvenv</code> <strong>删除虚拟环境</strong> <code>rmvirtualenv pyvenv</code> <strong>列出或使用虚拟环境</strong> 输入<code>workon</code>会打印可用的虚拟环境，在其后加上虚拟环境名称则进入该虚拟环境。 <strong>离开虚拟环境</strong> <code>deactivate</code></p>

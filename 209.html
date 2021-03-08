@@ -235,7 +235,7 @@
 <h3 id="3-修改订阅链接"><a href="#3-修改订阅链接" class="headerlink" title="3 - 修改订阅链接"></a>3 - 修改订阅链接</h3><p><img src="https://i.loli.net/2020/02/18/B9qSmd3caOWfueK.jpg" alt="修改订阅链接"></p>
 <p>左划点击 编辑，将示例订阅链接改为你的订阅链接。</p>
 <p>由于 Loon 配置文件的机制，必须存在一组策略组，所以如果你只有一个机场，这样修改完全满足需要。如果你有多个订阅链接，需要修改配置文件的这部分：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Remote Proxy]</span><br><span class="line">Subs0 = https://example/server-complete.txt</span><br><span class="line">Subs1 = https://example/server-complete.txt</span><br><span class="line"></span><br><span class="line">[Proxy Group]</span><br><span class="line">Default = select, Subs0, Subs1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">[Remote Proxy]<br>Subs0 = https://example/server-complete.txt<br>Subs1 = https://example/server-complete.txt<br><br>[Proxy Group]<br>Default = select, Subs0, Subs1<br></code></pre></td></tr></table></figure>
 
 <p>其中 Subs 是订阅链接的名称，并且需要在 <code>[Proxy Group]</code> 的 Default 中增加该名称，这样就保证策略组使用了所有的订阅节点。</p>
 <h3 id="4-开启-MITM（可选）"><a href="#4-开启-MITM（可选）" class="headerlink" title="4 - 开启 MITM（可选）"></a>4 - 开启 MITM（可选）</h3><p><img src="https://i.loli.net/2020/02/18/PbJEeA1D5lIOw8y.jpg" alt="开启 MITM"></p>

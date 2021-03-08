@@ -235,7 +235,7 @@
 <h1 id="Pythonista-使用"><a href="#Pythonista-使用" class="headerlink" title="Pythonista 使用"></a>Pythonista 使用</h1><h2 id="使用之前"><a href="#使用之前" class="headerlink" title="使用之前"></a>使用之前</h2><p>我们首先会考虑 Pythonista 是否支持第三方库。如果不支持，那可玩性实在是太低了。还好，Pythonista 支持一些纯 Python 写成的第三方库，例如 requests，BeautifulSoup 等库还是支持的。所以有玩家首先会想到利用 you-get 来下载各种资源。</p>
 <p>但是如何安装第三方库呢？需要我们在终端使用 pip 命令来安装。所以 <a target="_blank" rel="noopener" href="https://github.com/ywangd/stash">StaSh-Shell</a> 应运而生。</p>
 <p>我们需要新建一个 py 文件，可以命名为 <code>install_stash.py</code>，内容如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> r; exec(r.get(<span class="string">&#x27;https://raw.githubusercontent.com/ywangd/stash/master/getstash.py&#x27;</span>).text)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests <span class="hljs-keyword">as</span> r; exec(r.get(<span class="hljs-string">&#x27;https://raw.githubusercontent.com/ywangd/stash/master/getstash.py&#x27;</span>).text)<br></code></pre></td></tr></table></figure>
 
 <p>执行完成后，退出重新进入应用，会发现多了一个名为 <code>launch_stash.py</code> 的文件。运行此文件就可以调出 shell 界面，使用 pip 安装 Python 的第三方库了。</p>
 <p><img src="https://i.loli.net/2019/12/28/7d5uO3CKgDxQyFb.png" alt="安装 StaSh"></p>
@@ -248,7 +248,7 @@
 <p><img src="https://i.loli.net/2019/12/28/YLnsbOPdNcFZr9u.png" alt="安装 tqdm"></p>
 <h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><h2 id="官方脚本"><a href="#官方脚本" class="headerlink" title="官方脚本"></a>官方脚本</h2><p>Pythonista 自带了一些例子。如果你觉得还不够用，可以安装 Pythonista Tools。</p>
 <p>同样是新建一个文件，命名为 <code>ptinstaller.py</code>，将如下内容写入该文件：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests <span class="keyword">as</span> r; o=open(<span class="string">&#x27;ptinstaller.py&#x27;</span>,<span class="string">&#x27;w&#x27;</span>); o.write(r.get(<span class="string">&#x27;http://j.mp/pt-i&#x27;</span>).text); o.close()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests <span class="hljs-keyword">as</span> r; o=open(<span class="hljs-string">&#x27;ptinstaller.py&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>); o.write(r.get(<span class="hljs-string">&#x27;http://j.mp/pt-i&#x27;</span>).text); o.close()<br></code></pre></td></tr></table></figure>
 
 <p>提示执行完成后，重启软件，你会发现 <code>ptinstaller.py</code> 文件内容已经被替换，运行后会出现一个 UI 界面，有许多脚本供你选择。</p>
 <p><img src="https://i.loli.net/2019/12/28/kt9GuLWpEKbFhi4.jpg" alt="ptinstaller"></p>

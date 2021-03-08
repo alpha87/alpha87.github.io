@@ -223,7 +223,7 @@
 <a id="more"></a>
 <h2 id="FTP-账号问题"><a href="#FTP-账号问题" class="headerlink" title="FTP 账号问题"></a>FTP 账号问题</h2><p>这个问题一定所有人都经历过。刚搭建好博客，提示 wordpress 版本，或者插件，或者主题更新，然后让我们输入 FTP 账号和密码。但是从头到尾配置的过程中我们并未涉及到 FTP 相关的配置，那怎么办呢？</p>
 <p>进入到我们安装 wordpress 的目录里，找到 wp-config.php 文件，在其中加入如下三行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">&quot;FS_METHOD&quot;</span>, <span class="string">&quot;direct&quot;</span>);</span><br><span class="line">define(<span class="string">&quot;FS_CHMOD_DIR&quot;</span>, 0777);</span><br><span class="line">define(<span class="string">&quot;FS_CHMOD_FILE&quot;</span>, 0777);</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">define(<span class="hljs-string">&quot;FS_METHOD&quot;</span>, <span class="hljs-string">&quot;direct&quot;</span>);<br>define(<span class="hljs-string">&quot;FS_CHMOD_DIR&quot;</span>, 0777);<br>define(<span class="hljs-string">&quot;FS_CHMOD_FILE&quot;</span>, 0777);<br></code></pre></td></tr></table></figure>
 
 <p>即可解决此问题。</p>
 <h2 id="上传主题或插件提示文件过大"><a href="#上传主题或插件提示文件过大" class="headerlink" title="上传主题或插件提示文件过大"></a>上传主题或插件提示文件过大</h2><p>这个问题有两种报错方式，一种是 Nginx 报 <strong>413 Request Entity Too Large</strong> 错误，另一个就是在 wordpress 内部提示<strong>上传的文件尺寸超过 PHP.ini 中定义的 upload_max_filesize 值</strong>。</p>
@@ -238,7 +238,7 @@
 <p>所以我们需要改为 <code>https://lijianxun.top/123.html</code>，也就是所谓的伪静态。</p>
 <p>我们在自定义结构中填入 <code>/%post_id%.html</code>，保存。</p>
 <p>然后修改 nginx 中的 <code>server</code> 配置。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    index index.php index.html index.htm;</span><br><span class="line">    try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php?<span class="variable">$args</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">location / &#123;<br>    index index.php index.html index.htm;<br>    try_files <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ /index.php?<span class="hljs-variable">$args</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>改为以上内容即可。</p>
 

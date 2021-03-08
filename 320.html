@@ -225,7 +225,7 @@
 <h1 id="修改默认端口号"><a href="#修改默认端口号" class="headerlink" title="修改默认端口号"></a>修改默认端口号</h1><p>编辑 mongoDB 配置文件：</p>
 <p><code>sudo vim /etc/mongodb.conf</code></p>
 <p>修改以下两行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bind_ip = 0.0.0.0</span><br><span class="line">port = 12345</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">bind_ip = 0.0.0.0<br>port = 12345<br></code></pre></td></tr></table></figure>
 
 <p>bind_ip 默认是 <code>127.0.0.1</code>，只能本机访问，改为 <code>0.0.0.0</code> 就可以公网访问，port 对应端口号，可以根据自己需求修改。</p>
 <p><strong>如果是云服务器记得修改安全组规则，开放对应端口才能访问！</strong></p>
@@ -245,7 +245,7 @@
 <p>如果注册成功，会提示：</p>
 <p><code>Successfully added user: &#123; &quot;user&quot; : &quot;root&quot;, &quot;roles&quot; : [ &quot;root&quot; ] &#125;</code></p>
 <p>此时我们需要修改 mongo 的配置文件，找到：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Turn on/off security.  Off is currently the default</span></span><br><span class="line"><span class="comment">#noauth = true</span></span><br><span class="line"><span class="comment">#auth = true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Turn on/off security.  Off is currently the default</span><br><span class="hljs-comment">#noauth = true</span><br><span class="hljs-comment">#auth = true</span><br></code></pre></td></tr></table></figure>
 
 <p>把 <code>auth = true</code> 取消注释，重启 mongo 服务。</p>
 <p><code>sudo /etc/init.d/mongodb restart</code></p>

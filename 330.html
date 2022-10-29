@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="由于单位有任务，需要按照名册制作多个工作表。手动复制和修改内容太费事了，所以使用python完成此项工作，为之后的此类工作提供一个通用脚本。 安装依赖库1pip install openpyxl lxml  我们需要用到openpyxl。在官方文档中提到，如果需要处理较大的文件，在安装了lxml后会非常有用，而且python在解析一些html和其他文本时也会用到lxml，所以借这个机会安装完成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 openpyxl 操作 Excel">
+<meta property="og:url" content="https://lijianxun.top/330.html">
+<meta property="og:site_name" content="简讯的个人博客">
+<meta property="og:description" content="由于单位有任务，需要按照名册制作多个工作表。手动复制和修改内容太费事了，所以使用python完成此项工作，为之后的此类工作提供一个通用脚本。 安装依赖库1pip install openpyxl lxml  我们需要用到openpyxl。在官方文档中提到，如果需要处理较大的文件，在安装了lxml后会非常有用，而且python在解析一些html和其他文本时也会用到lxml，所以借这个机会安装完成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/10/17/jI3XM8T1PweONKL.png">
+<meta property="article:published_time" content="2022-10-29T03:15:20.000Z">
+<meta property="article:modified_time" content="2022-10-29T03:18:50.516Z">
+<meta property="article:author" content="简讯">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/10/17/jI3XM8T1PweONKL.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>使用 openpyxl 操作 Excel</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/325.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/330.html"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/330.html&text=使用 openpyxl 操作 Excel"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/330.html&is_video=false&description=使用 openpyxl 操作 Excel"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 openpyxl 操作 Excel&body=Check out this article: https://lijianxun.top/330.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/330.html&name=使用 openpyxl 操作 Excel&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/330.html&t=使用 openpyxl 操作 Excel"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">安装依赖库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        使用 openpyxl 操作 Excel
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">简讯</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-29T03:15:20.000Z" itemprop="datePublished">2022-10-29</time>
+        
+        (Updated: <time datetime="2022-10-29T03:18:50.516Z" itemprop="dateModified">2022-10-29</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>由于单位有任务，需要按照名册制作多个工作表。手动复制和修改内容太费事了，所以使用python完成此项工作，为之后的此类工作提供一个通用脚本。</p>
+<h1 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install openpyxl lxml<br></code></pre></td></tr></table></figure>
+
+<p>我们需要用到openpyxl。在官方文档中提到，如果需要处理较大的文件，在安装了lxml后会非常有用，而且python在解析一些html和其他文本时也会用到lxml，所以借这个机会安装完成。</p>
+<p>如果在操作Excel时需要处理图片，还需要安装pillow</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pillow<br></code></pre></td></tr></table></figure>
+
+<p>这样我们就把全部依赖安装好了。</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>在操作之前，我先说一下需求。单位已经给我了一个考评表模板，需要根据这个模板，按名册生成工作表（sheet），并把每一个工作表的名称改成名册中的名字。每一个工作表需要修改天填表日期，分数，和扣分项。</p>
+<p>这样就有了思路，简单来说就是打开一个Excel表格，先按照名册的人数复制工作表，把工作表的名称替换成名册中的名字，再把每个工作表中对应坐标格内的数据批量（随机）修改。</p>
+<p>因为我们操作已经存在的文件，所以直接加载文件就行。我们通过faker库生成若干虚拟名字，这样一个名册就准备好了。接下来就是复制工作表了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> openpyxl<br><br><span class="hljs-comment"># 文件位置</span><br>doc_path = <span class="hljs-string">&quot;~/考评表.xlsx&quot;</span><br><br><span class="hljs-comment"># 加载文件</span><br>wb = openpyxl.load_workbook(doc_path)<br><br><span class="hljs-comment"># 注：names 列表通过 faker 库生成</span><br>names = [<span class="hljs-string">&#x27;邓淑兰&#x27;</span>,<span class="hljs-string">&#x27;董凤兰&#x27;</span>,<span class="hljs-string">&#x27;田洋&#x27;</span>,<span class="hljs-string">&#x27;陈波&#x27;</span>,<span class="hljs-string">&#x27;逯丽&#x27;</span>,<span class="hljs-string">&#x27;柯金凤&#x27;</span>,<span class="hljs-string">&#x27;王勇&#x27;</span>,<span class="hljs-string">&#x27;陈玉梅&#x27;</span>,<span class="hljs-string">&#x27;王飞&#x27;</span>,<span class="hljs-string">&#x27;殷秀芳&#x27;</span>,<span class="hljs-string">&#x27;胡旭&#x27;</span>,<span class="hljs-string">&#x27;韩玲&#x27;</span>,<span class="hljs-string">&#x27;李杰&#x27;</span>,<span class="hljs-string">&#x27;陈建军&#x27;</span>,<span class="hljs-string">&#x27;张杨&#x27;</span>,<span class="hljs-string">&#x27;蔡成&#x27;</span>,<span class="hljs-string">&#x27;徐倩&#x27;</span>,<span class="hljs-string">&#x27;贾颖&#x27;</span>,<span class="hljs-string">&#x27;刘峰&#x27;</span>,<span class="hljs-string">&#x27;陈桂珍&#x27;</span>,<span class="hljs-string">&#x27;宋淑珍&#x27;</span>,<span class="hljs-string">&#x27;苏红霞&#x27;</span>,<span class="hljs-string">&#x27;杜玉&#x27;</span>,<span class="hljs-string">&#x27;林辉&#x27;</span>,<span class="hljs-string">&#x27;陈佳&#x27;</span>,<span class="hljs-string">&#x27;朱军&#x27;</span>,<span class="hljs-string">&#x27;罗洋&#x27;</span>,<span class="hljs-string">&#x27;王亮&#x27;</span>,<span class="hljs-string">&#x27;王鹏&#x27;</span>,<span class="hljs-string">&#x27;黄东&#x27;</span>]<br><br></code></pre></td></tr></table></figure>
+
+<p>我们根据名册数量，复制相应数量工作表并保存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 复制 sheet 工作表</span><br>people_number = <span class="hljs-built_in">len</span>(names)<br><span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, people_number):<br>    ws = wb.active<br>    target = wb.copy_worksheet(ws)<br>wb.save(doc_path)<br></code></pre></td></tr></table></figure>
+
+<p>再根据名称批量修改工作表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 根据姓名列表修改工作表名称</span><br>sheet_names = wb.sheetnames<br><span class="hljs-keyword">for</span> num, item <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(sheet_names):<br>    open_sheet = wb[item]<br>    open_sheet.title = names[num]<br>wb.save(doc_path)<br></code></pre></td></tr></table></figure>
+
+<p>再根据需求完成工作表的遍历修改，因为每一个工作表相当于用坐标表示的，所以我们只要根据坐标来批量或随机修改工作表中的内容。</p>
+<p>例如考评表中分数在 A17 的格子内，那我们遍历所有的工作表，修改 A17 的格子。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 得分所在坐标</span><br>record_loc = <span class="hljs-string">&quot;A17&quot;</span><br><br><span class="hljs-comment"># 修改姓名和得分</span><br><span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> wb.sheetnames:<br>    ws = wb[item]<br>    ws[record_loc] = <span class="hljs-string">f&quot;姓名：<span class="hljs-subst">&#123;item&#125;</span>  得分：<span class="hljs-subst">&#123;random.choice([<span class="hljs-number">90</span>, <span class="hljs-number">100</span>])&#125;</span>&quot;</span><br>wb.save(doc_path)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://s2.loli.net/2022/10/17/jI3XM8T1PweONKL.png" alt="WX20221017-171212@2x"></p>
+<p>这些操作基本就把所有的表格修改完成，如果得分是在某个范围，我们就可以使用 random 函数随机打分，并通过对应表格中的扣分项随机扣分。实现批量操作表格的目的。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/me.html">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">安装依赖库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/330.html"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/330.html&text=使用 openpyxl 操作 Excel"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/330.html&is_video=false&description=使用 openpyxl 操作 Excel"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=使用 openpyxl 操作 Excel&body=Check out this article: https://lijianxun.top/330.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/330.html&title=使用 openpyxl 操作 Excel"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/330.html&name=使用 openpyxl 操作 Excel&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/330.html&t=使用 openpyxl 操作 Excel"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    简讯
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

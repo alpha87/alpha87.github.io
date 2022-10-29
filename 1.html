@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyAutoGUI 使用介绍">
+<meta property="og:url" content="https://lijianxun.top/1.html">
+<meta property="og:site_name" content="简讯的个人博客">
+<meta property="og:description" content="这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/iGEFep3hoJU6KuX.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/E7TuvUa3tACw9Mz.png">
+<meta property="og:image" content="https://i.loli.net/2020/06/27/AbIr68B2MDxP9pa.png">
+<meta property="article:published_time" content="2022-05-03T04:48:32.000Z">
+<meta property="article:modified_time" content="2022-10-29T05:05:20.498Z">
+<meta property="article:author" content="简讯">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PyAutoGUI 使用介绍</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/330.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/325.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/1.html"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/1.html&text=PyAutoGUI 使用介绍"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/1.html&is_video=false&description=PyAutoGUI 使用介绍"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PyAutoGUI 使用介绍&body=Check out this article: https://lijianxun.top/1.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/1.html&name=PyAutoGUI 使用介绍&description=&lt;p&gt;这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/1.html&t=PyAutoGUI 使用介绍"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">鼠标操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">键盘操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%BC%B9%E7%AA%97"><span class="toc-number">4.</span> <span class="toc-text">消息弹窗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#alert"><span class="toc-number">4.1.</span> <span class="toc-text">alert()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#confirm"><span class="toc-number">4.2.</span> <span class="toc-text">confirm()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#prompt"><span class="toc-number">4.3.</span> <span class="toc-text">prompt()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#password"><span class="toc-number">4.4.</span> <span class="toc-text">password()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">屏幕截图</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PyAutoGUI 使用介绍
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">简讯</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-03T04:48:32.000Z" itemprop="datePublished">2022-05-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。</p>
+<span id="more"></span>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 -m pip install pyautogui -i https://mirrors.aliyun.com/pypi/simple<br></code></pre></td></tr></table></figure>
+
+<p>以下操作都是已经引入了 pyautogui。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyautogui<br></code></pre></td></tr></table></figure>
+
+<h1 id="鼠标操作"><a href="#鼠标操作" class="headerlink" title="鼠标操作"></a>鼠标操作</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 获取屏幕分辨率</span><br>pyautogui.size()<br><br><span class="hljs-comment"># 获取当前鼠标所在位置</span><br>pyautogui.position()<br></code></pre></td></tr></table></figure>
+
+<p>这两个方法分别是确定鼠标的移动范围，确定当前鼠标的移动位置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 移动到 100, 200 的位置</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>)<br><br><span class="hljs-comment"># 基于以上位置 Y 轴移动 50</span><br>pyautogui.move(<span class="hljs-number">0</span>, <span class="hljs-number">50</span>)<br><br><span class="hljs-comment"># 在 2 秒内按住鼠标左键拖动到 300, 400 的位置</span><br>pyautogui.dragTo(<span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">2</span>, button=<span class="hljs-string">&#x27;left&#x27;</span>)<br><br><span class="hljs-comment"># 在 2 秒内按住鼠标右键，基于以上位置 X 轴拖动 30</span><br>pyautogui.drag(<span class="hljs-number">30</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, button=<span class="hljs-string">&#x27;right&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>上述操作比较好理解，移动或者拖动鼠标。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 开始慢，结束快</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">2</span>, pyautogui.easeInQuad)<br><br><span class="hljs-comment"># 开始快，结束慢</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">2</span>, pyautogui.easeOutQuad)<br><br><span class="hljs-comment"># 开始和结束慢，中间快</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">2</span>, pyautogui.easeInOutQuad)<br><br><span class="hljs-comment"># 弹跳移动到 100, 100 （移动范围较小）</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">2</span>, pyautogui.easeInBounce)<br><br><span class="hljs-comment"># 弹跳移动到 100, 100 （范围较大）</span><br>pyautogui.moveTo(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>, <span class="hljs-number">2</span>, pyautogui.easeInElastic)<br></code></pre></td></tr></table></figure>
+
+<p>这部分操作在一些有人机检测的系统中一定会用到。比如说我们经常遇到网页的验证码拖动图片补全完整图片，如果匀速拖动肯定是不行的，因为正常人的操作是不会匀速拖动鼠标；还有一种情况是在模拟操作游戏，如果鼠标移动过于死板，每次的动作幅度，路径，点击的坐标都相同，也会被检测出使用了辅助软件。所以在使用鼠标操作游戏的时候，一定要加入随机量，比如鼠标移动的路径要随机，我们可以把上述参数放在列表中，每次随机挑选移动方式，点击的坐标随机加或减几个像素，每次点击的停顿时间也随机等等。一般这么操作就不会被查出来了。当然还需要根据玩家的平时在线时间来使用，不能说平时都是下午在线，然后突然每天黑夜刷很多小时。这样的操作一般也会被警告（以我多年阴阳师玩家经验）。扯远了，回正题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 点击</span><br>pyautogui.click()<br><br><span class="hljs-comment"># 移动到 100, 200 点击</span><br>pyautogui.click(x=<span class="hljs-number">100</span>, y=<span class="hljs-number">200</span>)<br><br><span class="hljs-comment"># 使用右键点击，可选 left, middle, right</span><br>pyautogui.click(button=<span class="hljs-string">&#x27;right&#x27;</span>)<br><br><span class="hljs-comment"># 双击</span><br>pyautogui.click(clicks=<span class="hljs-number">2</span>)<br><br><span class="hljs-comment"># 双击，单击间隔时间 0.25 秒</span><br>pyautogui.click(clicks=<span class="hljs-number">2</span>, interval=<span class="hljs-number">0.25</span>)<br><br><span class="hljs-comment"># 鼠标按下</span><br>pyautogui.mouseDown()<br><br><span class="hljs-comment"># 鼠标抬起</span><br>pyautogui.mouseUp()<br></code></pre></td></tr></table></figure>
+
+<h1 id="键盘操作"><a href="#键盘操作" class="headerlink" title="键盘操作"></a>键盘操作</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 输入，每个字符间隔 0.25 秒</span><br>pyautogui.write(<span class="hljs-string">&#x27;Hello world!&#x27;</span>, interval=<span class="hljs-number">0.25</span>)<br><br><span class="hljs-comment"># 按住 shift</span><br>pyautogui.keyDown(<span class="hljs-string">&#x27;shift&#x27;</span>)<br><br><span class="hljs-comment"># 按下 left 键</span><br>pyautogui.press(<span class="hljs-string">&#x27;left&#x27;</span>)<br><br><span class="hljs-comment"># 弹起 shift</span><br>pyautogui.keyUp(<span class="hljs-string">&#x27;shift&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>上述操作实现按住 shift 同时按下 left 键。</p>
+<p>如果需要按下多个键，可以使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pyautogui.press([<span class="hljs-string">&#x27;left&#x27;</span>, <span class="hljs-string">&#x27;left&#x27;</span>, <span class="hljs-string">&#x27;left&#x27;</span>])<br></code></pre></td></tr></table></figure>
+
+<p>如果键相同可以：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pyautogui.press(<span class="hljs-string">&#x27;left&#x27;</span>, presses=<span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+
+<p>pyautogui 支持的按键：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash">[<span class="hljs-string">&#x27;\t&#x27;</span>,<span class="hljs-string">&#x27;\n&#x27;</span>,<span class="hljs-string">&#x27;\r&#x27;</span>,<span class="hljs-string">&#x27; &#x27;</span>,<span class="hljs-string">&#x27;!&#x27;</span>,<span class="hljs-string">&#x27;&quot;&#x27;</span>,<span class="hljs-string">&#x27;#&#x27;</span>,<span class="hljs-string">&#x27;$&#x27;</span>,<span class="hljs-string">&#x27;%&#x27;</span>,<span class="hljs-string">&#x27;&amp;&#x27;</span>,<span class="hljs-string">&quot;&#x27;&quot;</span>,<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-string">&#x27;*&#x27;</span>,<span class="hljs-string">&#x27;+&#x27;</span>,<span class="hljs-string">&#x27;,&#x27;</span>,<span class="hljs-string">&#x27;-&#x27;</span>,<span class="hljs-string">&#x27;.&#x27;</span>,<span class="hljs-string">&#x27;/&#x27;</span>,<br><span class="hljs-string">&#x27;0&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>,<span class="hljs-string">&#x27;2&#x27;</span>,<span class="hljs-string">&#x27;3&#x27;</span>,<span class="hljs-string">&#x27;4&#x27;</span>,<span class="hljs-string">&#x27;5&#x27;</span>,<span class="hljs-string">&#x27;6&#x27;</span>,<span class="hljs-string">&#x27;7&#x27;</span>,<span class="hljs-string">&#x27;8&#x27;</span>,<span class="hljs-string">&#x27;9&#x27;</span>,<span class="hljs-string">&#x27;:&#x27;</span>,<span class="hljs-string">&#x27;;&#x27;</span>,<span class="hljs-string">&#x27;&lt;&#x27;</span>,<span class="hljs-string">&#x27;=&#x27;</span>,<span class="hljs-string">&#x27;&gt;&#x27;</span>,<span class="hljs-string">&#x27;?&#x27;</span>,<span class="hljs-string">&#x27;@&#x27;</span>,<span class="hljs-string">&#x27;[&#x27;</span>,<span class="hljs-string">&#x27;\\&#x27;</span>, <span class="hljs-string">&#x27;]&#x27;</span>,<br><span class="hljs-string">&#x27;^&#x27;</span>, <span class="hljs-string">&#x27;_&#x27;</span>, <span class="hljs-string">&#x27;`&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;d&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>,<span class="hljs-string">&#x27;f&#x27;</span>, <span class="hljs-string">&#x27;g&#x27;</span>, <span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&#x27;j&#x27;</span>, <span class="hljs-string">&#x27;k&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;m&#x27;</span>, <span class="hljs-string">&#x27;n&#x27;</span>,<br><span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;p&#x27;</span>, <span class="hljs-string">&#x27;q&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, <span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&#x27;&#123;&#x27;</span>, <span class="hljs-string">&#x27;|&#x27;</span>, <span class="hljs-string">&#x27;&#125;&#x27;</span>, <span class="hljs-string">&#x27;~&#x27;</span>,<br><span class="hljs-string">&#x27;accept&#x27;</span>, <span class="hljs-string">&#x27;add&#x27;</span>, <span class="hljs-string">&#x27;alt&#x27;</span>, <span class="hljs-string">&#x27;altleft&#x27;</span>, <span class="hljs-string">&#x27;altright&#x27;</span>, <span class="hljs-string">&#x27;apps&#x27;</span>, <span class="hljs-string">&#x27;backspace&#x27;</span>, <span class="hljs-string">&#x27;browserback&#x27;</span>,<br><span class="hljs-string">&#x27;browserfavorites&#x27;</span>, <span class="hljs-string">&#x27;browserforward&#x27;</span>, <span class="hljs-string">&#x27;browserhome&#x27;</span>, <span class="hljs-string">&#x27;browserrefresh&#x27;</span>, <span class="hljs-string">&#x27;browsersearch&#x27;</span>,<br><span class="hljs-string">&#x27;browserstop&#x27;</span>, <span class="hljs-string">&#x27;capslock&#x27;</span>, <span class="hljs-string">&#x27;clear&#x27;</span>, <span class="hljs-string">&#x27;convert&#x27;</span>, <span class="hljs-string">&#x27;ctrl&#x27;</span>, <span class="hljs-string">&#x27;ctrlleft&#x27;</span>, <span class="hljs-string">&#x27;ctrlright&#x27;</span>,<br><span class="hljs-string">&#x27;decimal&#x27;</span>, <span class="hljs-string">&#x27;del&#x27;</span>, <span class="hljs-string">&#x27;delete&#x27;</span>, <span class="hljs-string">&#x27;divide&#x27;</span>, <span class="hljs-string">&#x27;down&#x27;</span>, <span class="hljs-string">&#x27;end&#x27;</span>, <span class="hljs-string">&#x27;enter&#x27;</span>, <span class="hljs-string">&#x27;esc&#x27;</span>, <span class="hljs-string">&#x27;escape&#x27;</span>,<br><span class="hljs-string">&#x27;execute&#x27;</span>, <span class="hljs-string">&#x27;f1&#x27;</span>, <span class="hljs-string">&#x27;f10&#x27;</span>, <span class="hljs-string">&#x27;f11&#x27;</span>, <span class="hljs-string">&#x27;f12&#x27;</span>, <span class="hljs-string">&#x27;f13&#x27;</span>, <span class="hljs-string">&#x27;f14&#x27;</span>, <span class="hljs-string">&#x27;f15&#x27;</span>, <span class="hljs-string">&#x27;f16&#x27;</span>, <span class="hljs-string">&#x27;f17&#x27;</span>, <span class="hljs-string">&#x27;f18&#x27;</span>,<br><span class="hljs-string">&#x27;f19&#x27;</span>, <span class="hljs-string">&#x27;f2&#x27;</span>, <span class="hljs-string">&#x27;f20&#x27;</span>, <span class="hljs-string">&#x27;f21&#x27;</span>, <span class="hljs-string">&#x27;f22&#x27;</span>, <span class="hljs-string">&#x27;f23&#x27;</span>, <span class="hljs-string">&#x27;f24&#x27;</span>, <span class="hljs-string">&#x27;f3&#x27;</span>, <span class="hljs-string">&#x27;f4&#x27;</span>, <span class="hljs-string">&#x27;f5&#x27;</span>, <span class="hljs-string">&#x27;f6&#x27;</span>, <span class="hljs-string">&#x27;f7&#x27;</span>,<br><span class="hljs-string">&#x27;f8&#x27;</span>, <span class="hljs-string">&#x27;f9&#x27;</span>, <span class="hljs-string">&#x27;final&#x27;</span>, <span class="hljs-string">&#x27;fn&#x27;</span>, <span class="hljs-string">&#x27;hanguel&#x27;</span>, <span class="hljs-string">&#x27;hangul&#x27;</span>, <span class="hljs-string">&#x27;hanja&#x27;</span>, <span class="hljs-string">&#x27;help&#x27;</span>, <span class="hljs-string">&#x27;home&#x27;</span>, <span class="hljs-string">&#x27;insert&#x27;</span>,<br> <span class="hljs-string">&#x27;junja&#x27;</span>, <span class="hljs-string">&#x27;kana&#x27;</span>, <span class="hljs-string">&#x27;kanji&#x27;</span>, <span class="hljs-string">&#x27;launchapp1&#x27;</span>, <span class="hljs-string">&#x27;launchapp2&#x27;</span>, <span class="hljs-string">&#x27;launchmail&#x27;</span>, <span class="hljs-string">&#x27;launchmediaselect&#x27;</span>,<br> <span class="hljs-string">&#x27;left&#x27;</span>, <span class="hljs-string">&#x27;modechange&#x27;</span>, <span class="hljs-string">&#x27;multiply&#x27;</span>, <span class="hljs-string">&#x27;nexttrack&#x27;</span>, <span class="hljs-string">&#x27;nonconvert&#x27;</span>, <span class="hljs-string">&#x27;num0&#x27;</span>, <span class="hljs-string">&#x27;num1&#x27;</span>, <span class="hljs-string">&#x27;num2&#x27;</span>,<br> <span class="hljs-string">&#x27;num3&#x27;</span>, <span class="hljs-string">&#x27;num4&#x27;</span>, <span class="hljs-string">&#x27;num5&#x27;</span>, <span class="hljs-string">&#x27;num6&#x27;</span>, <span class="hljs-string">&#x27;num7&#x27;</span>, <span class="hljs-string">&#x27;num8&#x27;</span>, <span class="hljs-string">&#x27;num9&#x27;</span>, <span class="hljs-string">&#x27;numlock&#x27;</span>, <span class="hljs-string">&#x27;pagedown&#x27;</span>, <span class="hljs-string">&#x27;pageup&#x27;</span>,<br> <span class="hljs-string">&#x27;pause&#x27;</span>, <span class="hljs-string">&#x27;pgdn&#x27;</span>, <span class="hljs-string">&#x27;pgup&#x27;</span>, <span class="hljs-string">&#x27;playpause&#x27;</span>, <span class="hljs-string">&#x27;prevtrack&#x27;</span>, <span class="hljs-string">&#x27;print&#x27;</span>, <span class="hljs-string">&#x27;printscreen&#x27;</span>, <span class="hljs-string">&#x27;prntscrn&#x27;</span>,<br> <span class="hljs-string">&#x27;prtsc&#x27;</span>, <span class="hljs-string">&#x27;prtscr&#x27;</span>, <span class="hljs-string">&#x27;return&#x27;</span>, <span class="hljs-string">&#x27;right&#x27;</span>, <span class="hljs-string">&#x27;scrolllock&#x27;</span>, <span class="hljs-string">&#x27;select&#x27;</span>, <span class="hljs-string">&#x27;separator&#x27;</span>, <span class="hljs-string">&#x27;shift&#x27;</span>,<br> <span class="hljs-string">&#x27;shiftleft&#x27;</span>, <span class="hljs-string">&#x27;shiftright&#x27;</span>, <span class="hljs-string">&#x27;sleep&#x27;</span>, <span class="hljs-string">&#x27;space&#x27;</span>, <span class="hljs-string">&#x27;stop&#x27;</span>, <span class="hljs-string">&#x27;subtract&#x27;</span>, <span class="hljs-string">&#x27;tab&#x27;</span>,<span class="hljs-string">&#x27;up&#x27;</span>,<br> <span class="hljs-string">&#x27;volumedown&#x27;</span>, <span class="hljs-string">&#x27;volumemute&#x27;</span>, <span class="hljs-string">&#x27;volumeup&#x27;</span>, <span class="hljs-string">&#x27;win&#x27;</span>, <span class="hljs-string">&#x27;winleft&#x27;</span>, <span class="hljs-string">&#x27;winright&#x27;</span>,<br> <span class="hljs-string">&#x27;yen&#x27;</span>, <span class="hljs-string">&#x27;command&#x27;</span>, <span class="hljs-string">&#x27;option&#x27;</span>, <span class="hljs-string">&#x27;optionleft&#x27;</span>, <span class="hljs-string">&#x27;optionright&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h1 id="消息弹窗"><a href="#消息弹窗" class="headerlink" title="消息弹窗"></a>消息弹窗</h1><h2 id="alert"><a href="#alert" class="headerlink" title="alert()"></a>alert()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pyautogui.alert(text=<span class="hljs-string">&#x27;⚠️这是一段警告&#x27;</span>, title=<span class="hljs-string">&#x27;alert 测试&#x27;</span>, button=<span class="hljs-string">&#x27;OK&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>会弹出如下提示框：</p>
+<p><img src="https://i.loli.net/2020/06/27/KCYxOpRmLJezEF7.png" alt="alert"></p>
+<h2 id="confirm"><a href="#confirm" class="headerlink" title="confirm()"></a>confirm()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = pyautogui.confirm(text=<span class="hljs-string">&#x27;对话框测试&#x27;</span>, title=<span class="hljs-string">&#x27;标题&#x27;</span>, buttons=[<span class="hljs-string">&#x27;OK&#x27;</span>, <span class="hljs-string">&#x27;Cancel&#x27;</span>])<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p>我这么写你也应该明白了，<code>confirm()</code> 方法会传递参数。这样我们在操作过程中可以实现简单选择。</p>
+<p><img src="https://i.loli.net/2020/06/27/iGEFep3hoJU6KuX.png" alt="confirm"></p>
+<h2 id="prompt"><a href="#prompt" class="headerlink" title="prompt()"></a>prompt()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = pyautogui.prompt(text=<span class="hljs-string">&#x27;请输入学号&#x27;</span>, title=<span class="hljs-string">&#x27;标题&#x27;</span> , default=<span class="hljs-string">&#x27;学号&#x27;</span>)<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p>选择 OK 获取用户输入，选择 Cancel 返回 None。</p>
+<p><img src="https://i.loli.net/2020/06/27/E7TuvUa3tACw9Mz.png"></p>
+<h2 id="password"><a href="#password" class="headerlink" title="password()"></a>password()</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = pyautogui.password(text=<span class="hljs-string">&#x27;输入密码&#x27;</span>, title=<span class="hljs-string">&#x27;标题&#x27;</span>, default=<span class="hljs-string">&#x27;&#x27;</span>, mask=<span class="hljs-string">&#x27;*&#x27;</span>)<br><span class="hljs-built_in">print</span>(a)<br></code></pre></td></tr></table></figure>
+
+<p>选择 OK 获取用户输入，选择 Cancel 返回 None。只是输入的字符串都会被 <code>mask</code> 代替。</p>
+<p><img src="https://i.loli.net/2020/06/27/AbIr68B2MDxP9pa.png" alt="password"></p>
+<h1 id="屏幕截图"><a href="#屏幕截图" class="headerlink" title="屏幕截图"></a>屏幕截图</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pyautogui.screenshot(<span class="hljs-string">&#x27;my_screenshot.png&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>屏幕截图比较有用，根据截图找图感觉精度不高，所以就不推荐了。</p>
+<p>以上就是 pyautogui 的使用介绍了，基本包含了所有常用操作。</p>
+<p>如果还觉得不够可以看<a target="_blank" rel="noopener" href="https://pyautogui.readthedocs.io/en/latest/index.html">官方文档</a>和<a target="_blank" rel="noopener" href="https://github.com/asweigart/pyautogui">源码</a>。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/me.html">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">鼠标操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">键盘操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%BC%B9%E7%AA%97"><span class="toc-number">4.</span> <span class="toc-text">消息弹窗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#alert"><span class="toc-number">4.1.</span> <span class="toc-text">alert()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#confirm"><span class="toc-number">4.2.</span> <span class="toc-text">confirm()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#prompt"><span class="toc-number">4.3.</span> <span class="toc-text">prompt()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#password"><span class="toc-number">4.4.</span> <span class="toc-text">password()</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="toc-number">5.</span> <span class="toc-text">屏幕截图</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/1.html"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/1.html&text=PyAutoGUI 使用介绍"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/1.html&is_video=false&description=PyAutoGUI 使用介绍"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PyAutoGUI 使用介绍&body=Check out this article: https://lijianxun.top/1.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/1.html&title=PyAutoGUI 使用介绍"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/1.html&name=PyAutoGUI 使用介绍&description=&lt;p&gt;这个 python 库是我用的比较多的第三方库了，因为它能帮我自动化操作许多事情，而且跨平台，非常好用。可以说是 python 中的按键精灵了。它不仅可以操作鼠标，还能操作键盘，屏幕截图，还能生成一些简单的交互窗口，在自动化操作方面提供的功能还是非常全面的。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/1.html&t=PyAutoGUI 使用介绍"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    简讯
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。 如果你急于使用这个工具，可以直接安装使用。 pip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次图床上传工具开发打包经历">
+<meta property="og:url" content="https://lijianxun.top/2.html">
+<meta property="og:site_name" content="简讯的个人博客">
+<meta property="og:description" content="说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。 如果你急于使用这个工具，可以直接安装使用。 pip">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-03T03:37:16.000Z">
+<meta property="article:modified_time" content="2022-10-30T03:38:13.826Z">
+<meta property="article:author" content="简讯">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>记一次图床上传工具开发打包经历</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://kcssr.me/auth/register?code=jUqG">机场推荐</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/1.html"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/325.html"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/2.html"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/2.html&text=记一次图床上传工具开发打包经历"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/2.html&is_video=false&description=记一次图床上传工具开发打包经历"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次图床上传工具开发打包经历&body=Check out this article: https://lijianxun.top/2.html"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/2.html&t=记一次图床上传工具开发打包经历"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        记一次图床上传工具开发打包经历
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">简讯</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-03T03:37:16.000Z" itemprop="datePublished">2022-05-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。</p>
+<p>如果你急于使用这个工具，可以直接安装使用。</p>
+<p>pip install pysmms<br>安装好之后在终端输入 pysmms 图片路径 即可上传。上传完成后会自动复制到剪贴板。</p>
+<p>使用效果<br>使用效果<br>为什么开发<br>先说明一下，这个图床工具基于 SM.MS[1] API 接口开发，具体文档见此链接[2]。这个图床非常好用，已经用了很长时间，而且每个免费用户都有 5G 的免费额度，对于我来说是够用了，当然如果付费使用功能会更高级一些。</p>
+<p>回到标题，为什么开发？因为写文章的时候，经常要上传图片，之前偶尔传图都是在 SM.MS 网页，但是越来越觉得这样效率太低，每次写文章的时候都要把网站打开，随时准备上传图片。本来想看一下 SM.MS 官方有没有 APP 可以拿来用，发现只有安卓和 iOS，并没有 Mac 版，还有一些第三方图床工具需要付费（个人觉得不值）。既然官方提供了 API 接口，何不利用一下。</p>
+<p>夭折了两个版本<br>在 pysmms 之前已经有两个版本的图床工具了，但是因为各种原因夭折了。</p>
+<p>最开始打算做一个有用户界面的工具，类似：</p>
+<p>图床H<br>图床H<br>或者这样：</p>
+<p>图床U<br>图床U<br>本来想着用 Electron 写一个跨平台工具，如果写好之后多个平台可以使用，奈何 index.html 文件写好了，Electron 却迟迟因为网络原因下载失败，不想浪费时间，所以放弃了这个想法。</p>
+<p>第二个图使用 pyqt5 构建的界面，可能是因为太菜的原因，虽然已经支持简单的传图功能，但界面和功能的完善性还是让我不太满意。所以最终还是想着去 GitHub 上参考一下。</p>
+<p>n0vad3v&#x2F;smv2<br>在 GitHub 上找到了 n0vad3v&#x2F;smv2[3]，非常符合我的想法，不仅支持传图，而且还支持历史记录查询，优雅的使用 Authorization。</p>
+<p>➜ smv2 poster36.jpg<br>Upload without Token.<br>┌SM.MS Upload Status───────────────────────────────────────────────┐<br>│ Image URL    │ <a target="_blank" rel="noopener" href="https://i.loli.net/2019/02/18/Q123f2TWhtnk1FR.jpg">https://i.loli.net/2019/02/18/Q123f2TWhtnk1FR.jpg</a> │<br>├──────────────┼───────────────────────────────────────────────────┤<br>│ Deletion URL │ <a target="_blank" rel="noopener" href="https://sm.ms/delete/8Ymbq218218XlPIDg4ReE2rcTi">https://sm.ms/delete/8Ymbq218218XlPIDg4ReE2rcTi</a>   │<br>└──────────────┴───────────────────────────────────────────────────┘<br>可以看出 pysmms 和 smv2 的界面是非常类似的，因为借鉴了 smv2 库。</p>
+<p>但是 smv2 用起来还是有些不顺手，例如图片上传之后需要手动复制，不支持多个 Authorization 填写，不支持基于 IP 的历史记录查询等。所以就萌生了参考 smv2，自己也写个类似的脚本的想法。顺便学习一下这么优雅的表格是如何生成的，写好的脚本如何打包上传到 pypi。</p>
+<p>开发<br>smv2 用到了 requests 和 terminaltables 这两个第三方库。第一个用来请求接口，第二个用来生成格式化表格。requests 很常用就不介绍了。</p>
+<p>terminaltables<br>使用 terminaltables[4] 让表格在终端中显示变得更加容易。</p>
+<p>官方提供了简单的用法示例：</p>
+<p>from terminaltables import AsciiTable</p>
+<p>table_data &#x3D; [<br>    [‘Heading1’, ‘Heading2’],<br>    [‘row1 column1’, ‘row1 column2’],<br>    [‘row2 column1’, ‘row2 column2’],<br>    [‘row3 column1’, ‘row3 column2’]<br>]<br>table &#x3D; AsciiTable(table_data)<br>print table.table</p>
+<p>+————–+————–+<br>| Heading1     | Heading2     |<br>+————–+————–+<br>| row1 column1 | row1 column2 |<br>| row2 column1 | row2 column2 |<br>| row3 column1 | row3 column2 |<br>+————–+————–+<br>支持 Windows 10, Windows XP, and OS X。</p>
+<p>例子<br>例子<br>完整文档点此链接。[5]</p>
+<p>Pyperclip<br>在 pysmms 中，只是在成功获取图片链接的时候会使用 Pyperclip，这样上传完成图片之后可以继续回到写作中，不需要鼠标选定图片链接再拷贝。</p>
+<p>Pyperclip 的目的是提供一个跨平台的 Python 模块，用于将文本复制和粘贴到剪贴板。使用非常简单，以至于没有文档。如果你的脚本里用到了复制粘贴，可以试试。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import pyperclip<br>pyperclip.copy(‘Hello world!’)<br>pyperclip.paste()<br>‘Hello world!’<br>打包发布<br>脚本写好之后就是打包发布了。</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>需要在文件夹建立 setup.py 文件，写入以下内容：</p>
+<p>import setuptools</p>
+<p>with open(“README.md”, “r”) as f:<br>    long_description &#x3D; f.read()</p>
+<p>setuptools.setup(<br>    name&#x3D;”pysmms”,<br>    version&#x3D;”0.0.5”,<br>    author&#x3D;”Jianxun”,<br>    author_email&#x3D;”<a href="mailto:&#x69;&#64;&#x6c;&#x69;&#x6a;&#105;&#97;&#x6e;&#120;&#117;&#110;&#x2e;&#x74;&#111;&#112;">&#x69;&#64;&#x6c;&#x69;&#x6a;&#105;&#97;&#x6e;&#120;&#117;&#110;&#x2e;&#x74;&#111;&#112;</a>“,<br>    description&#x3D;”The CLI Tool for SM.MS, based on API v2.”,<br>    long_description&#x3D;long_description,<br>    long_description_content_type&#x3D;”text&#x2F;markdown”,<br>    url&#x3D;”<a target="_blank" rel="noopener" href="https://github.com/alpha87/pysmms&quot;">https://github.com/alpha87/pysmms&quot;</a>,<br>    packages&#x3D;setuptools.find_packages(),<br>    classifiers&#x3D;[<br>        “Programming Language :: Python :: 3”,<br>        “License :: OSI Approved :: GNU General Public License v3 (GPLv3)”,<br>        “Operating System :: OS Independent”,<br>    ],<br>    install_requires&#x3D;[<br>        “requests”,<br>        “pyperclip”,<br>        “terminaltables”<br>    ],<br>    entry_points&#x3D;{<br>        ‘console_scripts’: [<br>            ‘pysmms&#x3D;pysmms.pysmms:app’,<br>        ],<br>    }<br>)<br>文件整体还是很好理解的，按照自己脚本的信息填写就可以。</p>
+<p>注册 pypi<br>需要在 pypi[6] 注册账号，然后在用户根目录下创建 .pypirc 文件，写入以下内容：</p>
+<p>[distutils]<br>index-servers&#x3D;pypi</p>
+<p>[pypi]<br>repository&#x3D;<a target="_blank" rel="noopener" href="https://upload.pypi.org/legacy/">https://upload.pypi.org/legacy/</a><br>username&#x3D;xxx<br>password&#x3D;xxx<br>填入自己的用户名和密码。</p>
+<p>打包<br>python3 setup.py sdist bdist_wheel<br>上传<br>首先需要安装 twine，pip install twine，安装完成后执行以下命令上传到 pypi。</p>
+<p>twine upload dist&#x2F;*<br>上传成功后就可以在 pypi 网站上看到自己上传的工具了，也就可以使用 pip 下载安装了。</p>
+<p>引用链接<br>[1] SM.MS: <a target="_blank" rel="noopener" href="https://sm.ms/">https://sm.ms/</a><br>[2] 具体文档见此链接: <a target="_blank" rel="noopener" href="https://doc.sm.ms/">https://doc.sm.ms/</a><br>[3] n0vad3v&#x2F;smv2: <a target="_blank" rel="noopener" href="https://github.com/n0vad3v/smv2">https://github.com/n0vad3v/smv2</a><br>[4] terminaltables: <a target="_blank" rel="noopener" href="https://github.com/Robpol86/terminaltables">https://github.com/Robpol86/terminaltables</a><br>[5] 完整文档点此链接。: <a target="_blank" rel="noopener" href="https://robpol86.github.io/terminaltables/">https://robpol86.github.io/terminaltables/</a><br>[6] pypi: <a target="_blank" rel="noopener" href="https://pypi.org/">https://pypi.org/</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/me.html">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://kcssr.me/auth/register?code=jUqG">机场推荐</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://lijianxun.top/2.html"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://lijianxun.top/2.html&text=记一次图床上传工具开发打包经历"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://lijianxun.top/2.html&is_video=false&description=记一次图床上传工具开发打包经历"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记一次图床上传工具开发打包经历&body=Check out this article: https://lijianxun.top/2.html"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/2.html&t=记一次图床上传工具开发打包经历"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    简讯
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/me.html">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://kcssr.me/auth/register?code=jUqG">机场推荐</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157875662-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-157875662-1');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

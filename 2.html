@@ -6,18 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。 如果你急于使用这个工具，可以直接安装使用。 pip">
+    <meta name="description" content="记一次图床上传工具开发打包经历说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记一次图床上传工具开发打包经历">
 <meta property="og:url" content="https://lijianxun.top/2.html">
 <meta property="og:site_name" content="简讯的个人博客">
-<meta property="og:description" content="说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。 如果你急于使用这个工具，可以直接安装使用。 pip">
+<meta property="og:description" content="记一次图床上传工具开发打包经历说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/02/25/jCxeBfKV5dpZ3rg.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/25/jJlgfeoH5q1y8YT.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/25/QxOHlr49DVSvZom.png">
+<meta property="og:image" content="https://i.loli.net/2020/02/25/jGvPHJEa4uAicO8.png">
 <meta property="article:published_time" content="2022-05-03T03:37:16.000Z">
-<meta property="article:modified_time" content="2022-10-30T03:38:13.826Z">
+<meta property="article:modified_time" content="2022-10-30T03:48:35.988Z">
 <meta property="article:author" content="简讯">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/25/jCxeBfKV5dpZ3rg.png">
     
     
       
@@ -100,13 +105,13 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description=&lt;h1 id=&#34;记一次图床上传工具开发打包经历&#34;&gt;&lt;a href=&#34;#记一次图床上传工具开发打包经历&#34; class=&#34;headerlink&#34; title=&#34;记一次图床上传工具开发打包经历&#34;&gt;&lt;/a&gt;记一次图床上传工具开发打包经历&lt;/h1&gt;&lt;p&gt;说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/2.html&t=记一次图床上传工具开发打包经历"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E6%89%93%E5%8C%85%E7%BB%8F%E5%8E%86"><span class="toc-number">1.</span> <span class="toc-text">记一次图床上传工具开发打包经历</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">为什么开发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%AD%E6%8A%98%E4%BA%86%E4%B8%A4%E4%B8%AA%E7%89%88%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">夭折了两个版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#n0vad3v-x2F-smv2"><span class="toc-number">4.</span> <span class="toc-text">n0vad3v&#x2F;smv2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%8F%91"><span class="toc-number">5.</span> <span class="toc-text">开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#terminaltables"><span class="toc-number">5.1.</span> <span class="toc-text">terminaltables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pyperclip"><span class="toc-number">5.2.</span> <span class="toc-text">Pyperclip</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83"><span class="toc-number">6.</span> <span class="toc-text">打包发布</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-pypi"><span class="toc-number">6.1.</span> <span class="toc-text">注册 pypi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">6.2.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0"><span class="toc-number">6.3.</span> <span class="toc-text">上传</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -150,45 +155,55 @@
   
 
   <div class="content" itemprop="articleBody">
-    <p>说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。</p>
+    <h1 id="记一次图床上传工具开发打包经历"><a href="#记一次图床上传工具开发打包经历" class="headerlink" title="记一次图床上传工具开发打包经历"></a>记一次图床上传工具开发打包经历</h1><p>说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。</p>
+<span id="more"></span>
+
 <p>如果你急于使用这个工具，可以直接安装使用。</p>
-<p>pip install pysmms<br>安装好之后在终端输入 pysmms 图片路径 即可上传。上传完成后会自动复制到剪贴板。</p>
-<p>使用效果<br>使用效果<br>为什么开发<br>先说明一下，这个图床工具基于 SM.MS[1] API 接口开发，具体文档见此链接[2]。这个图床非常好用，已经用了很长时间，而且每个免费用户都有 5G 的免费额度，对于我来说是够用了，当然如果付费使用功能会更高级一些。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pysmms<br></code></pre></td></tr></table></figure>
+
+<p>安装好之后在终端输入 <code>pysmms 图片路径</code> 即可上传。上传完成后会自动复制到剪贴板。</p>
+<p><img src="https://i.loli.net/2020/02/25/jCxeBfKV5dpZ3rg.png" alt="使用效果"></p>
+<h1 id="为什么开发"><a href="#为什么开发" class="headerlink" title="为什么开发"></a>为什么开发</h1><p>先说明一下，这个图床工具基于 <a target="_blank" rel="noopener" href="https://sm.ms/">SM.MS</a> API 接口开发，<a target="_blank" rel="noopener" href="https://doc.sm.ms/">具体文档见此链接</a>。这个图床非常好用，已经用了很长时间，而且每个免费用户都有 5G 的免费额度，对于我来说是够用了，当然如果付费使用功能会更高级一些。</p>
 <p>回到标题，为什么开发？因为写文章的时候，经常要上传图片，之前偶尔传图都是在 SM.MS 网页，但是越来越觉得这样效率太低，每次写文章的时候都要把网站打开，随时准备上传图片。本来想看一下 SM.MS 官方有没有 APP 可以拿来用，发现只有安卓和 iOS，并没有 Mac 版，还有一些第三方图床工具需要付费（个人觉得不值）。既然官方提供了 API 接口，何不利用一下。</p>
-<p>夭折了两个版本<br>在 pysmms 之前已经有两个版本的图床工具了，但是因为各种原因夭折了。</p>
+<h1 id="夭折了两个版本"><a href="#夭折了两个版本" class="headerlink" title="夭折了两个版本"></a>夭折了两个版本</h1><p>在 pysmms 之前已经有两个版本的图床工具了，但是因为各种原因夭折了。</p>
 <p>最开始打算做一个有用户界面的工具，类似：</p>
-<p>图床H<br>图床H<br>或者这样：</p>
-<p>图床U<br>图床U<br>本来想着用 Electron 写一个跨平台工具，如果写好之后多个平台可以使用，奈何 index.html 文件写好了，Electron 却迟迟因为网络原因下载失败，不想浪费时间，所以放弃了这个想法。</p>
+<p><img src="https://i.loli.net/2020/02/25/jJlgfeoH5q1y8YT.png" alt="图床H"></p>
+<p>或者这样：</p>
+<p><img src="https://i.loli.net/2020/02/25/QxOHlr49DVSvZom.png" alt="图床U"></p>
+<p>本来想着用 Electron 写一个跨平台工具，如果写好之后多个平台可以使用，奈何 <code>index.html</code> 文件写好了，Electron 却迟迟因为网络原因下载失败，不想浪费时间，所以放弃了这个想法。</p>
 <p>第二个图使用 pyqt5 构建的界面，可能是因为太菜的原因，虽然已经支持简单的传图功能，但界面和功能的完善性还是让我不太满意。所以最终还是想着去 GitHub 上参考一下。</p>
-<p>n0vad3v&#x2F;smv2<br>在 GitHub 上找到了 n0vad3v&#x2F;smv2[3]，非常符合我的想法，不仅支持传图，而且还支持历史记录查询，优雅的使用 Authorization。</p>
-<p>➜ smv2 poster36.jpg<br>Upload without Token.<br>┌SM.MS Upload Status───────────────────────────────────────────────┐<br>│ Image URL    │ <a target="_blank" rel="noopener" href="https://i.loli.net/2019/02/18/Q123f2TWhtnk1FR.jpg">https://i.loli.net/2019/02/18/Q123f2TWhtnk1FR.jpg</a> │<br>├──────────────┼───────────────────────────────────────────────────┤<br>│ Deletion URL │ <a target="_blank" rel="noopener" href="https://sm.ms/delete/8Ymbq218218XlPIDg4ReE2rcTi">https://sm.ms/delete/8Ymbq218218XlPIDg4ReE2rcTi</a>   │<br>└──────────────┴───────────────────────────────────────────────────┘<br>可以看出 pysmms 和 smv2 的界面是非常类似的，因为借鉴了 smv2 库。</p>
+<h1 id="n0vad3v-x2F-smv2"><a href="#n0vad3v-x2F-smv2" class="headerlink" title="n0vad3v&#x2F;smv2"></a>n0vad3v&#x2F;smv2</h1><p>在 GitHub 上找到了 <a target="_blank" rel="noopener" href="https://github.com/n0vad3v/smv2">n0vad3v&#x2F;smv2</a>，非常符合我的想法，不仅支持传图，而且还支持历史记录查询，优雅的使用 Authorization。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜ smv2 poster36.jpg<br>Upload without Token.<br>┌SM.MS Upload Status───────────────────────────────────────────────┐<br>│ Image URL    │ https://i.loli.net/2019/02/18/Q123f2TWhtnk1FR.jpg │<br>├──────────────┼───────────────────────────────────────────────────┤<br>│ Deletion URL │ https://sm.ms/delete/8Ymbq218218XlPIDg4ReE2rcTi   │<br>└──────────────┴───────────────────────────────────────────────────┘<br></code></pre></td></tr></table></figure>
+
+<p>可以看出 pysmms 和 smv2 的界面是非常类似的，因为借鉴了 smv2 库。</p>
 <p>但是 smv2 用起来还是有些不顺手，例如图片上传之后需要手动复制，不支持多个 Authorization 填写，不支持基于 IP 的历史记录查询等。所以就萌生了参考 smv2，自己也写个类似的脚本的想法。顺便学习一下这么优雅的表格是如何生成的，写好的脚本如何打包上传到 pypi。</p>
-<p>开发<br>smv2 用到了 requests 和 terminaltables 这两个第三方库。第一个用来请求接口，第二个用来生成格式化表格。requests 很常用就不介绍了。</p>
-<p>terminaltables<br>使用 terminaltables[4] 让表格在终端中显示变得更加容易。</p>
+<h1 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h1><p>smv2 用到了 <code>requests</code> 和 <code>terminaltables</code> 这两个第三方库。第一个用来请求接口，第二个用来生成格式化表格。<code>requests</code> 很常用就不介绍了。</p>
+<h2 id="terminaltables"><a href="#terminaltables" class="headerlink" title="terminaltables"></a>terminaltables</h2><p>使用 <a target="_blank" rel="noopener" href="https://github.com/Robpol86/terminaltables">terminaltables</a> 让表格在终端中显示变得更加容易。</p>
 <p>官方提供了简单的用法示例：</p>
-<p>from terminaltables import AsciiTable</p>
-<p>table_data &#x3D; [<br>    [‘Heading1’, ‘Heading2’],<br>    [‘row1 column1’, ‘row1 column2’],<br>    [‘row2 column1’, ‘row2 column2’],<br>    [‘row3 column1’, ‘row3 column2’]<br>]<br>table &#x3D; AsciiTable(table_data)<br>print table.table</p>
-<p>+————–+————–+<br>| Heading1     | Heading2     |<br>+————–+————–+<br>| row1 column1 | row1 column2 |<br>| row2 column1 | row2 column2 |<br>| row3 column1 | row3 column2 |<br>+————–+————–+<br>支持 Windows 10, Windows XP, and OS X。</p>
-<p>例子<br>例子<br>完整文档点此链接。[5]</p>
-<p>Pyperclip<br>在 pysmms 中，只是在成功获取图片链接的时候会使用 Pyperclip，这样上传完成图片之后可以继续回到写作中，不需要鼠标选定图片链接再拷贝。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> terminaltables <span class="hljs-keyword">import</span> AsciiTable<br><br><br>table_data = [<br>    [<span class="hljs-string">&#x27;Heading1&#x27;</span>, <span class="hljs-string">&#x27;Heading2&#x27;</span>],<br>    [<span class="hljs-string">&#x27;row1 column1&#x27;</span>, <span class="hljs-string">&#x27;row1 column2&#x27;</span>],<br>    [<span class="hljs-string">&#x27;row2 column1&#x27;</span>, <span class="hljs-string">&#x27;row2 column2&#x27;</span>],<br>    [<span class="hljs-string">&#x27;row3 column1&#x27;</span>, <span class="hljs-string">&#x27;row3 column2&#x27;</span>]<br>]<br>table = AsciiTable(table_data)<br><span class="hljs-built_in">print</span> table.table<br><br>+--------------+--------------+<br>| Heading1     | Heading2     |<br>+--------------+--------------+<br>| row1 column1 | row1 column2 |<br>| row2 column1 | row2 column2 |<br>| row3 column1 | row3 column2 |<br>+--------------+--------------+<br></code></pre></td></tr></table></figure>
+
+<p>支持 Windows 10, Windows XP, and OS X。</p>
+<p><img src="https://i.loli.net/2020/02/25/jGvPHJEa4uAicO8.png" alt="例子"></p>
+<p><a target="_blank" rel="noopener" href="https://robpol86.github.io/terminaltables/">完整文档点此链接。</a></p>
+<h2 id="Pyperclip"><a href="#Pyperclip" class="headerlink" title="Pyperclip"></a>Pyperclip</h2><p>在 pysmms 中，只是在成功获取图片链接的时候会使用 Pyperclip，这样上传完成图片之后可以继续回到写作中，不需要鼠标选定图片链接再拷贝。</p>
 <p>Pyperclip 的目的是提供一个跨平台的 Python 模块，用于将文本复制和粘贴到剪贴板。使用非常简单，以至于没有文档。如果你的脚本里用到了复制粘贴，可以试试。</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import pyperclip<br>pyperclip.copy(‘Hello world!’)<br>pyperclip.paste()<br>‘Hello world!’<br>打包发布<br>脚本写好之后就是打包发布了。</p>
-</blockquote>
-</blockquote>
-</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt;&gt;&gt; import pyperclip<br>&gt;&gt;&gt; pyperclip.copy(<span class="hljs-string">&#x27;Hello world!&#x27;</span>)<br>&gt;&gt;&gt; pyperclip.paste()<br><span class="hljs-string">&#x27;Hello world!&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="打包发布"><a href="#打包发布" class="headerlink" title="打包发布"></a>打包发布</h1><p>脚本写好之后就是打包发布了。</p>
 <p>需要在文件夹建立 setup.py 文件，写入以下内容：</p>
-<p>import setuptools</p>
-<p>with open(“README.md”, “r”) as f:<br>    long_description &#x3D; f.read()</p>
-<p>setuptools.setup(<br>    name&#x3D;”pysmms”,<br>    version&#x3D;”0.0.5”,<br>    author&#x3D;”Jianxun”,<br>    author_email&#x3D;”<a href="mailto:&#x69;&#64;&#x6c;&#x69;&#x6a;&#105;&#97;&#x6e;&#120;&#117;&#110;&#x2e;&#x74;&#111;&#112;">&#x69;&#64;&#x6c;&#x69;&#x6a;&#105;&#97;&#x6e;&#120;&#117;&#110;&#x2e;&#x74;&#111;&#112;</a>“,<br>    description&#x3D;”The CLI Tool for SM.MS, based on API v2.”,<br>    long_description&#x3D;long_description,<br>    long_description_content_type&#x3D;”text&#x2F;markdown”,<br>    url&#x3D;”<a target="_blank" rel="noopener" href="https://github.com/alpha87/pysmms&quot;">https://github.com/alpha87/pysmms&quot;</a>,<br>    packages&#x3D;setuptools.find_packages(),<br>    classifiers&#x3D;[<br>        “Programming Language :: Python :: 3”,<br>        “License :: OSI Approved :: GNU General Public License v3 (GPLv3)”,<br>        “Operating System :: OS Independent”,<br>    ],<br>    install_requires&#x3D;[<br>        “requests”,<br>        “pyperclip”,<br>        “terminaltables”<br>    ],<br>    entry_points&#x3D;{<br>        ‘console_scripts’: [<br>            ‘pysmms&#x3D;pysmms.pysmms:app’,<br>        ],<br>    }<br>)<br>文件整体还是很好理解的，按照自己脚本的信息填写就可以。</p>
-<p>注册 pypi<br>需要在 pypi[6] 注册账号，然后在用户根目录下创建 .pypirc 文件，写入以下内容：</p>
-<p>[distutils]<br>index-servers&#x3D;pypi</p>
-<p>[pypi]<br>repository&#x3D;<a target="_blank" rel="noopener" href="https://upload.pypi.org/legacy/">https://upload.pypi.org/legacy/</a><br>username&#x3D;xxx<br>password&#x3D;xxx<br>填入自己的用户名和密码。</p>
-<p>打包<br>python3 setup.py sdist bdist_wheel<br>上传<br>首先需要安装 twine，pip install twine，安装完成后执行以下命令上传到 pypi。</p>
-<p>twine upload dist&#x2F;*<br>上传成功后就可以在 pypi 网站上看到自己上传的工具了，也就可以使用 pip 下载安装了。</p>
-<p>引用链接<br>[1] SM.MS: <a target="_blank" rel="noopener" href="https://sm.ms/">https://sm.ms/</a><br>[2] 具体文档见此链接: <a target="_blank" rel="noopener" href="https://doc.sm.ms/">https://doc.sm.ms/</a><br>[3] n0vad3v&#x2F;smv2: <a target="_blank" rel="noopener" href="https://github.com/n0vad3v/smv2">https://github.com/n0vad3v/smv2</a><br>[4] terminaltables: <a target="_blank" rel="noopener" href="https://github.com/Robpol86/terminaltables">https://github.com/Robpol86/terminaltables</a><br>[5] 完整文档点此链接。: <a target="_blank" rel="noopener" href="https://robpol86.github.io/terminaltables/">https://robpol86.github.io/terminaltables/</a><br>[6] pypi: <a target="_blank" rel="noopener" href="https://pypi.org/">https://pypi.org/</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> setuptools<br><br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;README.md&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    long_description = f.read()<br><br><br>setuptools.setup(<br>    name=<span class="hljs-string">&quot;pysmms&quot;</span>,<br>    version=<span class="hljs-string">&quot;0.0.5&quot;</span>,<br>    author=<span class="hljs-string">&quot;Jianxun&quot;</span>,<br>    author_email=<span class="hljs-string">&quot;i@lijianxun.top&quot;</span>,<br>    description=<span class="hljs-string">&quot;The CLI Tool for SM.MS, based on API v2.&quot;</span>,<br>    long_description=long_description,<br>    long_description_content_type=<span class="hljs-string">&quot;text/markdown&quot;</span>,<br>    url=<span class="hljs-string">&quot;https://github.com/alpha87/pysmms&quot;</span>,<br>    packages=setuptools.find_packages(),<br>    classifiers=[<br>        <span class="hljs-string">&quot;Programming Language :: Python :: 3&quot;</span>,<br>        <span class="hljs-string">&quot;License :: OSI Approved :: GNU General Public License v3 (GPLv3)&quot;</span>,<br>        <span class="hljs-string">&quot;Operating System :: OS Independent&quot;</span>,<br>    ],<br>    install_requires=[<br>        <span class="hljs-string">&quot;requests&quot;</span>,<br>        <span class="hljs-string">&quot;pyperclip&quot;</span>,<br>        <span class="hljs-string">&quot;terminaltables&quot;</span><br>    ],<br>    entry_points=&#123;<br>        <span class="hljs-string">&#x27;console_scripts&#x27;</span>: [<br>            <span class="hljs-string">&#x27;pysmms=pysmms.pysmms:app&#x27;</span>,<br>        ],<br>    &#125;<br>)<br></code></pre></td></tr></table></figure>
+
+<p>文件整体还是很好理解的，按照自己脚本的信息填写就可以。</p>
+<h2 id="注册-pypi"><a href="#注册-pypi" class="headerlink" title="注册 pypi"></a>注册 pypi</h2><p>需要在 <a target="_blank" rel="noopener" href="https://pypi.org/">pypi</a> 注册账号，然后在用户根目录下创建 <code>.pypirc</code> 文件，写入以下内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">[distutils]<br>index-servers=pypi<br><br>[pypi]<br>repository=https://upload.pypi.org/legacy/<br>username=xxx<br>password=xxx<br></code></pre></td></tr></table></figure>
+
+<p>填入自己的用户名和密码。</p>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 setup.py sdist bdist_wheel<br></code></pre></td></tr></table></figure>
+
+<h2 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h2><p>首先需要安装 twine，<code>pip install twine</code>，安装完成后执行以下命令上传到 pypi。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">twine upload dist/*<br></code></pre></td></tr></table></figure>
+
+<p>上传成功后就可以在 pypi 网站上看到自己上传的工具了，也就可以使用 pip 下载安装了。</p>
 
   </div>
 </article>
@@ -214,7 +229,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%9B%BE%E5%BA%8A%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%E6%89%93%E5%8C%85%E7%BB%8F%E5%8E%86"><span class="toc-number">1.</span> <span class="toc-text">记一次图床上传工具开发打包经历</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">为什么开发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%AD%E6%8A%98%E4%BA%86%E4%B8%A4%E4%B8%AA%E7%89%88%E6%9C%AC"><span class="toc-number">3.</span> <span class="toc-text">夭折了两个版本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#n0vad3v-x2F-smv2"><span class="toc-number">4.</span> <span class="toc-text">n0vad3v&#x2F;smv2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%8F%91"><span class="toc-number">5.</span> <span class="toc-text">开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#terminaltables"><span class="toc-number">5.1.</span> <span class="toc-text">terminaltables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pyperclip"><span class="toc-number">5.2.</span> <span class="toc-text">Pyperclip</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83"><span class="toc-number">6.</span> <span class="toc-text">打包发布</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C-pypi"><span class="toc-number">6.1.</span> <span class="toc-text">注册 pypi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8C%85"><span class="toc-number">6.2.</span> <span class="toc-text">打包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0"><span class="toc-number">6.3.</span> <span class="toc-text">上传</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
@@ -228,7 +243,7 @@
   <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://lijianxun.top/2.html&title=记一次图床上传工具开发打包经历"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://lijianxun.top/2.html&name=记一次图床上传工具开发打包经历&description=&lt;h1 id=&#34;记一次图床上传工具开发打包经历&#34;&gt;&lt;a href=&#34;#记一次图床上传工具开发打包经历&#34; class=&#34;headerlink&#34; title=&#34;记一次图床上传工具开发打包经历&#34;&gt;&lt;/a&gt;记一次图床上传工具开发打包经历&lt;/h1&gt;&lt;p&gt;说起图床，常用 markdown 写博客的同学应该不陌生。文章中的图片路径肯定不能指向本地文件，那样文章发布以后图片会因为找不到文件而失效。如果你非要说使用了本地文件图片也未失效，可能是你的编辑器比较高级，已经自动帮你上传了。如果你是第一次听说图床，可以认为图床就是网络相册，会保管你上传的所有图片，并生成一个 URL 地址，可以直接引用或下载。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
   <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://lijianxun.top/2.html&t=记一次图床上传工具开发打包经历"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
